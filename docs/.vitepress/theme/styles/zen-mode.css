@@ -4,19 +4,45 @@
  * @since 2026-09-25
  */
 
-/* 核心布局平滑过渡动效 */
-.VPSidebar,
-.VPContent,
-.VPDoc .aside,
-.VPDoc .container,
-.VPDoc .content,
-.VPDoc .content-container,
-.VPNavBar .title,
-.VPNavBar .content {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* 1. 分层解耦平滑过渡动效 (Decoupled Symmetrical Transition)
+   - 禁用导致布局回流与文字逐行抖动的暴力 transition: all
+   - 严格仅对硬件加速属性 (transform, opacity) 与容器间距做精细过渡
+*/
+.VPSidebar {
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), opacity 0.25s ease !important;
 }
 
-/* 1. 顶部导航栏 (Navbar) 在专注模式下重置为标准 Flex 两端对齐，彻底消除标题与搜索框重叠 */
+.VPContent.has-sidebar {
+  transition: padding-left 0.3s cubic-bezier(0.2, 0, 0, 1), padding-right 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.VPDoc .aside {
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1), max-width 0.3s cubic-bezier(0.2, 0, 0, 1), padding 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.VPDoc .aside-container {
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), opacity 0.25s ease !important;
+}
+
+.VPDoc .aside-curtain {
+  transition: opacity 0.25s ease !important;
+}
+
+/* 顶部导航栏：彻底移除内部元素位移补间，消除搜索框横向飘移与抽搐 */
+.VPNavBar {
+  transition: background-color 0.25s ease, border-color 0.25s ease !important;
+}
+
+.VPNavBar .title,
+.VPNavBar .content,
+.VPNavBar .content-body,
+.VPNavBarSearch,
+.VPNavBar .container,
+.VPNavBar .wrapper {
+  transition: none !important;
+}
+
+/* 2. 顶部导航栏 (Navbar) 在专注模式下重置为标准 Flex 两端对齐，消除重叠与位移 */
 html.zen-mode .VPNavBar {
   background-color: var(--vp-nav-bg-color) !important;
 }
@@ -63,19 +89,18 @@ html.zen-mode .VPNavBar.has-sidebar .divider-line {
   background-color: var(--vp-c-gutter) !important;
 }
 
-/* 2. 收起左侧边栏 (Sidebar) 与移动端局部导航 (LocalNav) */
+/* 3. 左侧边栏 (Sidebar) 对称向左滑出 */
 html.zen-mode .VPSidebar {
   transform: translateX(-100%) !important;
   opacity: 0 !important;
   pointer-events: none !important;
-  visibility: hidden !important;
 }
 
 html.zen-mode .VPLocalNav {
   display: none !important;
 }
 
-/* 3. 主内容区域 (Content) 双向重置与严格居中 */
+/* 4. 主内容区域 (Content) 双向重置与居中 */
 html.zen-mode .VPContent.has-sidebar {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -83,18 +108,28 @@ html.zen-mode .VPContent.has-sidebar {
   margin-right: auto !important;
 }
 
-/* 4. 彻底隐藏右侧目录大纲 (Aside) */
+/* 5. 右侧目录大纲 (Aside) 对称向右滑出 */
 html.zen-mode .VPDoc .aside {
-  display: none !important;
   width: 0 !important;
   max-width: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+html.zen-mode .VPDoc .aside-container {
+  transform: translateX(100%) !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
-/* 5. 正文容器黄金加宽至 1180px (+70% 显著拓宽)，让代码、表格与图表彻底舒展 */
+html.zen-mode .VPDoc .aside-curtain {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 6. 正文容器黄金加宽至 1180px (+70% 显著拓宽)，让代码、表格与图表彻底舒展 */
 html.zen-mode .VPDoc .container {
   max-width: 100% !important;
   display: flex !important;
@@ -119,7 +154,7 @@ html.zen-mode .vp-doc {
   max-width: 100% !important;
 }
 
-/* 6. 专注模式下的排版呼吸感增强 */
+/* 7. 专注模式下的排版呼吸感增强 */
 html.zen-mode .vp-doc p,
 html.zen-mode .vp-doc li {
   line-height: 1.95;

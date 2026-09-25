@@ -24,6 +24,10 @@ _Avoid_: 硬编码路由, 手动侧边栏配置
 一键隐藏左侧边栏导航与右侧目录大纲（TOC Aside）、聚焦正文黄金阅读区域的专注阅读视图（Zen Mode），支持快捷键交互与用户偏好持久化。
 _Avoid_: 全屏模式, 打印预览
 
+**解耦对称转场 (Decoupled Symmetrical Transition)**:
+在沉浸式阅读模式切换时，左侧边栏与右侧目录分别向外侧硬件加速平移隐退、导航栏维持结构稳定且正文避免逐帧折行抖动的分层动画范式。
+_Avoid_: 暴力全局过度(transition: all), 文字折行回流震颤, 顶部元素横向乱窜
+
 **原子化图标体系 (Atomic Icon System)**:
 基于 UnoCSS 与 Iconify 规范实现的纯 CSS 按需图标渲染方案，支持在 Markdown 与 Vue 组件中直接通过语义化类名调用海量现代图标。
 _Avoid_: 字体图标, SVG精灵图
