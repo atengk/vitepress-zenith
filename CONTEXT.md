@@ -31,3 +31,19 @@ _Avoid_: 字体图标, SVG精灵图
 **交互短代码组件 (Interactive Shortcodes)**:
 全局免导入（Auto-registered）直接在 Markdown 中调用的交互式 Vue 组件集（卡片网格、时间轴、实时运行沙箱等）。
 _Avoid_: 嵌入式Iframe, 第三方重量级UI
+
+**类型悬浮诊断 (Type Hover & Diagnostics / Twoslash)**:
+在文档代码块中基于 TypeScript 编译器运行期实现的实时类型悬浮查看、类型提示与静态诊断标注机制。
+_Avoid_: 静态代码截图, 普通代码高亮
+
+**包管理器联动记忆 (Synchronized Package Manager Tabs)**:
+将不同包管理器（npm/pnpm/yarn/bun）命令整合为选项卡，并在全站范围及本地存储中跨页面全局同步用户所选偏好。
+_Avoid_: 多行冗余命令, 独立隔离选项卡
+
+**思维导图渲染 (Mindmap Rendering / Markmap)**:
+在 Markdown 中通过标准层级无序列表直接编译并动态交互展示的矢量思维导图视图。
+_Avoid_: 静态图片导入, 外部嵌入外链
+
+**交互命令中心 (Command Palette)**:
+类似 Raycast 的全局浮层快捷动作与检索面板，集成页面跳转、功能模式切换与快捷键触发。
+_Avoid_: 裸搜索框, 传统下拉框
