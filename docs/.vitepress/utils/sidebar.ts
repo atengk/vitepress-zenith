@@ -209,7 +209,7 @@ export function getAutoSidebar(options: AutoSidebarOptions = {}): DefaultTheme.S
     'blog',
     'adr',
     'agents',
-    ...(isRootLocale ? ['en'] : []),
+    ...(isRootLocale ? ['en', 'v0'] : []),
     ...(options.ignoreDirs || []),
   ])
 

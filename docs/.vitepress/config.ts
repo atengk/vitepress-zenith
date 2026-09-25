@@ -321,14 +321,49 @@ export default withPwa(defineConfig({
           { text: '指南', link: '/guide/what-is-zenith' },
           { text: '组件', link: '/components/overview' },
           { text: '博客', link: '/blog/' },
-        ],
-        sidebar: getAutoSidebar({
-          locale: 'root',
-          groupTitles: {
-            guide: '基础指引',
-            components: '交互短代码组件库',
+          {
+            text: 'v1.0.0',
+            items: [
+              {
+                text: '当前版本',
+                items: [
+                  { text: 'v1.0.0 (最新稳定版)', link: '/guide/what-is-zenith' },
+                ],
+              },
+              {
+                text: '历史归档',
+                items: [
+                  { text: 'v0.9.0 (旧版归档)', link: '/v0/guide/' },
+                ],
+              },
+              {
+                text: '版本变更',
+                items: [
+                  { text: '多版本管理指南', link: '/guide/version-switcher' },
+                  { text: '更新日志 (Changelog)', link: 'https://github.com/zenith/vitepress-zenith/releases' },
+                ],
+              },
+            ],
           },
-        }),
+        ],
+        sidebar: {
+          ...getAutoSidebar({
+            locale: 'root',
+            groupTitles: {
+              guide: '基础指引',
+              components: '交互短代码组件库',
+            },
+          }),
+          '/v0/': [
+            {
+              text: 'v0.9.0 历史归档',
+              items: [
+                { text: '旧版指引概览', link: '/v0/guide/' },
+                { text: '返回最新稳定版 v1.0.0', link: '/guide/what-is-zenith' },
+              ],
+            },
+          ],
+        },
         docFooter: {
           prev: '上一篇',
           next: '下一篇',
@@ -371,14 +406,49 @@ export default withPwa(defineConfig({
           { text: 'Guide', link: '/en/guide/what-is-zenith' },
           { text: 'Components', link: '/components/overview' },
           { text: 'Blog', link: '/blog/' },
-        ],
-        sidebar: getAutoSidebar({
-          locale: 'en',
-          groupTitles: {
-            guide: 'Guides',
-            components: 'Components',
+          {
+            text: 'v1.0.0',
+            items: [
+              {
+                text: 'Current Version',
+                items: [
+                  { text: 'v1.0.0 (Latest)', link: '/en/guide/what-is-zenith' },
+                ],
+              },
+              {
+                text: 'Archived Versions',
+                items: [
+                  { text: 'v0.9.0 (Legacy)', link: '/v0/guide/' },
+                ],
+              },
+              {
+                text: 'Releases',
+                items: [
+                  { text: 'Version Switcher Guide', link: '/guide/version-switcher' },
+                  { text: 'Changelog', link: 'https://github.com/zenith/vitepress-zenith/releases' },
+                ],
+              },
+            ],
           },
-        }),
+        ],
+        sidebar: {
+          ...getAutoSidebar({
+            locale: 'en',
+            groupTitles: {
+              guide: 'Guides',
+              components: 'Components',
+            },
+          }),
+          '/v0/': [
+            {
+              text: 'v0.9.0 Archived',
+              items: [
+                { text: 'Legacy Overview', link: '/v0/guide/' },
+                { text: 'Back to Latest v1.0.0', link: '/en/guide/what-is-zenith' },
+              ],
+            },
+          ],
+        },
         docFooter: {
           prev: 'Previous page',
           next: 'Next page',

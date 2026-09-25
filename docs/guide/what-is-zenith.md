@@ -38,6 +38,7 @@ Zenith（天顶 / 禅意专注）通过深度扩展 VitePress 官方默认主题
 | **结构化参数契约表** | 彻底根除窄屏溢出的 `<VpApiTable>`、自适应移动端卡片流与即时参数搜索 | [结构化参数契约表组件](./structured-api-table.md) |
 | **即时在线沙箱直达** | StackBlitz WebContainer 虚拟机集成，代码片段一键投送至浏览器沙箱试跑 | [在线沙箱直达 (StackBlitz)](./playground-stackblitz.md) |
 | **中英多语言国际化架构** | 基于 Locales 的中英双语矩阵、独立侧边栏自动推导与混合词法离线检索 | [中英多语言国际化架构 (i18n)](./i18n-matrix.md) |
+| **多版本文档与归档警告** | 顶栏多版本下拉切换槽位、`<VpLegacyBanner>` 警告横幅与等价路径平滑跳转 | [多版本文档管理与归档警告](./version-switcher.md) |
 | **交互短代码组件库** | 免 import 直接书写的卡片网格、胶囊徽标、时间轴、横幅与反馈组件 | [交互短代码组件库](../components/overview.md) |
 
 

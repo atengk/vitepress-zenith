@@ -10,6 +10,7 @@ import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import ZenModeToggle from './components/ZenModeToggle.vue'
 import DocMeta from './components/DocMeta.vue'
 import VpBanner from './components/VpBanner.vue'
+import VpLegacyBanner from './components/VpLegacyBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
 import VpComments from './components/VpComments.vue'
@@ -46,6 +47,7 @@ useThemePalette()
     </template>
 
     <template #doc-before>
+      <VpLegacyBanner />
       <DocMeta />
     </template>
 

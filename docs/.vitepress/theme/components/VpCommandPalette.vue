@@ -438,6 +438,26 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/i18n-matrix'),
   },
   {
+    id: 'nav-guide-version-switcher',
+    title: '指南: 多版本文档管理与归档警告',
+    description: '顶栏版本下拉菜单、<VpLegacyBanner> 警告横幅与等价路径平滑跳转',
+    category: 'navigation',
+    icon: 'i-lucide-git-branch',
+    badge: '版本管理',
+    keywords: ['version', 'legacy', 'archive', 'banner', '版本', '归档', '旧版', '警告'],
+    perform: () => navigate('/guide/version-switcher'),
+  },
+  {
+    id: 'nav-v0-legacy-guide',
+    title: '归档: v0.9.0 历史版本指引样例',
+    description: '查阅历史归档演示页面与自动触发的归档警告横幅',
+    category: 'navigation',
+    icon: 'i-lucide-history',
+    badge: '历史归档',
+    keywords: ['v0', 'legacy', 'archive', '0.9.0', '旧版', '归档'],
+    perform: () => navigate('/v0/guide/'),
+  },
+  {
     id: 'nav-blog',
 
 

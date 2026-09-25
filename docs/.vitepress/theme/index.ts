@@ -19,6 +19,7 @@ import VpTimelineItem from './components/VpTimelineItem.vue'
 import VpLinkCard from './components/VpLinkCard.vue'
 import VpDemoPreview from './components/VpDemoPreview.vue'
 import VpBanner from './components/VpBanner.vue'
+import VpLegacyBanner from './components/VpLegacyBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpBlogList from './components/VpBlogList.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
@@ -59,6 +60,7 @@ export default {
     app.component('VpLinkCard', VpLinkCard)
     app.component('VpDemoPreview', VpDemoPreview)
     app.component('VpBanner', VpBanner)
+    app.component('VpLegacyBanner', VpLegacyBanner)
     app.component('VpHelpful', VpHelpful)
     app.component('VpBlogList', VpBlogList)
     app.component('VpCommandPalette', VpCommandPalette)
