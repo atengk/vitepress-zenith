@@ -162,47 +162,69 @@ VitePress Zenith 预置了一套现代高质感、在全站任何 Markdown 文�
 
 ---
 
-## 5. 交互运行态与源码折叠沙箱 (VpDemoPreview)
+## 5. 交互运行态与在线沙箱 (VpDemoPreview & VpPlayground)
 
-在同一个卡片中同时展示组件的实时交互运行态与源码，支持展开/收起代码与一键复制代码：
+在同一个卡片中同时展示组件的实时交互运行态与源码，支持展开/收起代码、一键复制代码以及**一键在 StackBlitz WebContainer 在线沙箱中试跑与调试**：
+
+- **即时在线沙箱直达**：点击工具栏的“在 StackBlitz 试跑”，自动将当前组件代码打包为微型 Vite + Vue 3 虚拟机工程在新窗口中启动；
+- **开关控制**：支持通过 `:stackblitz="false"` 针对纯展示型代码关闭试跑入口；
+- **独立沙箱启动卡片**：提供专用的 `<VpPlayground>` 独立卡片，方便在文档中嵌入高冲击力的试跑入口。
+
+### 实机效果演示
 
 <VpDemoPreview
-  title="徽标与卡片组合交互演示"
-  desc="点击展开代码即可查看底层 Markdown 书写结构"
-  code="<VpCard title='演示卡片' desc='这是一个动态运行预览' icon='i-lucide-sparkles' />"
+  title="在线沙箱与交互演示"
+  desc="点击工具栏右侧的「在 StackBlitz 试跑」即可一键将代码送入 WebContainer 虚拟机"
+  code="<template><div style='padding: 24px; text-align: center;'><h2 style='color: #6366f1;'>Hello VitePress Zenith</h2><p>当前代码正在 StackBlitz 浏览器在线沙箱中运行！</p></div></template>"
 >
   <div style="display: flex; gap: 12px; align-items: center;">
-    <VpBadge type="tip" dot>在线运行中</VpBadge>
-    <VpBadge type="purple" variant="solid">Demo Sandbox</VpBadge>
-    <span style="font-size: 13.5px; color: var(--vp-c-text-2);">实时响应式渲染正常</span>
+    <VpBadge type="tip" dot>在线运行态正常</VpBadge>
+    <VpBadge type="purple" variant="solid">StackBlitz Ready</VpBadge>
+    <span style="font-size: 13px; color: var(--vp-c-text-2);">支持一键投送至浏览器在线沙箱</span>
   </div>
 
   <template #code>
 
 ```html
-<div style="display: flex; gap: 12px; align-items: center;">
-  <VpBadge type="tip" dot>在线运行中</VpBadge>
-  <VpBadge type="purple" variant="solid">Demo Sandbox</VpBadge>
-  <span style="font-size: 13.5px; color: var(--vp-c-text-2);">实时响应式渲染正常</span>
-</div>
+<template>
+  <div style="padding: 24px; text-align: center;">
+    <h2 style="color: #6366f1;">Hello VitePress Zenith</h2>
+    <p>当前代码正在 StackBlitz 浏览器在线沙箱中运行！</p>
+  </div>
+</template>
 ```
 
   </template>
 </VpDemoPreview>
+
+### 独立沙箱启动卡片 (VpPlayground)
+
+<VpPlayground
+  title="Vue 3 计数器交互沙箱"
+  desc="包含完整的响应式 ref 与点击累加逻辑，点击右侧按钮立即在新窗口体验秒级热更新"
+  code="<script setup lang='ts'>
+import { ref } from 'vue'
+const count = ref(0)
+</script>
+
+<template>
+  <div style='padding: 30px; text-align: center;'>
+    <h3>Vue 3 响应式计数器</h3>
+    <button @click='count++' style='padding: 8px 16px; border-radius: 8px; background: #6366f1; color: #fff; border: none; cursor: pointer;'>
+      当前计数：{{ count }}
+    </button>
+  </div>
+</template>"
+/>
 
 ```html
-<VpDemoPreview title="交互演示" code="<VpBadge type='tip'>示例文案</VpBadge>">
-  <!-- 运行态插槽 -->
-  <VpBadge type="tip">示例文案</VpBadge>
-
-  <!-- 源码折叠插槽 -->
-  <template #code>
-    ```html
-    <VpBadge type="tip">示例文案</VpBadge>
-    ```
-  </template>
-</VpDemoPreview>
+<VpPlayground
+  title="Vue 3 计数器交互沙箱"
+  desc="包含完整的响应式 ref 与点击累加逻辑，点击右侧按钮立即在新窗口体验秒级热更新"
+  code="..."
+/>
 ```
+
 
 ---
 

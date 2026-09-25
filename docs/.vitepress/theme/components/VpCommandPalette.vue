@@ -418,7 +418,18 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/structured-api-table'),
   },
   {
+    id: 'nav-guide-playground-stackblitz',
+    title: '指南: 在线沙箱直达 (StackBlitz)',
+    description: 'WebContainer 虚拟机秒级启动、代码片段一键投送试跑与调试',
+    category: 'navigation',
+    icon: 'i-lucide-zap',
+    badge: '调试沙箱',
+    keywords: ['stackblitz', 'playground', 'sandbox', 'webcontainer', '沙箱', '试跑', '调试'],
+    perform: () => navigate('/guide/playground-stackblitz'),
+  },
+  {
     id: 'nav-blog',
+
 
 
     title: '专栏: 团队技术博客与演进动态',

@@ -27,19 +27,45 @@ const props = withDefaults(
      * @default false
      */
     defaultOpen?: boolean
+    /**
+     * 是否在工具栏显示 StackBlitz 一键试跑入口
+     * @default true
+     */
+    stackblitz?: boolean
+    /**
+     * 自定义 StackBlitz 项目标题
+     */
+    playgroundTitle?: string
   }>(),
   {
     title: '交互演示',
     defaultOpen: false,
+    stackblitz: true,
   }
 )
 
 const isOpen = ref(props.defaultOpen)
 const copied = ref(false)
+const isOpeningPlayground = ref(false)
 let copyTimer: ReturnType<typeof setTimeout> | null = null
 
 const toggleOpen = () => {
   isOpen.value = !isOpen.value
+}
+
+const handleOpenStackBlitz = async () => {
+  if (!props.code || isOpeningPlayground.value) return
+  isOpeningPlayground.value = true
+  try {
+    const { openInStackBlitz } = await import('../utils/stackblitz')
+    await openInStackBlitz({
+      title: props.playgroundTitle || props.title || 'Zenith 演示沙箱',
+      description: props.desc || '在 StackBlitz 浏览器虚拟机中即时试跑与调试',
+      code: props.code,
+    })
+  } finally {
+    isOpeningPlayground.value = false
+  }
 }
 
 const copySource = async () => {
@@ -90,6 +116,21 @@ const copySource = async () => {
       </div>
 
       <div class="demo-actions">
+        <!-- 在 StackBlitz 试跑按钮 -->
+        <button
+          v-if="code && stackblitz"
+          type="button"
+          class="action-btn stackblitz-btn"
+          :class="{ loading: isOpeningPlayground }"
+          :disabled="isOpeningPlayground"
+          title="在 StackBlitz 浏览器虚拟机中即时试跑与调试"
+          @click="handleOpenStackBlitz"
+        >
+          <span v-if="isOpeningPlayground" class="i-lucide-loader-2 action-icon animate-spin" />
+          <span v-else class="i-lucide-zap action-icon stackblitz-icon" />
+          <span class="btn-text">{{ isOpeningPlayground ? '启动中...' : '在 StackBlitz 试跑' }}</span>
+        </button>
+
         <button
           v-if="code"
           type="button"
@@ -115,6 +156,7 @@ const copySource = async () => {
         </button>
       </div>
     </div>
+
 
     <!-- 下层：折叠源码区域 -->
     <div v-show="isOpen" class="demo-code-wrapper">
@@ -214,9 +256,39 @@ const copySource = async () => {
   background-color: rgba(16, 185, 129, 0.12);
 }
 
+.action-btn.stackblitz-btn {
+  color: var(--vp-c-brand-1, #6366f1);
+}
+
+.action-btn.stackblitz-btn:hover {
+  background-color: var(--vp-c-brand-soft, rgba(99, 102, 241, 0.12));
+}
+
+.stackblitz-icon {
+  color: #1389fd;
+}
+
+:root.dark .stackblitz-icon {
+  color: #38bdf8;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 0.9s linear infinite;
+}
+
 .action-icon {
   font-size: 14px;
 }
+
 
 .demo-code-wrapper {
   background-color: var(--vp-code-block-bg);

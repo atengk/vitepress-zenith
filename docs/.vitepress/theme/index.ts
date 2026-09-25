@@ -27,6 +27,7 @@ import VpThemePicker from './components/VpThemePicker.vue'
 import VpLinkPreview from './components/VpLinkPreview.vue'
 import VpApiTable from './components/VpApiTable.vue'
 import VpApiItem from './components/VpApiItem.vue'
+import VpPlayground from './components/VpPlayground.vue'
 import { useCommandPalette } from './composables/useCommandPalette'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
@@ -66,6 +67,8 @@ export default {
     app.component('VpLinkPreview', VpLinkPreview)
     app.component('VpApiTable', VpApiTable)
     app.component('VpApiItem', VpApiItem)
+    app.component('VpPlayground', VpPlayground)
   },
 } satisfies Theme
+
 
