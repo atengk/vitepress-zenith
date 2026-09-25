@@ -1,5 +1,5 @@
 <!--
- * 全局自定义布局封装（挂载进度条、元数据与沉浸式阅读组件）
+ * 全局自定义布局封装（挂载通知横幅、进度条、元数据、反馈组件与沉浸式阅读组件）
  * @author Ateng
  * @since 2026-09-25
 -->
@@ -9,6 +9,8 @@ import DefaultTheme from 'vitepress/theme'
 import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import ZenModeToggle from './components/ZenModeToggle.vue'
 import DocMeta from './components/DocMeta.vue'
+import VpBanner from './components/VpBanner.vue'
+import VpHelpful from './components/VpHelpful.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 
 const { Layout } = DefaultTheme
@@ -20,11 +22,16 @@ useMediumZoom()
 <template>
   <Layout>
     <template #layout-top>
+      <VpBanner />
       <ReadingProgressBar />
     </template>
 
     <template #doc-before>
       <DocMeta />
+    </template>
+
+    <template #doc-footer-before>
+      <VpHelpful />
     </template>
 
     <template #layout-bottom>

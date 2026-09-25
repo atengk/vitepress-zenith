@@ -18,6 +18,9 @@ import VpTimeline from './components/VpTimeline.vue'
 import VpTimelineItem from './components/VpTimelineItem.vue'
 import VpLinkCard from './components/VpLinkCard.vue'
 import VpDemoPreview from './components/VpDemoPreview.vue'
+import VpBanner from './components/VpBanner.vue'
+import VpHelpful from './components/VpHelpful.vue'
+import VpBlogList from './components/VpBlogList.vue'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
@@ -40,5 +43,8 @@ export default {
     app.component('VpTimelineItem', VpTimelineItem)
     app.component('VpLinkCard', VpLinkCard)
     app.component('VpDemoPreview', VpDemoPreview)
+    app.component('VpBanner', VpBanner)
+    app.component('VpHelpful', VpHelpful)
+    app.component('VpBlogList', VpBlogList)
   },
 } satisfies Theme

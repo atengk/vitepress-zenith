@@ -203,3 +203,39 @@ VitePress Zenith 预置了一套现代高质感、在全站任何 Markdown 文�
   </template>
 </VpDemoPreview>
 ```
+
+---
+
+## 6. 全宽公告通知横幅 (VpBanner)
+
+全站顶栏公告条，支持平滑折叠关闭与 `localStorage` 记忆防打扰。已默认挂载在站点全域顶部，亦可在独立页面内嵌入。
+
+<VpBanner
+  id="demo-banner-doc"
+  text="✨ 欢迎体验全新组件库与通知横幅组件！"
+  link="/blog/"
+  linkText="探索博客矩阵 →"
+/>
+
+```html
+<VpBanner
+  id="announcement-v1"
+  text="🎉 欢迎体验 VitePress Zenith 旗舰级技术文档与知识库矩阵模板！"
+  link="/guide/what-is-zenith"
+  linkText="了解详情 →"
+  :dismissible="true"
+/>
+```
+
+---
+
+## 7. 文档有用度评价 (VpHelpful)
+
+文档底部轻量反馈交互组件，已默认挂载于全站每篇文档正文与翻页器之间，支持本地记忆已投票状态并提供鼓励动效气泡。
+
+<VpHelpful />
+
+```html
+<VpHelpful />
+```
+

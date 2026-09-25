@@ -8,10 +8,10 @@
 06 — 全局免导入交互短代码组件库
 
 **状态 (Status):**
-ready-for-agent
+completed
 
-- [ ] 使用 `createContentLoader('blog/posts/*.md', ...)` 在构建期自动收集博文元数据
-- [ ] 编写博客归档页（`docs/blog/index.md`）与标签筛选视图，展示文章发布时间、摘要与标签
-- [ ] 开发全宽公告横幅组件 `<VpBanner>`，支持关闭按钮与 `localStorage` 记忆周期防打扰
-- [ ] 开发每篇文档底部的 `<VpHelpful>` 反馈组件，提供 👍/👎 点赞并展示感谢气泡
-- [ ] 在文档默认布局插槽中自然挂载反馈组件与公告横幅
+- [x] 使用 `createContentLoader('blog/posts/*.md', ...)` 在构建期自动收集博文元数据
+- [x] 编写博客归档页（`docs/blog/index.md`）与标签筛选视图，展示文章发布时间、摘要与标签
+- [x] 开发全宽公告横幅组件 `<VpBanner>`，支持关闭按钮与 `localStorage` 记忆周期防打扰
+- [x] 开发每篇文档底部的 `<VpHelpful>` 反馈组件，提供 👍/👎 点赞并展示感谢气泡
+- [x] 在文档默认布局插槽中自然挂载反馈组件与公告横幅
