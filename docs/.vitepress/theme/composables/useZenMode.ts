@@ -1,14 +1,15 @@
 /**
- * 沉浸式阅读模式 (Zen Mode) 状态管理与交互 Composable
+ * 沉浸式专注阅读模式 (Zen Mode) 状态管理与交互 Composable
  * @author Ateng
  * @since 2026-09-25
  */
 
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vitepress'
 
 const STORAGE_KEY = 'vp-zenith-zen-mode'
 const isZenMode = ref(false)
+let isGlobalListenerAttached = false
 
 /**
  * 沉浸式阅读管理 Hook
@@ -42,38 +43,46 @@ export function useZenMode() {
   }
 
   /**
-   * 键盘快捷键监听处理函数 (Alt + Z 或 Escape 退出)
+   * 绑定全局唯一的键盘快捷键监听器（单例模式，防止多组件重复触发抵消）
    */
-  const handleKeydown = (event: KeyboardEvent) => {
-    // 忽略输入框与富文本中的按键
-    const target = event.target as HTMLElement | null
-    if (target && ['INPUT', 'TEXTAREA'].includes(target.tagName)) return
+  const ensureGlobalListener = () => {
+    if (isGlobalListenerAttached || typeof window === 'undefined') return
+    isGlobalListenerAttached = true
 
-    if (event.altKey && (event.key === 'z' || event.key === 'Z')) {
-      event.preventDefault()
-      toggleZenMode()
-    } else if (event.key === 'Escape' && isZenMode.value) {
-      event.preventDefault()
-      applyZenMode(false)
-    }
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
+      // 1. 忽略输入框与可编辑元素中的按键
+      const target = event.target as HTMLElement | null
+      if (target && (['INPUT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable)) {
+        return
+      }
+
+      // 2. 判断 Alt+Z 组合键（兼顾 event.code 与 event.key，防输入法与特殊键盘映射）
+      const isKeyZ = event.code === 'KeyZ' || event.key === 'z' || event.key === 'Z'
+      if (event.altKey && isKeyZ) {
+        event.preventDefault()
+        toggleZenMode()
+        return
+      }
+
+      // 3. 判断 Escape 键退出沉浸模式
+      if (event.key === 'Escape' && isZenMode.value) {
+        event.preventDefault()
+        applyZenMode(false)
+      }
+    })
   }
 
   onMounted(() => {
     if (typeof window === 'undefined') return
 
-    // 1. 从本地存储读取用户历史偏好
+    // 从本地存储读取用户历史偏好
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored === 'true' && route.path !== '/') {
       applyZenMode(true)
     }
 
-    // 2. 绑定全局快捷键监听
-    window.addEventListener('keydown', handleKeydown)
-  })
-
-  onUnmounted(() => {
-    if (typeof window === 'undefined') return
-    window.removeEventListener('keydown', handleKeydown)
+    // 确保单例快捷键事件监听已注册
+    ensureGlobalListener()
   })
 
   // 监听路由变化：若跳转到首页，自动临时抑制沉浸样式；回到文档页恢复

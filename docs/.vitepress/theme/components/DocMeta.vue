@@ -5,13 +5,14 @@
 -->
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick, computed } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { useRoute } from 'vitepress'
 import { useZenMode } from '../composables/useZenMode'
 
 const route = useRoute()
 const { isZenMode, toggleZenMode } = useZenMode()
 
+const metaContainer = ref<HTMLElement | null>(null)
 const wordCount = ref(0)
 const readingTime = ref(1)
 
@@ -39,10 +40,38 @@ const calculateDocStats = () => {
   const total = cnMatches.length + enMatches.length
   wordCount.value = total
   readingTime.value = Math.max(1, Math.ceil(total / 350))
+
+  // 将元数据行自动移动至正文首个 h1 标题下方，确保自然视觉层级
+  if (metaContainer.value) {
+    const h1 = docEl.querySelector('h1')
+    if (h1 && metaContainer.value.previousElementSibling !== h1) {
+      h1.insertAdjacentElement('afterend', metaContainer.value)
+    }
+  }
 }
 
+let observer: MutationObserver | null = null
+
 onMounted(() => {
-  nextTick(calculateDocStats)
+  nextTick(() => {
+    calculateDocStats()
+
+    // 监听文档内容动态变化
+    const docEl = document.querySelector('.vp-doc')
+    if (docEl && typeof MutationObserver !== 'undefined') {
+      observer = new MutationObserver(() => {
+        calculateDocStats()
+      })
+      observer.observe(docEl, { childList: true, subtree: false })
+    }
+  })
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
 })
 
 watch(
@@ -54,7 +83,11 @@ watch(
 </script>
 
 <template>
-  <div v-if="isVisible" class="doc-meta-bar">
+  <div
+    v-show="isVisible"
+    ref="metaContainer"
+    class="doc-meta-bar"
+  >
     <div class="meta-item">
       <span class="icon">📝</span>
       <span>约 {{ wordCount.toLocaleString() }} 字</span>
@@ -69,11 +102,12 @@ watch(
       type="button"
       class="zen-quick-btn"
       :class="{ active: isZenMode }"
-      title="一键切换沉浸专注阅读 (Alt+Z)"
+      title="一键切换沉浸专注阅读 (快捷键: Alt+Z)"
       @click="toggleZenMode"
     >
       <span class="icon">🎯</span>
-      <span>{{ isZenMode ? '退出专注' : '沉浸阅读' }}</span>
+      <span>{{ isZenMode ? '退出专注' : '专注阅读' }}</span>
+      <span class="shortcut">Alt+Z</span>
     </button>
   </div>
 </template>
@@ -84,9 +118,10 @@ watch(
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 16px 0 24px;
-  padding: 8px 14px;
-  border-radius: 8px;
+  margin: 12px 0 24px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--vp-c-divider);
   background-color: var(--vp-c-bg-soft);
   font-size: 13px;
   color: var(--vp-c-text-2);
@@ -101,14 +136,15 @@ watch(
 
 .meta-divider {
   color: var(--vp-c-text-3);
+  user-select: none;
 }
 
 .zen-quick-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   margin-left: auto;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 4px;
   border: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg);
@@ -116,6 +152,7 @@ watch(
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
 }
 
 .zen-quick-btn:hover {
@@ -128,5 +165,18 @@ watch(
   border-color: var(--vp-c-brand-1);
   color: var(--vp-c-brand-1);
   font-weight: 500;
+}
+
+.shortcut {
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-3);
+}
+
+.zen-quick-btn.active .shortcut {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--vp-c-brand-1);
 }
 </style>

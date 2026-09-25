@@ -5,6 +5,8 @@ node_modules/
 # VitePress cache & build
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+*.timestamp-*.mjs
+docs/.vitepress/*.mjs
 
 # Editor & System
 .DS_Store
