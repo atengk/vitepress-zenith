@@ -19,10 +19,10 @@ hero:
 features:
   - icon: 🎯
     title: Immersive Zen Mode
-    details: Instant double-sidebar collapsing into a centered 1180px reading canvas with Alt+Z shortcut and state persistence.
+    details: Instant double-sidebar collapsing into a centered 1180px reading canvas with Alt+Z shortcut and glowing progress bar.
   - icon: ⚡
     title: Shiki Twoslash TypeScript
-    details: Experience VS Code-grade type hover tooltips (// ^?) and live compiler diagnostics directly in markdown code fences.
+    details: Experience VS Code-grade type hover tooltips (// ^?) and live compiler diagnostics paired with gradient code block folding.
   - icon: 📦
     title: Synchronized Package Manager Tabs
     details: Seamless switching between npm, pnpm, yarn, and bun with persistent cross-tab synchronization across the entire site.
@@ -35,4 +35,13 @@ features:
   - icon: 🧩
     title: Auto-registered Shortcodes
     details: Zero-import cards, version timelines, responsive API parameter tables, interactive StackBlitz playgrounds, and link preview bubbles.
+  - icon: 🎨
+    title: Dynamic Palettes & Clean Print
+    details: 4 calibrated brand accent palettes with instant Anti-FOUC switching and dedicated white-paper PDF print styles.
+  - icon: ⌨️
+    title: Full-Keyboard Geek Navigation
+    details: Press '?' anytime for the shortcuts cheat sheet modal, J/K article pagers, T theme toggling, and input guard protection.
+  - icon: 🤝
+    title: Open Source Contributors & Discussions
+    details: Build-time Git commit excavation for author avatars, seamless Giscus GitHub Discussions, and one-click GitHub editing.
 ---

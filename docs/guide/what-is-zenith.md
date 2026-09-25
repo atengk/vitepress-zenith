@@ -42,10 +42,4 @@ Zenith（天顶 / 禅意专注）通过深度扩展 VitePress 官方默认主题
 | **全键盘极客导航与速查** | <kbd>?</kbd> 速查中心浮层、<kbd>J</kbd>/<kbd>K</kbd> 平滑翻页、<kbd>T</kbd> 换肤与输入焦点智能防误触 | [全键盘极客导航与快捷键速查](./keyboard-shortcuts.md) |
 | **开源贡献者致谢流** | Git 提交自动挖掘、`<VpContributors>` 重叠头像流与 GitHub 编辑协同 | [开源贡献者致谢流与 GitHub 协同](./contributors-stream.md) |
 | **交互短代码组件库** | 免 import 直接书写的卡片网格、胶囊徽标、时间轴、横幅与反馈组件 | [交互短代码组件库](../components/overview.md) |
-
-
-
 | **原生轻量博客流** | `createContentLoader` 静态数据聚合、标签多维筛选卡片流 | [博客归档矩阵](../blog/index.md) |
-
-
-

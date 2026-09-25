@@ -19,20 +19,29 @@ hero:
 features:
   - icon: 🎯
     title: 沉浸式阅读模式 (Zen Mode)
-    details: 一键折叠收起左侧边栏与右侧大纲，正文黄金居中加宽，支持快捷键（Alt+Z）与本地偏好记忆持久化。
+    details: 一键折叠收起左侧边栏与右侧大纲，正文黄金居中加宽至 1180px，支持快捷键（Alt+Z）与阅读进度条。
   - icon: ⚡
     title: Shiki Twoslash 动态类型
-    details: 在网页中体验 VS Code 级的代码悬浮类型推导（// ^?）与语法错误实时诊断，大幅提升 API 查阅体验。
+    details: 在网页中体验 VS Code 级的代码悬浮类型推导（// ^?）与实时编译诊断，配合超长代码智能渐变折叠。
   - icon: 📦
     title: 全站联动包管理器选项卡
-    details: 支持一键切换 npm / pnpm / yarn / bun，全站所有页面自动同步偏好，无需在每篇文章重复切换。
+    details: 支持一键切换 npm / pnpm / yarn / bun，全站所有页面自动同步偏好，跨标签页即时广播。
   - icon: 📐
     title: 全能富媒体与可视化
     details: 原生支持 LaTeX 数学公式、Mermaid 架构时序图、Markmap 交互思维导图与 Medium-zoom 图片灯箱。
   - icon: 🔍
     title: 零外部依赖离线全文检索
-    details: 内置 Minisearch 本地离线引擎并深度优化中文分词，开发态与生产态体验完全一致，无需第三方云端配置。
+    details: 内置 Minisearch 本地离线引擎并深度优化中文分词与西方语言词干，多语言路由完全隔离。
   - icon: 🧩
     title: 免导入短代码交互组件库
-    details: 全局免 import 直接使用卡片矩阵、版本演进时间轴、组件实时交互运行沙箱与精美外链卡片。
+    details: 全局免 import 直接书写卡片矩阵、版本演进时间轴、API 契约表、参数检索与在线沙箱。
+  - icon: 🎨
+    title: 动态强调色盘与白皮书打印
+    details: 4 套预置高质感品牌强调色一键切换与 Anti-FOUC 极速换肤，针对纸质出版物与 PDF 打印深度净化。
+  - icon: ⌨️
+    title: 全键盘极客导航与速查
+    details: 按「?」随时呼出快捷键速查中心，J/K 沉浸翻页，T 毫秒级深浅换肤，配备智能输入防误触守护。
+  - icon: 🤝
+    title: 开源贡献者致谢与社区协同
+    details: 构建期自动挖掘 Git 提交聚合作者头像流，无感集成 Giscus 社区讨论与 GitHub 一键协同编辑。
 ---

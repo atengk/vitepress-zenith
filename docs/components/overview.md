@@ -392,3 +392,112 @@ export default defineConfig({
   ]"
 />
 ```
+
+---
+
+## 12. 历史版本归档警告横幅 (VpLegacyBanner)
+
+用于在历史版本、已废弃分支或已归档文档顶部展示高对比度警示横幅，支持自定义版本标识、升级提示文案与一键跳转目标：
+
+<VpLegacyBanner
+  :visible="true"
+  current-version="v0.9.0"
+  latest-version="v1.0.0"
+  latest-link="/guide/what-is-zenith"
+  title="历史归档版本提示"
+  message="当前查阅的是历史旧版文档，部分 API 已在最新稳定版中升级或重构。"
+  button-text="前往最新版文档"
+/>
+
+```html
+<VpLegacyBanner
+  :visible="true"
+  current-version="v0.9.0"
+  latest-version="v1.0.0"
+  latest-link="/guide/what-is-zenith"
+  title="历史归档版本提示"
+  message="当前查阅的是历史旧版文档，建议前往最新版获取完整功能支持。"
+  button-text="前往最新稳定版"
+/>
+```
+
+---
+
+## 13. 全键盘极客快捷键速查中心 (VpShortcutsModal)
+
+为重度键盘党与技术极客设计的沉浸式快捷键速查中心浮层。支持按 <kbd>?</kbd>（或 <kbd>Shift</kbd> + <kbd>/</kbd>）在全站任意位置即时唤起，具备输入保护（Input Guard）与全套按键行为说明：
+
+- **极客全键盘导航**：集成 <kbd>J</kbd>/<kbd>K</kbd> 智能前后翻页、<kbd>T</kbd> 毫秒级深浅换肤、<kbd>Alt</kbd>+<kbd>Z</kbd> 专注模式与 <kbd>Ctrl/⌘</kbd>+<kbd>K</kbd> 命令中心；
+- **智能防误触保护**：在 `INPUT`、`TEXTAREA` 或富文本编辑态下自动屏蔽单键触发，杜绝输入乱码；
+- **独立复用与控制**：除全局按键响应外，支持在业务页面中通过 `v-model` 或事件手动控制显隐。
+
+```html
+<!-- 随处按下键盘上的「?」即可唤起全局速查浮层 -->
+<VpShortcutsModal v-model="showShortcuts" />
+```
+
+---
+
+## 14. 开源贡献者致谢流与 GitHub 协同 (VpContributors)
+
+基于编译期 Git Commit 历史自动挖掘技术，在文档末尾生成重叠头像流与悬浮名片，并提供“在 GitHub 上编辑此页”协同入口：
+
+<VpContributors
+  title="开源贡献者致谢流"
+  :contributors="[
+    {
+      name: '孔余 (Ateng)',
+      avatar: 'https://github.com/atengk.png',
+      github: 'atengk',
+      commitsCount: 12,
+      lastCommitTime: 1790346106,
+      lastCommitMessage: 'feat(contributors): 构建 Git 历史贡献者提取与协同体系'
+    },
+    {
+      name: 'VitePress Zenith',
+      avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=Zenith',
+      commitsCount: 3,
+      lastCommitTime: 1790345000,
+      lastCommitMessage: 'docs: 完善组件库示例与多语言矩阵'
+    }
+  ]"
+  edit-url="https://github.com/atengk/vitepress-zenith/edit/master/docs/components/overview.md"
+/>
+
+```html
+<VpContributors
+  title="本篇核心贡献团队"
+  :contributors="pageContributors"
+  edit-url="https://github.com/atengk/vitepress-zenith/edit/master/docs/:path"
+/>
+```
+
+---
+
+## 15. 全局命令中心检索与快捷动作 (VpCommandPalette)
+
+类似 macOS Spotlight 与 Raycast 的全局沉浸式命令面板，支持按 <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> 或正文快捷键一键唤起：
+
+- **混合式全文检索**：无缝对接离线 Minisearch 搜索引擎与高精度中文分词；
+- **页面与动作派发**：支持直接跳转核心指南模块、一键切换深浅外观、一键激活专注模式或投送在线沙箱；
+- **历史记录与高频直达**：智能记录读者最近访问的章节与搜索关键字。
+
+```html
+<!-- 全局开箱即用集成，亦可按需显式嵌入 -->
+<VpCommandPalette />
+```
+
+---
+
+## 16. 博客文章归档卡片流 (VpBlogList)
+
+基于 VitePress 静态数据加载器（`createContentLoader`）的现代化轻量博客列表组件，支持按多维标签即时筛选、年份降序分组、字数与阅读耗时统计推导：
+
+- **多维标签即时过滤**：标签卡片展示各分类下的博文篇数，点击瞬时无刷新重筛；
+- **年份流光时间轴**：按发布年份层次化分组折叠，左侧配备流光渐变时间线；
+- **阅读认知增强**：自动从 Markdown 正文中抽取字数、计算估算阅读分钟数并展示摘要。
+
+```html
+<!-- 在任意博客主页中直接使用即可渲染全套博客卡片流 -->
+<VpBlogList />
+```
