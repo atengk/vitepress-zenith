@@ -1,4 +1,4 @@
-# VitePress Pro Max 模板工程
+# VitePress Zenith 模板工程
 
 基于 VitePress 构建的现代化全能型技术文档、知识库与技术博客矩阵模板。
 

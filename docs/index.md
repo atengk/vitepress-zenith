@@ -2,16 +2,16 @@
 layout: home
 
 hero:
-  name: "VitePress Pro Max"
+  name: "VitePress Zenith"
   text: "顶配旗舰级技术文档与知识库模板"
-  tagline: "开箱即用集成沉浸式专注阅读、Twoslash 动态类型、Markmap 思维导图、全站包管理器联动与 UnoCSS 原子图标体系"
+  tagline: "开箱即用集成沉浸式专注阅读 (Zen Mode)、Twoslash 动态类型、Markmap 思维导图、全站包管理器联动与 UnoCSS 原子图标体系"
   image:
     src: /logo.svg
-    alt: VitePress Pro Max
+    alt: VitePress Zenith
   actions:
     - theme: brand
       text: 快速起步
-      link: /guide/what-is-pro-max
+      link: /guide/what-is-zenith
     - theme: alt
       text: 功能特性
       link: /guide/getting-started

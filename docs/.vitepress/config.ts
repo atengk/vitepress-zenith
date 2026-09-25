@@ -8,7 +8,7 @@ import { defineConfig } from 'vitepress'
 import UnoCSS from 'unocss/vite'
 
 export default defineConfig({
-  title: 'VitePress Pro Max',
+  title: 'VitePress Zenith',
   description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
   lang: 'zh-CN',
 
@@ -18,11 +18,11 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    siteTitle: 'VitePress Pro Max',
+    siteTitle: 'VitePress Zenith',
 
     nav: [
       { text: '首页', link: '/' },
-      { text: '指南', link: '/guide/what-is-pro-max' },
+      { text: '指南', link: '/guide/what-is-zenith' },
       { text: '组件', link: '/components/overview' },
       { text: '博客', link: '/blog/' },
     ],
@@ -32,7 +32,7 @@ export default defineConfig({
         {
           text: '基础指引',
           items: [
-            { text: '什么是 Pro Max', link: '/guide/what-is-pro-max' },
+            { text: '什么是 Zenith', link: '/guide/what-is-zenith' },
             { text: '快速上手', link: '/guide/getting-started' },
           ],
         },
@@ -45,7 +45,7 @@ export default defineConfig({
 
     footer: {
       message: '基于 MIT 协议开源发布',
-      copyright: 'Copyright © 2026-present VitePress Pro Max',
+      copyright: 'Copyright © 2026-present VitePress Zenith',
     },
   },
 

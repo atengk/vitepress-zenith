@@ -2,7 +2,7 @@
 status: ready-for-agent
 ---
 
-# 技术规格说明书：VitePress Pro Max 旗舰全能文档与博客模板工程
+# 技术规格说明书：VitePress Zenith 旗舰全能文档与博客模板工程
 
 ## 问题陈述 (Problem Statement)
 
@@ -14,7 +14,7 @@ status: ready-for-agent
 
 ## 解决方案 (Solution)
 
-构建 **VitePress Pro Max** —— 一个集成了顶配开发者体验（DX）、深度阅读专注体验（UX）与生产级工程化体系的全能型技术文档、知识库与技术博客矩阵模板。
+构建 **VitePress Zenith** —— 一个集成了顶配开发者体验（DX）、深度阅读专注体验（UX）与生产级工程化体系的全能型技术文档、知识库与技术博客矩阵模板。
 
 系统基于 VitePress 官方默认主题进行深度扩展，采用 UnoCSS 作为原子化样式与海量图标引擎，核心解决：
 - **极致专注阅读**：提供一键切换、全站平滑折叠两侧栏且状态持久化的“沉浸式阅读模式 (Zen Mode)”，并搭配顶部阅读进度条与字数统计；

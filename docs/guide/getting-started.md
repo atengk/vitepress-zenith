@@ -1,6 +1,6 @@
 # 快速上手
 
-欢迎体验 VitePress Pro Max。本项目基于 `pnpm` 包管理工具构建。
+欢迎体验 VitePress Zenith。本项目基于 `pnpm` 包管理工具构建。
 
 ## 环境准备
 

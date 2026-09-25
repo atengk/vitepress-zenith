@@ -1,4 +1,4 @@
-# 采用 VitePress 官方主题扩展结合 UnoCSS 构建 Pro Max 模板
+# 采用 VitePress 官方主题扩展结合 UnoCSS 构建 Zenith 模板
 
 为了在维持 VitePress 官方长期兼容性与极佳构建性能的同时提供现代化的视觉质感，我们决定放弃从零定制独立主题，选择基于 VitePress 官方默认主题进行深度扩展，并引入 UnoCSS 作为原子化样式与图标引擎。
 
