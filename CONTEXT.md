@@ -88,4 +88,21 @@ _Avoid_: 纯文本宽表格横向截断, 单元格文字密集挤压
 将文档内的代码演示片段一键打包投送至浏览器在线虚拟容器（如 StackBlitz WebContainer）中独立运行的生态互联能力。
 _Avoid_: 繁琐本地环境从头拉取, 孤立代码块不可调试
 
+**多语言国际化矩阵 (Internationalization / i18n Matrix)**:
+基于 VitePress 原生 locales 体系构建的无缝中英多语言架构，支持根路径中文与 `/en/` 英文并行、独立的侧边栏自动化扫描与语言特定分词索引（英文词根与中文分词互不干扰）。
+_Avoid_: 机械全量机翻, 单语言锁定
+
+**多版本生命周期 (Multi-version Lifecycle)**:
+针对技术库重大版本迭代（如 v1.x/v2.x/beta）提供的顶栏多版本切换器与旧版醒目归档横幅，防止读者误读过时 API。
+_Avoid_: 暴力覆盖历史文档, 破坏旧版本直链
+
+**全键盘极客导航 (Keyboard-first Navigation)**:
+支持按 <kbd>?</kbd> 唤起全站快捷键速查表，支持用键盘 <kbd>J</kbd>/<kbd>K</kbd> 翻页、<kbd>T</kbd> 切换主题、<kbd>Alt+Z</kbd> 专注模式等纯键盘掌控体验。
+_Avoid_: 强依赖鼠标拖拽, 隐藏快捷键无提示
+
+**开源贡献者致谢流 (Contributors Avatar Stream)**:
+基于 Git 提交历史自动提取当前文档的贡献者 GitHub 头像行与编辑历史，并提供“在 GitHub 上编辑此页”的协作闭环。
+_Avoid_: 匿名无致谢, 增加贡献门槛
+
+
 
