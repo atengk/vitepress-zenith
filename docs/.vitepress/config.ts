@@ -7,6 +7,7 @@
 import { defineConfig } from 'vitepress'
 import UnoCSS from 'unocss/vite'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import { getAutoSidebar } from './utils/sidebar'
 
 export default defineConfig({
   title: 'VitePress Zenith',
@@ -54,28 +55,12 @@ export default defineConfig({
       { text: '博客', link: '/blog/' },
     ],
 
-    sidebar: {
-      '/guide/': [
-        {
-          text: '基础指引',
-          items: [
-            { text: '什么是 Zenith', link: '/guide/what-is-zenith' },
-            { text: '快速上手', link: '/guide/getting-started' },
-            { text: '包管理器联动选项卡', link: '/guide/package-manager-tabs' },
-            { text: '代码块与 Twoslash', link: '/guide/code-enhancements' },
-            { text: '富媒体与可视化矩阵', link: '/guide/rich-media' },
-          ],
-        },
-      ],
-      '/components/': [
-        {
-          text: '交互短代码组件库',
-          items: [
-            { text: '组件总览与范例', link: '/components/overview' },
-          ],
-        },
-      ],
-    },
+    sidebar: getAutoSidebar({
+      groupTitles: {
+        guide: '基础指引',
+        components: '交互短代码组件库',
+      },
+    }),
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
@@ -138,6 +123,31 @@ export default defineConfig({
                 },
               },
             },
+          },
+        },
+        miniSearch: {
+          options: {
+            /**
+             * 针对中文分词增强（支持 Intl.Segmenter 原生高精度词法切分）
+             */
+            tokenize(text) {
+              if (typeof text !== 'string') return []
+              if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+                const segmenter = new Intl.Segmenter('zh-CN', { granularity: 'word' })
+                const tokens: string[] = []
+                for (const { segment, isWordLike } of segmenter.segment(text)) {
+                  const s = segment.trim()
+                  if (s) tokens.push(s.toLowerCase())
+                }
+                return tokens
+              }
+              return text.toLowerCase().split(/[\s,./\\;:'"[\]{}|`~!@#$%^&*()_+\-=?<>]+/).filter(Boolean)
+            },
+          },
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 1 },
           },
         },
       },

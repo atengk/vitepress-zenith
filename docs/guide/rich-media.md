@@ -1,3 +1,8 @@
+---
+title: 富媒体与可视化矩阵
+order: 5
+---
+
 # 富媒体与可视化矩阵 (Rich Media Matrix)
 
 VitePress Zenith 原生集成了 **LaTeX 数学公式**、**Mermaid 矢量图表**、**Markmap 交互思维导图** 与 **Medium-zoom 图片平滑缩放灯箱**，让专业技术文档与知识库获得顶级表现力。

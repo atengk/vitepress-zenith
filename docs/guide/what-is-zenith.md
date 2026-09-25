@@ -1,3 +1,8 @@
+---
+title: 什么是 Zenith
+order: 1
+---
+
 # 什么是 VitePress Zenith
 
 **VitePress Zenith** 是一个专为追求极致阅读体验、顶级开发者人机交互与生产级工程化标准的团队和个人打造的旗舰技术文档、知识库与博客矩阵模板。

@@ -1,3 +1,8 @@
+---
+title: 组件总览与范例
+order: 1
+---
+
 # 交互短代码组件库 (Auto-registered Shortcodes)
 
 VitePress Zenith 预置了一套现代高质感、在全站任何 Markdown 文件中**免 import 直接书写**的交互短代码组件库。

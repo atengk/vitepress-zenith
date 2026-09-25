@@ -1,3 +1,8 @@
+---
+title: 代码块与 Twoslash
+order: 4
+---
+
 # 代码块与 Twoslash 动态类型增强
 
 VitePress Zenith 深度整合了 **Shiki Twoslash** 与现代代码块增强体系，将 VS Code 级别的类型悬浮、静态诊断与语法高亮无缝搬移至网页文档中。

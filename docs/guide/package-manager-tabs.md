@@ -1,3 +1,8 @@
+---
+title: 包管理器联动选项卡
+order: 3
+---
+
 # 包管理器联动选项卡 (PackageManagerTabs)
 
 在技术文档与安装指引中，读者往往有着各自偏好的包管理器（如 `pnpm`、`npm`、`yarn` 或 `bun`）。
