@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# VitePress cache & build
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# Editor & System
+.DS_Store
+*.local
+.vscode/*
+!.vscode/extensions.json
+.idea/

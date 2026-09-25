@@ -1,0 +1,36 @@
+/**
+ * 全局样式增强与中文排版微调
+ * @author Ateng
+ * @since 2026-09-25
+ */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 杜绝中文负字间距与压迫感 */
+body, h1, h2, h3, h4, h5, h6, p, li {
+  letter-spacing: 0.01em;
+}
+
+/* 首页 Hero 渐变微光视觉增强 */
+.VPHero .name {
+  background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, #ec4899 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 首页特性卡片悬浮高光过渡 */
+.VPFeatures .VPFeature {
+  border: 1px solid var(--vp-c-bg-soft);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPFeatures .VPFeature:hover {
+  border-color: var(--vp-c-brand-1);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -10px var(--vp-c-brand-soft);
+}
