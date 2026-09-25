@@ -14,3 +14,5 @@ ready-for-agent
 - [ ] 开发 `<VpLegacyBanner>` 历史归档警告横幅组件
 - [ ] 根据当前路由路径（如匹配 `/v0.` 或特定历史路径）或 Frontmatter `legacy: true` 自动触发归档横幅展示
 - [ ] 横幅提供警告文案与“点击前往最新版本”一键引导跳转按钮
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/version-switcher.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+

@@ -13,3 +13,5 @@ ready-for-agent
 - [ ] 封装 `<VpContributors>` 组件，在文档末尾优雅展示贡献者头像流与贡献人数统计
 - [ ] 头像支持悬浮 Tooltip 提示作者名称与 Commit 简要，点击直达 GitHub 个人主页
 - [ ] 强化“在 GitHub 上编辑此页”链接样式与图标，支持通过 `themeConfig.editLink` 自定义仓库模式
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/contributors-stream.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+

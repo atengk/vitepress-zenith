@@ -13,3 +13,5 @@ ready-for-agent
 - [ ] 支持属性：`name` (参数名)、`type` (TS类型/高光标签)、`default` (默认值)、`required` (是否必填)、`version` (引入版本)
 - [ ] 桌面端呈现规整的自适应表格结构，移动端（<768px）平滑无缝降级为卡片折叠流
 - [ ] 在 `docs/components/overview.md` 补充参数表的演示与使用规范
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/structured-api-table.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+

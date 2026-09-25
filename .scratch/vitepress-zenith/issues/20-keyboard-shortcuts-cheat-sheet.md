@@ -14,3 +14,5 @@ ready-for-agent
 - [ ] 全局按键监听器捕获 <kbd>?</kbd> 唤起/关闭速查面板，并在输入框（input/textarea）获得焦点时智能防误触
 - [ ] 实现文档全键盘翻页逻辑：在阅读正文时按下 <kbd>J</kbd> / <kbd>K</kbd> 自动触发上一篇/下一篇路由平滑跳转
 - [ ] 支持按 <kbd>T</kbd> 快速切换深浅主题
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/keyboard-shortcuts.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+

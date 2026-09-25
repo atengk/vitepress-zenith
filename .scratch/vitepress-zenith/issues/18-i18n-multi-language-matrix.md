@@ -14,3 +14,5 @@ ready-for-agent
 - [ ] 升级 `getAutoSidebar` 支持传入 `locale` 隔离推导各语言侧边栏
 - [ ] 在 `search.options.locales` 中为 `en` 配置专用的英文 Minisearch 检索选项与词法切分
 - [ ] 在 `docs/en/` 提供英文基础指引页面样例文档（`index.md` 与 `guide/what-is-zenith.md`）
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/i18n-matrix.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+

@@ -13,3 +13,5 @@ ready-for-agent
 - [ ] 在 `<VpDemoPreview>` 工具栏中增加“在 StackBlitz 试跑”操作按钮
 - [ ] 自动根据当前代码片段构建微型 Vite + Vue 3 虚拟工程模板，并一键在新窗口打开
 - [ ] 支持通过属性或开关控制是否显示 Playground 快捷入口
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/playground-stackblitz.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+

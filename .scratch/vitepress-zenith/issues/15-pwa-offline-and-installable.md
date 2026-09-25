@@ -14,3 +14,5 @@ ready-for-agent
 - [ ] 配置 Web App Manifest（站名、主题色、启动图标、Display: standalone）
 - [ ] 配置运行时缓存策略（HTML 页面与静态资源 Stale-While-Revalidate / Cache-First）
 - [ ] 验证生产打包产物中 `sw.js` 与 `manifest.webmanifest` 正确生成，并通过断网离线加载测试
+- [ ] 沉淀专属深度技术指南文档（`docs/guide/pwa-offline.md`），并在 `what-is-zenith.md` 核心特性矩阵表与全局导航中注册
+
