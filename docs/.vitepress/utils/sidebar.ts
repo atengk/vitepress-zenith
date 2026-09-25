@@ -12,12 +12,21 @@ import type { DefaultTheme } from 'vitepress'
 export interface AutoSidebarOptions {
   /**
    * 文档源根目录（绝对路径或相对于项目根目录的相对路径）
-   * @default 'docs'
+   * @default 'docs' 或当指定 locale 时为 'docs/<locale>'
    */
   srcDir?: string
   /**
+   * 当前国际化语言标识（如 'root' 或 'en'）
+   * @default 'root'
+   */
+  locale?: string
+  /**
+   * 路由基础前缀（如 '/en'）
+   */
+  baseRoute?: string
+  /**
    * 需要忽略扫描的目录或文件名
-   * @default ['.vitepress', 'public', 'node_modules', 'blog', 'adr', 'agents']
+   * @default ['.vitepress', 'public', 'node_modules', 'blog', 'adr', 'agents', 'en']
    */
   ignoreDirs?: string[]
   /**
@@ -100,7 +109,7 @@ export function parseMarkdownMeta(filePath: string): MarkdownMeta {
  * 递归扫描特定章节目录，生成侧边栏条目列表
  *
  * @param currentDir 当前物理目录绝对路径
- * @param routePrefix 对应的 URL 路由前缀（如 '/guide/'）
+ * @param routePrefix 对应的 URL 路由前缀（如 '/guide/' 或 '/en/guide/'）
  * @param options 自动侧边栏参数
  * @returns VitePress 侧边栏条目数组
  */
@@ -172,13 +181,15 @@ export function scanDirectory(
  */
 export function getAutoSidebar(options: AutoSidebarOptions = {}): DefaultTheme.SidebarMulti {
   const rootDir = process.cwd()
-  let srcDir = path.resolve(rootDir, options.srcDir || 'docs')
+  const isRootLocale = !options.locale || options.locale === 'root'
+  const defaultSrcDir = isRootLocale ? 'docs' : `docs/${options.locale}`
+  let srcDir = path.resolve(rootDir, options.srcDir || defaultSrcDir)
 
   // 若默认基于 rootDir 解析不存在，降级通过当前模块所在目录向外回退
   if (!fs.existsSync(srcDir)) {
     try {
       const currentDir = path.dirname(fileURLToPath(import.meta.url))
-      const fallbackDir = path.resolve(currentDir, '..')
+      const fallbackDir = path.resolve(currentDir, '..', options.srcDir || defaultSrcDir)
       if (fs.existsSync(fallbackDir)) {
         srcDir = fallbackDir
       }
@@ -187,6 +198,10 @@ export function getAutoSidebar(options: AutoSidebarOptions = {}): DefaultTheme.S
     }
   }
 
+  const localePrefix = options.baseRoute !== undefined
+    ? options.baseRoute
+    : (isRootLocale ? '' : `/${options.locale}`)
+
   const ignoreList = new Set([
     '.vitepress',
     'public',
@@ -194,6 +209,7 @@ export function getAutoSidebar(options: AutoSidebarOptions = {}): DefaultTheme.S
     'blog',
     'adr',
     'agents',
+    ...(isRootLocale ? ['en'] : []),
     ...(options.ignoreDirs || []),
   ])
 
@@ -209,7 +225,7 @@ export function getAutoSidebar(options: AutoSidebarOptions = {}): DefaultTheme.S
     }
 
     const sectionDir = path.join(srcDir, entry.name)
-    const routePrefix = `/${entry.name}/`
+    const routePrefix = `${localePrefix}/${entry.name}/`
 
     // 若用户显式提供了精确覆盖配置，优先采用
     if (options.overrides && options.overrides[routePrefix]) {
@@ -240,3 +256,4 @@ export function getAutoSidebar(options: AutoSidebarOptions = {}): DefaultTheme.S
 
   return sidebarResult
 }
+

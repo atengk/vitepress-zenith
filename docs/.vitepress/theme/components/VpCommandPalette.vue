@@ -428,7 +428,18 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/playground-stackblitz'),
   },
   {
+    id: 'nav-guide-i18n-matrix',
+    title: '指南: 中英多语言国际化架构 (i18n)',
+    description: '双语映射矩阵、自动侧边栏隔离推导与混合词法离线分词',
+    category: 'navigation',
+    icon: 'i-lucide-globe',
+    badge: '国际化',
+    keywords: ['i18n', 'locale', 'english', 'language', '国际化', '多语言', '英文', '双语'],
+    perform: () => navigate('/guide/i18n-matrix'),
+  },
+  {
     id: 'nav-blog',
+
 
 
 

@@ -200,20 +200,6 @@ export default withPwa(defineConfig({
   themeConfig: {
     siteTitle: 'VitePress Zenith',
 
-    nav: [
-      { text: '首页', link: '/' },
-      { text: '指南', link: '/guide/what-is-zenith' },
-      { text: '组件', link: '/components/overview' },
-      { text: '博客', link: '/blog/' },
-    ],
-
-    sidebar: getAutoSidebar({
-      groupTitles: {
-        guide: '基础指引',
-        components: '交互短代码组件库',
-      },
-    }),
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/atengk/vitepress-zenith' },
     ],
@@ -234,37 +220,7 @@ export default withPwa(defineConfig({
       loading: 'lazy',
     },
 
-    // 页面底部翻页中文配置
-    docFooter: {
-      prev: '上一篇',
-      next: '下一篇',
-    },
-
-    // 右侧大纲导航中文配置
-    outline: {
-      level: [2, 3],
-      label: '本页大纲',
-    },
-
-    // 最后更新时间中文配置
-    lastUpdated: {
-      text: '最后更新于',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'medium',
-      },
-    },
-
-    // 界面通用控制文案中文配置
-    returnToTopLabel: '返回顶部',
-    sidebarMenuLabel: '目录菜单',
-    darkModeSwitchLabel: '深浅主题',
-    lightModeSwitchTitle: '切换为浅色模式',
-    darkModeSwitchTitle: '切换为深色模式',
-    skipToContentLabel: '跳转至正文',
-    langMenuLabel: '切换语言',
-
-    // 本地全文检索全套中文汉化
+    // 本地全文检索全套中英多语言分词与汉化
     search: {
       provider: 'local',
       options: {
@@ -292,23 +248,48 @@ export default withPwa(defineConfig({
               },
             },
           },
+          en: {
+            translations: {
+              button: {
+                buttonText: 'Search docs',
+                buttonAriaLabel: 'Search docs',
+              },
+              modal: {
+                displayDetails: 'Detailed list',
+                resetButtonTitle: 'Reset search',
+                backButtonTitle: 'Close search',
+                noResultsText: 'No results found',
+                footer: {
+                  selectText: 'to select',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: 'to navigate',
+                  navigateUpKeyAriaLabel: 'Arrow up',
+                  navigateDownKeyAriaLabel: 'Arrow down',
+                  closeText: 'to close',
+                  closeKeyAriaLabel: 'Escape',
+                },
+              },
+            },
+          },
         },
         miniSearch: {
           options: {
             /**
-             * 针对中文分词增强（支持 Intl.Segmenter 原生高精度词法切分）
+             * 针对中文与西方多语言分词隔离（中文字符使用 Intl.Segmenter 高精度词法切分，西文字符按空格与标点符号拆分）
              */
             tokenize(text) {
               if (typeof text !== 'string') return []
-              if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+              // 若包含中文字符，优先使用 Intl.Segmenter 原生高精度中文分词
+              if (/[\u4e00-\u9fa5]/.test(text) && typeof Intl !== 'undefined' && Intl.Segmenter) {
                 const segmenter = new Intl.Segmenter('zh-CN', { granularity: 'word' })
                 const tokens: string[] = []
-                for (const { segment, isWordLike } of segmenter.segment(text)) {
+                for (const { segment } of segmenter.segment(text)) {
                   const s = segment.trim()
                   if (s) tokens.push(s.toLowerCase())
                 }
                 return tokens
               }
+              // 英文与标准西方语言按空格与标点符号拆分
               return text.toLowerCase().split(/[\s,./\\;:'"[\]{}|`~!@#$%^&*()_+\-=?<>]+/).filter(Boolean)
             },
           },
@@ -321,19 +302,115 @@ export default withPwa(defineConfig({
       },
     },
 
-    // 404 缺省页中文配置
-    notFound: {
-      title: '页面不存在',
-      quote: '抱歉，您访问的页面已漂移到星际深处或已被移除。',
-      linkLabel: '返回首页',
-      linkText: '返回首页',
-    },
-
     footer: {
       message: '基于 MIT 协议开源发布',
       copyright: 'Copyright © 2026-present VitePress Zenith',
     },
   },
+
+  // 中英多语言国际化矩阵配置
+  locales: {
+    root: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      title: 'VitePress Zenith',
+      description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
+      themeConfig: {
+        nav: [
+          { text: '首页', link: '/' },
+          { text: '指南', link: '/guide/what-is-zenith' },
+          { text: '组件', link: '/components/overview' },
+          { text: '博客', link: '/blog/' },
+        ],
+        sidebar: getAutoSidebar({
+          locale: 'root',
+          groupTitles: {
+            guide: '基础指引',
+            components: '交互短代码组件库',
+          },
+        }),
+        docFooter: {
+          prev: '上一篇',
+          next: '下一篇',
+        },
+        outline: {
+          level: [2, 3],
+          label: '本页大纲',
+        },
+        lastUpdated: {
+          text: '最后更新于',
+          formatOptions: {
+            dateStyle: 'short',
+            timeStyle: 'medium',
+          },
+        },
+        returnToTopLabel: '返回顶部',
+        sidebarMenuLabel: '目录菜单',
+        darkModeSwitchLabel: '深浅主题',
+        lightModeSwitchTitle: '切换为浅色模式',
+        darkModeSwitchTitle: '切换为深色模式',
+        skipToContentLabel: '跳转至正文',
+        langMenuLabel: '切换语言',
+        notFound: {
+          title: '页面不存在',
+          quote: '抱歉，您访问的页面已漂移到星际深处或已被移除。',
+          linkLabel: '返回首页',
+          linkText: '返回首页',
+        },
+      },
+    },
+    en: {
+      label: 'English',
+      lang: 'en-US',
+      link: '/en/',
+      title: 'VitePress Zenith',
+      description: 'Modern flagship technical documentation, knowledge base and blog matrix template based on VitePress',
+      themeConfig: {
+        nav: [
+          { text: 'Home', link: '/en/' },
+          { text: 'Guide', link: '/en/guide/what-is-zenith' },
+          { text: 'Components', link: '/components/overview' },
+          { text: 'Blog', link: '/blog/' },
+        ],
+        sidebar: getAutoSidebar({
+          locale: 'en',
+          groupTitles: {
+            guide: 'Guides',
+            components: 'Components',
+          },
+        }),
+        docFooter: {
+          prev: 'Previous page',
+          next: 'Next page',
+        },
+        outline: {
+          level: [2, 3],
+          label: 'On this page',
+        },
+        lastUpdated: {
+          text: 'Last updated',
+          formatOptions: {
+            dateStyle: 'short',
+            timeStyle: 'medium',
+          },
+        },
+        returnToTopLabel: 'Return to top',
+        sidebarMenuLabel: 'Menu',
+        darkModeSwitchLabel: 'Appearance',
+        lightModeSwitchTitle: 'Switch to light theme',
+        darkModeSwitchTitle: 'Switch to dark theme',
+        skipToContentLabel: 'Skip to content',
+        langMenuLabel: 'Change language',
+        notFound: {
+          title: 'Page Not Found',
+          quote: 'Sorry, the page you are looking for has drifted into deep space or has been removed.',
+          linkLabel: 'Return to home',
+          linkText: 'Return to home',
+        },
+      },
+    },
+  },
+
 
   vite: {
     plugins: [

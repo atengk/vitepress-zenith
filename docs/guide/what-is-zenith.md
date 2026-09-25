@@ -37,7 +37,9 @@ Zenith（天顶 / 禅意专注）通过深度扩展 VitePress 官方默认主题
 | **PWA 离线应用与预缓存** | Service Worker 断网秒开、全站预缓存、Web App Manifest 与桌面端一键安装 | [PWA 渐进式离线应用与预缓存](./pwa-offline.md) |
 | **结构化参数契约表** | 彻底根除窄屏溢出的 `<VpApiTable>`、自适应移动端卡片流与即时参数搜索 | [结构化参数契约表组件](./structured-api-table.md) |
 | **即时在线沙箱直达** | StackBlitz WebContainer 虚拟机集成，代码片段一键投送至浏览器沙箱试跑 | [在线沙箱直达 (StackBlitz)](./playground-stackblitz.md) |
+| **中英多语言国际化架构** | 基于 Locales 的中英双语矩阵、独立侧边栏自动推导与混合词法离线检索 | [中英多语言国际化架构 (i18n)](./i18n-matrix.md) |
 | **交互短代码组件库** | 免 import 直接书写的卡片网格、胶囊徽标、时间轴、横幅与反馈组件 | [交互短代码组件库](../components/overview.md) |
+
 
 
 | **原生轻量博客流** | `createContentLoader` 静态数据聚合、标签多维筛选卡片流 | [博客归档矩阵](../blog/index.md) |
