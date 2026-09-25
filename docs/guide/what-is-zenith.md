@@ -24,12 +24,17 @@ Zenith（天顶 / 禅意专注）通过深度扩展 VitePress 官方默认主题
 
 | 特性模块 | 核心能力与标准 | 对应指南 |
 | :--- | :--- | :--- |
-| **沉浸式阅读 (Zen Mode)** | <kbd>Alt</kbd> + <kbd>Z</kbd> 双向展翼 1180px 画布，流光阅读进度条 | [沉浸式专注阅读](./zen-mode.md) |
+| **快速起步与交付** | 极速安装、开发调试、本地构建预览与自动化 GitHub Actions CI/CD | [快速上手指南](./getting-started.md) |
 | **包管理器跨页联动** | `pnpm` / `npm` / `yarn` / `bun` 状态持久化与跨标签广播 | [包管理器联动选项卡](./package-manager-tabs.md) |
 | **Twoslash 动态类型** | VS Code 级类型悬浮推导、编译期波浪线诊断与代码行聚焦 | [代码块与 Twoslash](./code-enhancements.md) |
 | **可视化与富媒体矩阵** | LaTeX (MathJax3)、Mermaid 矢量图、Markmap 思维导图与 Medium-zoom 灯箱 | [富媒体与可视化矩阵](./rich-media.md) |
+| **沉浸式阅读 (Zen Mode)** | <kbd>Alt</kbd> + <kbd>Z</kbd> 双向展翼 1180px 画布，流光阅读进度条 | [沉浸式专注阅读](./zen-mode.md) |
+| **自动化侧边栏与检索** | 目录扫描自动提取 Frontmatter、Minisearch 中文分词与命令中心 | [自动化侧边栏与检索](./search-and-sidebar.md) |
+| **阅读指标与代码折叠** | 汉字词法切分字数统计、阅读耗时推导与超过 25 行代码半透明渐变折叠 | [阅读认知增强与代码折叠](./reading-experience.md) |
+| **技术社区评论体系 (Giscus)** | 基于 GitHub Discussions 纯净免运维、深浅主题毫秒级无感换肤与全局开关 | [解耦式技术社区讨论体系](./community-discussions.md) |
+| **动态强调色盘与白皮书打印** | 4 套预置品牌色盘、Anti-FOUC 极速换肤与白皮书级 PDF 打印净化排版 | [动态强调色盘与白皮书级纯净打印](./theme-and-print.md) |
+| **站内内链智能悬浮预览** | 类似 Wikipedia / Notion 的内链悬浮卡片预览，280ms 防抖与视口翻转防碰撞 | [站内内链悬浮卡片预览](./link-hover-preview.md) |
 | **交互短代码组件库** | 免 import 直接书写的卡片网格、胶囊徽标、时间轴、横幅与反馈组件 | [交互短代码组件库](../components/overview.md) |
-| **自动化侧边栏与检索** | 目录扫描自动提取 Frontmatter、Minisearch 原生中文分词 | [自动化侧边栏与检索](./search-and-sidebar.md) |
 | **原生轻量博客流** | `createContentLoader` 静态数据聚合、标签多维筛选卡片流 | [博客归档矩阵](../blog/index.md) |
-| **CI/CD 持续交付** | GitHub Actions 自动化构建打包与 GitHub Pages 发布 | [快速上手指南](./getting-started.md) |
+
 
