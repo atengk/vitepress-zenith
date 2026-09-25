@@ -68,8 +68,8 @@ export function useCommandPalette() {
         return
       }
 
-      // 判断未在输入状态下的 / 斜杠键
-      if (event.key === '/' && !isEditingContent(event)) {
+      // 判断未在输入状态下的 / 斜杠键（排除 Shift+/ 组合）
+      if (event.key === '/' && !event.shiftKey && !isEditingContent(event)) {
         event.preventDefault()
         event.stopImmediatePropagation()
         open()

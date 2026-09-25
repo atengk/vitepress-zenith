@@ -29,9 +29,11 @@ import VpLinkPreview from './components/VpLinkPreview.vue'
 import VpApiTable from './components/VpApiTable.vue'
 import VpApiItem from './components/VpApiItem.vue'
 import VpPlayground from './components/VpPlayground.vue'
+import VpShortcutsModal from './components/VpShortcutsModal.vue'
 import { useCommandPalette } from './composables/useCommandPalette'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
+import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
@@ -41,7 +43,7 @@ import './styles/zen-mode.css'
 import './styles/code-folding.css'
 import '@shikijs/vitepress-twoslash/style.css'
 
-export { useCommandPalette, useCodeFolding, useThemePalette }
+export { useCommandPalette, useCodeFolding, useThemePalette, useKeyboardShortcuts }
 
 export default {
   extends: DefaultTheme,
@@ -70,6 +72,7 @@ export default {
     app.component('VpApiTable', VpApiTable)
     app.component('VpApiItem', VpApiItem)
     app.component('VpPlayground', VpPlayground)
+    app.component('VpShortcutsModal', VpShortcutsModal)
   },
 } satisfies Theme
 

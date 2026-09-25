@@ -12,6 +12,7 @@ import localSearchIndex from '@localSearchIndex'
 import { useCommandPalette } from '../composables/useCommandPalette'
 import { useZenMode } from '../composables/useZenMode'
 import { useThemePalette } from '../composables/useThemePalette'
+import { useKeyboardShortcuts } from '../composables/useKeyboardShortcuts'
 
 /**
  * 命令中心单项契约接口
@@ -31,6 +32,7 @@ export interface PaletteItem {
 const { isOpen, close, attachGlobalListeners } = useCommandPalette()
 const { isZenMode, toggleZenMode } = useZenMode()
 const { currentPalette, setPalette } = useThemePalette()
+const { openShortcuts } = useKeyboardShortcuts()
 const { isDark, localeIndex } = useData()
 const router = useRouter()
 
@@ -215,6 +217,22 @@ const staticActions = computed<PaletteItem[]>(() => [
       setTimeout(() => {
         if (typeof window !== 'undefined') window.print()
       }, 150)
+    },
+  },
+  {
+    id: 'action-shortcuts-modal',
+    title: '键盘快捷键速查中心 (Keyboard Shortcuts)',
+    description: '系统化查看全站全键盘极客导航与控制按键',
+    category: 'action',
+    icon: 'i-lucide-keyboard',
+    shortcut: ['?'],
+    badge: '速查',
+    keywords: ['shortcuts', 'keyboard', 'cheat', 'sheet', '快捷键', '按键', '速查', 'geek'],
+    perform: () => {
+      close()
+      setTimeout(() => {
+        openShortcuts()
+      }, 100)
     },
   },
   {
@@ -446,6 +464,16 @@ const navigationItems = computed<PaletteItem[]>(() => [
     badge: '版本管理',
     keywords: ['version', 'legacy', 'archive', 'banner', '版本', '归档', '旧版', '警告'],
     perform: () => navigate('/guide/version-switcher'),
+  },
+  {
+    id: 'nav-guide-keyboard-shortcuts',
+    title: '指南: 全键盘极客导航与快捷键速查',
+    description: '监听 ? 唤起速查浮层、J/K 平滑翻页、T 换肤与 Alt+Z 专注阅读',
+    category: 'navigation',
+    icon: 'i-lucide-keyboard',
+    badge: '极客体验',
+    keywords: ['keyboard', 'shortcuts', 'geek', 'navigation', '快捷键', '键盘', '极客', '速查'],
+    perform: () => navigate('/guide/keyboard-shortcuts'),
   },
   {
     id: 'nav-v0-legacy-guide',

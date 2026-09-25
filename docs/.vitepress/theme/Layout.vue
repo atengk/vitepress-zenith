@@ -17,9 +17,11 @@ import VpComments from './components/VpComments.vue'
 import VpThemePicker from './components/VpThemePicker.vue'
 import VpLinkPreview from './components/VpLinkPreview.vue'
 import VpPwaStatus from './components/VpPwaStatus.vue'
+import VpShortcutsModal from './components/VpShortcutsModal.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
+import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 
 const { Layout } = DefaultTheme
 
@@ -29,6 +31,9 @@ useMediumZoom()
 useCodeFolding()
 // 初始化主题强调色盘
 useThemePalette()
+// 挂载全键盘极客导航监听器
+const { attachKeyboardShortcuts } = useKeyboardShortcuts()
+attachKeyboardShortcuts()
 </script>
 
 <template>
@@ -64,6 +69,7 @@ useThemePalette()
       <VpCommandPalette />
       <VpLinkPreview />
       <VpPwaStatus />
+      <VpShortcutsModal />
     </template>
 
   </Layout>
