@@ -50,6 +50,15 @@ const calculateDocStats = () => {
   }
 }
 
+/**
+ * 触发浏览器原生打印并输出白皮书级 PDF
+ */
+const triggerPrint = () => {
+  if (typeof window !== 'undefined') {
+    window.print()
+  }
+}
+
 let observer: MutationObserver | null = null
 
 onMounted(() => {
@@ -109,6 +118,15 @@ watch(
       <span>{{ isZenMode ? '退出专注' : '专注阅读' }}</span>
       <span class="shortcut">Alt+Z</span>
     </button>
+    <button
+      type="button"
+      class="print-quick-btn"
+      title="一键打印或导出白皮书级 PDF (快捷键: Ctrl+P)"
+      @click="triggerPrint"
+    >
+      <span class="meta-icon i-lucide-printer" />
+      <span>打印</span>
+    </button>
   </div>
 </template>
 
@@ -161,6 +179,26 @@ watch(
 }
 
 .zen-quick-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.print-quick-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.print-quick-btn:hover {
   border-color: var(--vp-c-brand-1);
   color: var(--vp-c-brand-1);
 }

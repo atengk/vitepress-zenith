@@ -13,8 +13,10 @@ import VpBanner from './components/VpBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
 import VpComments from './components/VpComments.vue'
+import VpThemePicker from './components/VpThemePicker.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 import { useCodeFolding } from './composables/useCodeFolding'
+import { useThemePalette } from './composables/useThemePalette'
 
 const { Layout } = DefaultTheme
 
@@ -22,10 +24,20 @@ const { Layout } = DefaultTheme
 useMediumZoom()
 // 挂载超长代码块智能折叠
 useCodeFolding()
+// 初始化主题强调色盘
+useThemePalette()
 </script>
 
 <template>
   <Layout>
+    <template #nav-bar-content-after>
+      <VpThemePicker />
+    </template>
+
+    <template #nav-screen-content-after>
+      <VpThemePicker />
+    </template>
+
     <template #layout-top>
       <VpBanner />
       <ReadingProgressBar />

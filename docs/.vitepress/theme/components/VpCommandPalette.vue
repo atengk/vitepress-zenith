@@ -11,6 +11,7 @@ import { useData, useRouter } from 'vitepress'
 import localSearchIndex from '@localSearchIndex'
 import { useCommandPalette } from '../composables/useCommandPalette'
 import { useZenMode } from '../composables/useZenMode'
+import { useThemePalette } from '../composables/useThemePalette'
 
 /**
  * 命令中心单项契约接口
@@ -29,6 +30,7 @@ export interface PaletteItem {
 
 const { isOpen, close, attachGlobalListeners } = useCommandPalette()
 const { isZenMode, toggleZenMode } = useZenMode()
+const { currentPalette, setPalette } = useThemePalette()
 const { isDark, localeIndex } = useData()
 const router = useRouter()
 
@@ -199,6 +201,78 @@ const staticActions = computed<PaletteItem[]>(() => [
     keywords: ['top', 'scroll', '置顶', '顶部', '回到顶部'],
     perform: scrollToTop,
   },
+  {
+    id: 'action-print-doc',
+    title: '打印当前文档 / 导出 PDF (Print to PDF)',
+    description: '自动净化页面辅助浮层与导航，输出排版规整的白皮书级文档',
+    category: 'action',
+    icon: 'i-lucide-printer',
+    shortcut: ['Ctrl', 'P'],
+    badge: '文档工具',
+    keywords: ['print', 'pdf', '打印', '导出', '白皮书', '排版'],
+    perform: () => {
+      close()
+      setTimeout(() => {
+        if (typeof window !== 'undefined') window.print()
+      }, 150)
+    },
+  },
+  {
+    id: 'action-palette-indigo',
+    title: '强调色盘：经典紫蓝 (Indigo)',
+    description: '切换至理性与深邃的现代科技质感主色',
+    category: 'action',
+    icon: 'i-lucide-palette',
+    badge: currentPalette.value === 'indigo' ? '当前生效' : '色盘',
+    keywords: ['indigo', 'palette', 'color', 'purple', 'blue', '紫蓝', '科技', '强调色', '换肤'],
+    perform: () => {
+      setPalette('indigo')
+      showToast('已切换至「经典紫蓝」强调色')
+      close()
+    },
+  },
+  {
+    id: 'action-palette-emerald',
+    title: '强调色盘：极客翠绿 (Emerald)',
+    description: '切换至清爽通透的极客开源活力主色',
+    category: 'action',
+    icon: 'i-lucide-palette',
+    badge: currentPalette.value === 'emerald' ? '当前生效' : '色盘',
+    keywords: ['emerald', 'green', 'palette', 'color', '翠绿', '绿色', '极客', '开源', '强调色', '换肤'],
+    perform: () => {
+      setPalette('emerald')
+      showToast('已切换至「极客翠绿」强调色')
+      close()
+    },
+  },
+  {
+    id: 'action-palette-rose',
+    title: '强调色盘：潮流蔷薇 (Rose)',
+    description: '切换至热烈敏锐的新锐设计美学主色',
+    category: 'action',
+    icon: 'i-lucide-palette',
+    badge: currentPalette.value === 'rose' ? '当前生效' : '色盘',
+    keywords: ['rose', 'pink', 'red', 'palette', 'color', '蔷薇', '粉红', '玫瑰', '潮流', '强调色', '换肤'],
+    perform: () => {
+      setPalette('rose')
+      showToast('已切换至「潮流蔷薇」强调色')
+      close()
+    },
+  },
+  {
+    id: 'action-palette-amber',
+    title: '强调色盘：典雅琥珀 (Amber)',
+    description: '切换至沉稳温润的知识智识质地主色',
+    category: 'action',
+    icon: 'i-lucide-palette',
+    badge: currentPalette.value === 'amber' ? '当前生效' : '色盘',
+    keywords: ['amber', 'orange', 'yellow', 'palette', 'color', '琥珀', '橙色', '黄色', '典雅', '强调色', '换肤'],
+    perform: () => {
+      setPalette('amber')
+      showToast('已切换至「典雅琥珀」强调色')
+      close()
+    },
+  },
 ])
 
 // 全站核心导航列表
@@ -302,6 +376,16 @@ const navigationItems = computed<PaletteItem[]>(() => [
     badge: '组件',
     keywords: ['components', 'shortcodes', 'card', 'timeline', '组件库'],
     perform: () => navigate('/components/overview'),
+  },
+  {
+    id: 'nav-guide-theme-and-print',
+    title: '指南: 动态强调色盘与白皮书级纯净打印',
+    description: '4 套高质感品牌色动态切换与白皮书级 PDF 打印输出指南',
+    category: 'navigation',
+    icon: 'i-lucide-palette',
+    badge: '体验规范',
+    keywords: ['palette', 'color', 'print', 'pdf', '打印', '色盘', '换肤', '白皮书'],
+    perform: () => navigate('/guide/theme-and-print'),
   },
   {
     id: 'nav-blog',

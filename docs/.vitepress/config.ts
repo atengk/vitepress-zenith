@@ -82,6 +82,8 @@ export default defineConfig({
     ['meta', { property: 'og:site_name', content: 'VitePress Zenith' }],
     ['meta', { property: 'og:description', content: '开箱即用集成沉浸式专注阅读 (Zen Mode)、Twoslash 动态类型、Markmap 思维导图、全站包管理器联动与 UnoCSS 原子图标体系' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    // 注入防闪烁 (Anti-FOUC) 极速色盘恢复内联脚本
+    ['script', {}, `(function(){try{var p=localStorage.getItem('zenith-theme-palette');if(p&&p!=='indigo'){document.documentElement.dataset.themePalette=p;}}catch(e){}})();`],
   ],
 
   themeConfig: {
