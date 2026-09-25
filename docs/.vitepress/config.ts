@@ -364,6 +364,10 @@ export default withPwa(defineConfig({
             },
           ],
         },
+        editLink: {
+          pattern: 'https://github.com/zenith/vitepress-zenith/edit/master/docs/:path',
+          text: '在 GitHub 上编辑此页',
+        },
         docFooter: {
           prev: '上一篇',
           next: '下一篇',
@@ -448,6 +452,10 @@ export default withPwa(defineConfig({
               ],
             },
           ],
+        },
+        editLink: {
+          pattern: 'https://github.com/zenith/vitepress-zenith/edit/master/docs/:path',
+          text: 'Edit this page on GitHub',
         },
         docFooter: {
           prev: 'Previous page',

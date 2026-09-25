@@ -476,6 +476,16 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/keyboard-shortcuts'),
   },
   {
+    id: 'nav-guide-contributors-stream',
+    title: '指南: 开源贡献者致谢流与 GitHub 协同',
+    description: 'Git 提交自动挖掘、<VpContributors> 重叠头像流与 GitHub 编辑协同',
+    category: 'navigation',
+    icon: 'i-lucide-users',
+    badge: '社区协同',
+    keywords: ['contributors', 'avatar', 'github', 'edit', '贡献者', '头像', '编辑', '协同'],
+    perform: () => navigate('/guide/contributors-stream'),
+  },
+  {
     id: 'nav-v0-legacy-guide',
     title: '归档: v0.9.0 历史版本指引样例',
     description: '查阅历史归档演示页面与自动触发的归档警告横幅',

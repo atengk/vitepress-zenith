@@ -30,6 +30,7 @@ import VpApiTable from './components/VpApiTable.vue'
 import VpApiItem from './components/VpApiItem.vue'
 import VpPlayground from './components/VpPlayground.vue'
 import VpShortcutsModal from './components/VpShortcutsModal.vue'
+import VpContributors from './components/VpContributors.vue'
 import { useCommandPalette } from './composables/useCommandPalette'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
@@ -73,6 +74,7 @@ export default {
     app.component('VpApiItem', VpApiItem)
     app.component('VpPlayground', VpPlayground)
     app.component('VpShortcutsModal', VpShortcutsModal)
+    app.component('VpContributors', VpContributors)
   },
 } satisfies Theme
 

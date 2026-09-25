@@ -18,6 +18,7 @@ import VpThemePicker from './components/VpThemePicker.vue'
 import VpLinkPreview from './components/VpLinkPreview.vue'
 import VpPwaStatus from './components/VpPwaStatus.vue'
 import VpShortcutsModal from './components/VpShortcutsModal.vue'
+import VpContributors from './components/VpContributors.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
@@ -58,6 +59,7 @@ attachKeyboardShortcuts()
 
     <template #doc-footer-before>
       <VpHelpful />
+      <VpContributors />
     </template>
 
     <template #doc-after>
