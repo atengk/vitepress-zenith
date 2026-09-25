@@ -19,3 +19,15 @@ _Avoid_: Algolia搜索, 外部服务端检索
 **自动目录路由 (Automated Directory Routing)**:
 根据文件系统物理目录结构与文档 Frontmatter 元数据，自动派生侧边栏层级与导航关系的自动化机制。
 _Avoid_: 硬编码路由, 手动侧边栏配置
+
+**沉浸式阅读模式 (Immersive Reading Mode)**:
+一键隐藏左侧边栏导航与右侧目录大纲（TOC Aside）、聚焦正文黄金阅读区域的专注阅读视图（Zen Mode），支持快捷键交互与用户偏好持久化。
+_Avoid_: 全屏模式, 打印预览
+
+**原子化图标体系 (Atomic Icon System)**:
+基于 UnoCSS 与 Iconify 规范实现的纯 CSS 按需图标渲染方案，支持在 Markdown 与 Vue 组件中直接通过语义化类名调用海量现代图标。
+_Avoid_: 字体图标, SVG精灵图
+
+**交互短代码组件 (Interactive Shortcodes)**:
+全局免导入（Auto-registered）直接在 Markdown 中调用的交互式 Vue 组件集（卡片网格、时间轴、实时运行沙箱等）。
+_Avoid_: 嵌入式Iframe, 第三方重量级UI
