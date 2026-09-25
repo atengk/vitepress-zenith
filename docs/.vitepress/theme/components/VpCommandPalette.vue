@@ -388,6 +388,16 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/theme-and-print'),
   },
   {
+    id: 'nav-guide-link-hover-preview',
+    title: '指南: 站内内链悬浮卡片预览',
+    description: '类似 Wikipedia/Notion 的智能即时上下文摘要预览体系',
+    category: 'navigation',
+    icon: 'i-lucide-external-link',
+    badge: '阅读体验',
+    keywords: ['preview', 'link', 'hover', 'popover', '内链', '悬浮', '预览', '气泡'],
+    perform: () => navigate('/guide/link-hover-preview'),
+  },
+  {
     id: 'nav-blog',
     title: '专栏: 团队技术博客与演进动态',
     description: '时间轴归档、多维分类、标签墙与博文矩阵',
