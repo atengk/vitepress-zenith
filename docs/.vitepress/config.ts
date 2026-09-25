@@ -13,6 +13,7 @@ export default defineConfig({
   title: 'VitePress Zenith',
   description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
   lang: 'zh-CN',
+  base: process.env.BASE_PATH || (process.env.CI ? '/vitepress-zenith/' : '/'),
 
   markdown: {
     math: true,
@@ -74,7 +75,7 @@ export default defineConfig({
     }),
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'github', link: 'https://github.com/atengk/vitepress-zenith' },
     ],
 
     // 页面底部翻页中文配置

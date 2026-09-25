@@ -8,6 +8,9 @@ docs/.vitepress/cache/
 *.timestamp-*.mjs
 docs/.vitepress/*.mjs
 
+# Scratch & Temp diagnostics
+scratch/
+
 # Editor & System
 .DS_Store
 *.local
