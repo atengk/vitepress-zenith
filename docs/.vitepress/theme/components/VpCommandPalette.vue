@@ -408,7 +408,18 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/pwa-offline'),
   },
   {
+    id: 'nav-guide-api-table',
+    title: '指南: 结构化参数契约表组件',
+    description: '根除窄屏横向截断、移动端卡片自适应降级与即时参数检索',
+    category: 'navigation',
+    icon: 'i-lucide-table',
+    badge: '组件契约',
+    keywords: ['api', 'table', 'props', 'parameters', '参数表', '契约', '表格', '移动端'],
+    perform: () => navigate('/guide/structured-api-table'),
+  },
+  {
     id: 'nav-blog',
+
 
     title: '专栏: 团队技术博客与演进动态',
     description: '时间轴归档、多维分类、标签墙与博文矩阵',

@@ -293,6 +293,80 @@ export default defineConfig({
 - **视口翻转防碰撞**：智能计算上下空间与左右边缘，防止浮层超出视口；
 - **零侵入书写**：无需特殊短代码语法，普通 Markdown 相对链接自动获得预览能力。
 
+---
 
+## 11. 结构化参数契约表 (VpApiTable & VpApiItem)
 
+专为技术文档设计的结构化参数与配置项呈现组件，彻底根除原生 Markdown 宽表格在移动端和窄屏下的拥挤换行与横向截断。在桌面端以严整网格对齐，在移动端（`<768px`）平滑自适应降级为垂直弹性卡片流。
 
+### 实机效果演示
+
+<VpApiTable
+  title="ComponentProps 配置契约"
+  description="支持类型高光、默认值胶囊、必填标记、版本注记与即时检索过滤"
+  :searchable="true"
+>
+  <VpApiItem
+    name="title"
+    type="string"
+    required
+    version="v1.0.0"
+    description="表格主标题文案，为空时不渲染顶部标题行"
+  />
+  <VpApiItem
+    name="searchable"
+    type="boolean"
+    default="false"
+    version="v1.1.0"
+  >
+    是否开启右上角即时过滤检索输入框。读者可输入关键字快速过滤目标参数。
+  </VpApiItem>
+  <VpApiItem
+    name="items"
+    type="ApiTableItem[]"
+    default="[]"
+    version="v1.0.0"
+    description="数组形式的参数配置列表，支持数据驱动模式免写嵌套标签"
+  />
+  <VpApiItem
+    name="legacyMode"
+    type="boolean"
+    default="false"
+    deprecated="v2.0.0"
+    description="旧版兼容模式开关，已在 v2.0.0 中废弃，建议直接使用标准模式"
+  />
+</VpApiTable>
+
+### 标签插槽模式代码示例
+
+```html
+<VpApiTable title="组件参数契约" :searchable="true">
+  <VpApiItem
+    name="timeout"
+    type="number"
+    default="3000"
+    required
+    version="v1.0.0"
+    description="网络请求超时时间，单位毫秒"
+  />
+  <VpApiItem
+    name="headers"
+    type="Record<string, string>"
+    version="v1.2.0"
+  >
+    自定义 HTTP Header 请求头键值对，支持动态注入认证 Token。
+  </VpApiItem>
+</VpApiTable>
+```
+
+### 数据驱动模式代码示例
+
+```html
+<VpApiTable
+  title="全局配置选项"
+  :items="[
+    { name: 'apiUrl', type: 'string', required: true, description: '后端接口服务基准地址' },
+    { name: 'retries', type: 'number', default: '3', version: 'v1.1.0', description: '失败自动重试最大次数' }
+  ]"
+/>
+```
