@@ -137,4 +137,36 @@ body, h1, h2, h3, h4, h5, h6, p, li {
   }
 }
 
+/* --------------------------------------------------------------------------
+ * 多媒体深浅色自适应与排版美化 (Media Adaptations & Modern Styling)
+ * -------------------------------------------------------------------------- */
+
+/* 1. 深浅色模式专用图片交替显隐 */
+html:not(.dark) .dark-only,
+html.dark .light-only {
+  display: none !important;
+}
+
+/* 2. 正文原生视频自适应容器与高质感圆角 */
+.vp-doc video {
+  display: block;
+  max-width: 100%;
+  margin: 20px 0;
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider);
+  background-color: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* 3. 正文原生第三方流媒体嵌入 iframe 容器保底 */
+.vp-doc .vp-video-responsive,
+.vp-doc iframe.vp-video-embed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+
 

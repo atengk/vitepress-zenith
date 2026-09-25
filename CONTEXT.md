@@ -104,5 +104,19 @@ _Avoid_: 强依赖鼠标拖拽, 隐藏快捷键无提示
 基于 Git 提交历史自动提取当前文档的贡献者 GitHub 头像行与编辑历史，并提供“在 GitHub 上编辑此页”的协作闭环。
 _Avoid_: 匿名无致谢, 增加贡献门槛
 
+**可插拔功能开关矩阵 (Pluggable Feature Switch Matrix)**:
+通过 `themeConfig.zenith` 集中管控、具备强类型安全契约的全局特性开关配置，支持无实质后端/高视觉干扰项默认静默（Opt-in），并允许单篇 Markdown 页面通过 Frontmatter 局部精准覆写的双层控制体系。
+_Avoid_: 强制全量挂载, 页面杂货铺, 无法关闭多余浮标
+
+**多媒体资产协同管理 (Media Assets Orchestration)**:
+基于 Vite 模块化打包与 Vue 运行时的富媒体资产协同体系，覆盖相对路径自动哈希防篡改、Public 静态根目录与外部流媒体平台（Bilibili/YouTube）免配置 16:9 响应式短代码组件。
+_Avoid_: 裸写固定高度iframe黑边, 暴力将百兆高清视频直推源码库, 缺少自适应比例
+
+**双模主题媒体自适应 (Dual-theme Media Adaptation)**:
+通过 `.light-only`/`.dark-only` 纯 CSS 无闪烁切换机制及 `<VpImage>` 短代码组件，让架构图与插图随系统或用户深浅色外观切换自动呈现最佳对比度视觉方案。
+_Avoid_: 深色背景下白底图刺眼, 手动JS暴力换图抖动
+
+
+
 
 

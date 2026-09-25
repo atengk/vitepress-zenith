@@ -115,3 +115,9 @@ sequenceDiagram
 </div>
 
 若某些装饰性图标或小图不需要点击放大，只需在标签上添加 `class="no-zoom"` 即可自动排除。
+
+---
+
+> [!TIP] **进阶媒体管理**
+> 想要了解图片相对路径与 Public 静态目录选型规范、深浅色模式双图自适应及 B站/YouTube/MP4 视频播放短代码组件？详见 [图片与多媒体资产管理 (Media Assets)](./media-assets.md)。
+

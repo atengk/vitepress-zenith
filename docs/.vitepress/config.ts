@@ -12,6 +12,187 @@ import { getAutoSidebar } from './utils/sidebar'
 
 const base = process.env.BASE_PATH || (process.env.CI ? '/vitepress-zenith/' : '/')
 
+/**
+ * Zenith 旗舰级特性开关矩阵 (Zenith Feature Switches)
+ * 遵循极简与渐进式原则，统一管控全站所有特性开闭与默认状态 (Opt-in / Opt-out)
+ */
+const zenithConfig = {
+  // 1. 进阶/特定场景特性（默认关闭，按需开启）
+  i18n: false,              // 国际化多语言矩阵：默认关闭（不显示顶栏语言切换，仅保留简体中文）
+  versionSwitcher: false,   // 多版本管理与归档横幅：默认关闭（顶栏不显示版本下拉菜单）
+  helpful: false,           // 文档有用度评价 (<VpHelpful>)：默认关闭（无后端埋点占位组件）
+  zenModeToggle: false,     // 右下角专注模式悬浮球 (<ZenModeToggle>)：默认关闭（快捷键 Alt+Z 仍可直接使用）
+  contributors: false,      // 开源贡献者致谢流 (<VpContributors>)：默认关闭（单人/私有项目免受侵扰）
+
+  // 2. 旗舰体验特性（做成开关，默认开启）
+  banner: true,             // 顶部全宽公告通知横幅 (<VpBanner>)：默认开启
+  themePicker: true,        // 顶栏主题强调色盘选择器 (<VpThemePicker>)：默认开启
+  commandPalette: true,     // 全局快捷命令中心浮层 (<VpCommandPalette>)：默认开启
+  blog: true,               // 博客系统与顶栏导航入口：默认开启
+  pwaStatus: true,          // PWA 离线运行感知与安装横幅 (<VpPwaStatus>)：默认开启
+  mediumZoom: true,         // 正文插图平滑点击放大灯箱：默认开启
+  readingMetrics: true,     // 阅读认知指标（字数与预计耗时 DocMeta）：默认开启
+  readingProgressBar: true, // 页面顶部流光阅读进度条 (<ReadingProgressBar>)：默认开启
+  linkPreview: true,        // 站内内链卡片悬浮预览 (<VpLinkPreview>)：默认开启
+  keyboardShortcuts: true,  // 全键盘极客导航与速查浮层 (<VpShortcutsModal>)：默认开启
+  codeFolding: true,        // 超长代码块（>25行）渐变折叠：默认开启
+}
+
+/**
+ * 多版本下拉导航项定义（中文）
+ */
+const versionNavItemZh = {
+  text: 'v1.0.0',
+  items: [
+    {
+      text: '当前版本',
+      items: [
+        { text: 'v1.0.0 (最新稳定版)', link: '/guide/what-is-zenith' },
+      ],
+    },
+    {
+      text: '历史归档',
+      items: [
+        { text: 'v0.9.0 (旧版归档)', link: '/v0/guide/' },
+      ],
+    },
+    {
+      text: '版本变更',
+      items: [
+        { text: '多版本管理指南', link: '/guide/version-switcher' },
+        { text: '更新日志 (Changelog)', link: 'https://github.com/atengk/vitepress-zenith/releases' },
+      ],
+    },
+  ],
+}
+
+/**
+ * 多版本下拉导航项定义（英文）
+ */
+const versionNavItemEn = {
+  text: 'v1.0.0',
+  items: [
+    {
+      text: 'Current Version',
+      items: [
+        { text: 'v1.0.0 (Latest)', link: '/en/guide/what-is-zenith' },
+      ],
+    },
+    {
+      text: 'Archived Versions',
+      items: [
+        { text: 'v0.9.0 (Legacy)', link: '/v0/guide/' },
+      ],
+    },
+    {
+      text: 'Releases',
+      items: [
+        { text: 'Version Switcher Guide', link: '/guide/version-switcher' },
+        { text: 'Changelog', link: 'https://github.com/atengk/vitepress-zenith/releases' },
+      ],
+    },
+  ],
+}
+
+/**
+ * 英文本地离线检索分词翻译配置
+ */
+const enSearchLocaleConfig = {
+  translations: {
+    button: {
+      buttonText: 'Search docs',
+      buttonAriaLabel: 'Search docs',
+    },
+    modal: {
+      displayDetails: 'Detailed list',
+      resetButtonTitle: 'Reset search',
+      backButtonTitle: 'Close search',
+      noResultsText: 'No results found',
+      footer: {
+        selectText: 'to select',
+        selectKeyAriaLabel: 'Enter',
+        navigateText: 'to navigate',
+        navigateUpKeyAriaLabel: 'Arrow up',
+        navigateDownKeyAriaLabel: 'Arrow down',
+        closeText: 'to close',
+        closeKeyAriaLabel: 'Escape',
+      },
+    },
+  },
+}
+
+/**
+ * 英文站点国际化配置（仅在 zenithConfig.i18n 为 true 时注入激活）
+ */
+const enLocaleConfig = {
+  label: 'English',
+  lang: 'en-US',
+  link: '/en/',
+  title: 'VitePress Zenith',
+  description: 'Modern flagship technical documentation, knowledge base and blog matrix template based on VitePress',
+  themeConfig: {
+    nav: [
+      { text: 'Home', link: '/en/' },
+      { text: 'Guide', link: '/en/guide/what-is-zenith' },
+      { text: 'Components', link: '/components/overview' },
+      ...(zenithConfig.blog ? [{ text: 'Blog', link: '/blog/' }] : []),
+      ...(zenithConfig.versionSwitcher ? [versionNavItemEn] : []),
+    ],
+    sidebar: {
+      ...getAutoSidebar({
+        locale: 'en',
+        groupTitles: {
+          guide: 'Guides',
+          components: 'Components',
+        },
+      }),
+      ...(zenithConfig.versionSwitcher ? {
+        '/v0/': [
+          {
+            text: 'v0.9.0 Archived',
+            items: [
+              { text: 'Legacy Overview', link: '/v0/guide/' },
+              { text: 'Back to Latest v1.0.0', link: '/en/guide/what-is-zenith' },
+            ],
+          },
+        ],
+      } : {}),
+    },
+    editLink: {
+      pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
+    docFooter: {
+      prev: 'Previous page',
+      next: 'Next page',
+    },
+    outline: {
+      level: [2, 3] as [number, number],
+      label: 'On this page',
+    },
+    lastUpdated: {
+      text: 'Last updated',
+      formatOptions: {
+        dateStyle: 'short',
+        timeStyle: 'medium',
+      } as const,
+    },
+    returnToTopLabel: 'Return to top',
+    sidebarMenuLabel: 'Menu',
+    darkModeSwitchLabel: 'Appearance',
+    lightModeSwitchTitle: 'Switch to light theme',
+    darkModeSwitchTitle: 'Switch to dark theme',
+    skipToContentLabel: 'Skip to content',
+    langMenuLabel: 'Change language',
+    notFound: {
+      title: 'Page Not Found',
+      quote: 'Sorry, the page you are looking for has drifted into deep space or has been removed.',
+      linkLabel: 'Return to home',
+      linkText: 'Return to home',
+    },
+  },
+}
+
 export default withPwa(defineConfig({
   title: 'VitePress Zenith',
   description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
@@ -200,6 +381,9 @@ export default withPwa(defineConfig({
   themeConfig: {
     siteTitle: 'VitePress Zenith',
 
+    // Zenith 旗舰级技术特性全局开关矩阵（支持页面级 Frontmatter 局部覆写）
+    zenith: zenithConfig,
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/atengk/vitepress-zenith' },
     ],
@@ -248,29 +432,7 @@ export default withPwa(defineConfig({
               },
             },
           },
-          en: {
-            translations: {
-              button: {
-                buttonText: 'Search docs',
-                buttonAriaLabel: 'Search docs',
-              },
-              modal: {
-                displayDetails: 'Detailed list',
-                resetButtonTitle: 'Reset search',
-                backButtonTitle: 'Close search',
-                noResultsText: 'No results found',
-                footer: {
-                  selectText: 'to select',
-                  selectKeyAriaLabel: 'Enter',
-                  navigateText: 'to navigate',
-                  navigateUpKeyAriaLabel: 'Arrow up',
-                  navigateDownKeyAriaLabel: 'Arrow down',
-                  closeText: 'to close',
-                  closeKeyAriaLabel: 'Escape',
-                },
-              },
-            },
-          },
+          ...(zenithConfig.i18n ? { en: enSearchLocaleConfig } : {}),
         },
         miniSearch: {
           options: {
@@ -320,31 +482,8 @@ export default withPwa(defineConfig({
           { text: '首页', link: '/' },
           { text: '指南', link: '/guide/what-is-zenith' },
           { text: '组件', link: '/components/overview' },
-          { text: '博客', link: '/blog/' },
-          {
-            text: 'v1.0.0',
-            items: [
-              {
-                text: '当前版本',
-                items: [
-                  { text: 'v1.0.0 (最新稳定版)', link: '/guide/what-is-zenith' },
-                ],
-              },
-              {
-                text: '历史归档',
-                items: [
-                  { text: 'v0.9.0 (旧版归档)', link: '/v0/guide/' },
-                ],
-              },
-              {
-                text: '版本变更',
-                items: [
-                  { text: '多版本管理指南', link: '/guide/version-switcher' },
-                  { text: '更新日志 (Changelog)', link: 'https://github.com/atengk/vitepress-zenith/releases' },
-                ],
-              },
-            ],
-          },
+          ...(zenithConfig.blog ? [{ text: '博客', link: '/blog/' }] : []),
+          ...(zenithConfig.versionSwitcher ? [versionNavItemZh] : []),
         ],
         sidebar: {
           ...getAutoSidebar({
@@ -354,15 +493,17 @@ export default withPwa(defineConfig({
               components: '交互短代码组件库',
             },
           }),
-          '/v0/': [
-            {
-              text: 'v0.9.0 历史归档',
-              items: [
-                { text: '旧版指引概览', link: '/v0/guide/' },
-                { text: '返回最新稳定版 v1.0.0', link: '/guide/what-is-zenith' },
-              ],
-            },
-          ],
+          ...(zenithConfig.versionSwitcher ? {
+            '/v0/': [
+              {
+                text: 'v0.9.0 历史归档',
+                items: [
+                  { text: '旧版指引概览', link: '/v0/guide/' },
+                  { text: '返回最新稳定版 v1.0.0', link: '/guide/what-is-zenith' },
+                ],
+              },
+            ],
+          } : {}),
         },
         editLink: {
           pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
@@ -398,95 +539,7 @@ export default withPwa(defineConfig({
         },
       },
     },
-    en: {
-      label: 'English',
-      lang: 'en-US',
-      link: '/en/',
-      title: 'VitePress Zenith',
-      description: 'Modern flagship technical documentation, knowledge base and blog matrix template based on VitePress',
-      themeConfig: {
-        nav: [
-          { text: 'Home', link: '/en/' },
-          { text: 'Guide', link: '/en/guide/what-is-zenith' },
-          { text: 'Components', link: '/components/overview' },
-          { text: 'Blog', link: '/blog/' },
-          {
-            text: 'v1.0.0',
-            items: [
-              {
-                text: 'Current Version',
-                items: [
-                  { text: 'v1.0.0 (Latest)', link: '/en/guide/what-is-zenith' },
-                ],
-              },
-              {
-                text: 'Archived Versions',
-                items: [
-                  { text: 'v0.9.0 (Legacy)', link: '/v0/guide/' },
-                ],
-              },
-              {
-                text: 'Releases',
-                items: [
-                  { text: 'Version Switcher Guide', link: '/guide/version-switcher' },
-                  { text: 'Changelog', link: 'https://github.com/atengk/vitepress-zenith/releases' },
-                ],
-              },
-            ],
-          },
-        ],
-        sidebar: {
-          ...getAutoSidebar({
-            locale: 'en',
-            groupTitles: {
-              guide: 'Guides',
-              components: 'Components',
-            },
-          }),
-          '/v0/': [
-            {
-              text: 'v0.9.0 Archived',
-              items: [
-                { text: 'Legacy Overview', link: '/v0/guide/' },
-                { text: 'Back to Latest v1.0.0', link: '/en/guide/what-is-zenith' },
-              ],
-            },
-          ],
-        },
-        editLink: {
-          pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
-          text: 'Edit this page on GitHub',
-        },
-        docFooter: {
-          prev: 'Previous page',
-          next: 'Next page',
-        },
-        outline: {
-          level: [2, 3],
-          label: 'On this page',
-        },
-        lastUpdated: {
-          text: 'Last updated',
-          formatOptions: {
-            dateStyle: 'short',
-            timeStyle: 'medium',
-          },
-        },
-        returnToTopLabel: 'Return to top',
-        sidebarMenuLabel: 'Menu',
-        darkModeSwitchLabel: 'Appearance',
-        lightModeSwitchTitle: 'Switch to light theme',
-        darkModeSwitchTitle: 'Switch to dark theme',
-        skipToContentLabel: 'Skip to content',
-        langMenuLabel: 'Change language',
-        notFound: {
-          title: 'Page Not Found',
-          quote: 'Sorry, the page you are looking for has drifted into deep space or has been removed.',
-          linkLabel: 'Return to home',
-          linkText: 'Return to home',
-        },
-      },
-    },
+    ...(zenithConfig.i18n ? { en: enLocaleConfig } : {}),
   },
 
 

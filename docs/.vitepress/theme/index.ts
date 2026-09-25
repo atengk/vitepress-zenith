@@ -31,6 +31,10 @@ import VpApiItem from './components/VpApiItem.vue'
 import VpPlayground from './components/VpPlayground.vue'
 import VpShortcutsModal from './components/VpShortcutsModal.vue'
 import VpContributors from './components/VpContributors.vue'
+import VpImage from './components/VpImage.vue'
+import VpVideo from './components/VpVideo.vue'
+import VpBilibili from './components/VpBilibili.vue'
+import VpYouTube from './components/VpYouTube.vue'
 import { useCommandPalette } from './composables/useCommandPalette'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
@@ -75,6 +79,10 @@ export default {
     app.component('VpPlayground', VpPlayground)
     app.component('VpShortcutsModal', VpShortcutsModal)
     app.component('VpContributors', VpContributors)
+    app.component('VpImage', VpImage)
+    app.component('VpVideo', VpVideo)
+    app.component('VpBilibili', VpBilibili)
+    app.component('VpYouTube', VpYouTube)
   },
 } satisfies Theme
 

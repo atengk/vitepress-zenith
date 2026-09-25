@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  开箱即用集成沉浸式专注阅读 (Zen Mode)、Twoslash 动态类型推导、Markmap 思维导图、全能富媒体可视化与全站包管理器联动
+  开箱即用集成沉浸式专注阅读 (Zen Mode)、Shiki Twoslash 动态类型、全局快捷命令中心、Markmap 思维导图、全能富媒体可视化与全站包管理器联动
 </p>
 
 <p align="center">
@@ -39,27 +39,32 @@
 
 ## 🌟 为什么选择 VitePress Zenith？
 
-在搭建企业级或现代化个人技术文档与知识库时，基于原生 VitePress 往往需要耗费大量时间集成周边插件（如代码悬浮类型、思维导图、全站包管理器切换、灯箱、离线检索等），并且经常遭遇样式穿透、依赖冲突、深色模式失调以及移动端适配等痛点。
+在搭建企业级或现代化个人技术文档与知识库时，基于原生 VitePress 往往需要耗费大量时间集成周边插件（如代码悬浮类型、思维导图、全站包管理器切换、灯箱、离线检索、命令中心等），并且经常遭遇样式穿透、依赖冲突、深色模式失调以及移动端适配等痛点。
 
 **VitePress Zenith（天顶）** 正是为此而生：
 - 🎯 **开箱即用**：零额外配置，拉取即拥有业界标杆级的设计与交互。
-- 💎 **美学天花板**：融合毛玻璃、渐变高光微光、呼吸动效与现代无衬线排版。
-- 🛠️ **全链路开发生态**：内置 CI/CD、自动生成多级侧边栏、免导入交互组件库与技术博客矩阵。
+- 💎 **美学天花板**：融合毛玻璃、渐变高光微光、呼吸动效、4 套品牌强调色与白皮书级打印排版。
+- 🛠️ **全链路工程生态**：内置 CI/CD、自动生成多级侧边栏、免导入交互组件库与可插拔功能开关矩阵。
+- 📶 **离线优先 (PWA)**：断网毫秒级秒开、全站资源自动预缓存与桌面端原生安装体验。
 
 ---
 
-## 🚀 8 大杀手级核心特性
+## 🚀 12 大杀手级核心特性
 
 | 特性板块 | 说明 |
 | :--- | :--- |
-| 🎯 **沉浸式专注阅读 (Zen Mode)** | 一键折叠双侧边栏，正文加宽至黄金阅读比例。支持全局快捷键（`Alt + Z`）与本地偏好记忆。 |
-| ⚡ **Shiki Twoslash 动态类型悬浮** | 在网页文档中体验 VS Code 级代码悬浮类型提示（`// ^?`）与编译器语法即时诊断。 |
+| 🎯 **沉浸式专注阅读 (Zen Mode)** | 双侧边栏对称硬件加速展翼平移，加宽至 1180px 黄金阅读画布。支持全局快捷键（`Alt + Z`）与偏好持久化。 |
+| ⚡ **Shiki Twoslash 动态类型悬浮** | 在网页代码块中体验 VS Code 级代码悬浮类型推导（`// ^?`）与 TypeScript 编译器语法即时诊断。 |
+| ⌨️ **全局交互命令中心 (Command Palette)** | 类似 macOS Spotlight 与 Raycast，按 <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> 或 <kbd>/</kbd> 唤起全文检索与全局快捷动作。 |
+| 🎨 **4 套品牌强调色动态切换** | 支持经典紫蓝 (Indigo)、极客翠绿 (Emerald)、炽热赤红 (Crimson) 与日光暖金 (Amber) 即时切换与防闪烁加载。 |
 | 📦 **全站联动包管理器选项卡** | 支持 `npm` / `pnpm` / `yarn` / `bun` 一键切换，全站跨页面状态实时无缝同步。 |
-| 📐 **全能富媒体与架构可视化** | 原生支持 LaTeX 数学公式、Mermaid 架构时序图、Markmap 交互思维导图与 Medium-zoom 图片灯箱。 |
-| 🔍 **零外部依赖离线全文检索** | 内置 Minisearch 离线检索并基于 `Intl.Segmenter` 深度优化中文分词与模糊匹配，零第三方服务。 |
-| 🧩 **全套免导入短代码交互组件** | 全局免 `import` 直接使用卡片矩阵、版本演进时间轴、组件交互沙箱、精美外链卡片与全宽横幅。 |
-| 📰 **生产级技术博客与运营套件** | 包含完整的博客时间轴归档、多维度分类筛选、热门标签墙、元数据徽标与阅读时长估算。 |
-| 🤖 **自动化 CI/CD 与部署流水线** | 预置 GitHub Actions 自动化工作流，涵盖依赖恢复、类型检查、静态构建与 GitHub Pages 一键发布。 |
+| 🔗 **站内内链卡片即时悬浮预览** | 鼠标悬浮站内链接自动弹出上下文卡片摘要与首个标题，提供类似 Wikipedia / Notion 的沉浸式阅读流。 |
+| 📶 **PWA 渐进式离线应用与预缓存** | Service Worker 离线全站缓存，弱网/断网秒开，桌面安装横幅，外部流媒体离线优雅降级兜底。 |
+| 📐 **全能富媒体与架构可视化** | 原生支持 LaTeX 数学公式、Mermaid 架构流程图、Markmap 交互思维导图与 Medium-zoom 图片全屏灯箱。 |
+| 🎬 **自适应多媒体短代码组件** | 封装免 import 的 `<VpImage>`（深浅双模图自适应）、`<VpVideo>`（自适应 MP4）、`<VpBilibili>` 与 `<VpYouTube>`。 |
+| 🎛️ **可插拔功能开关矩阵 (`zenithConfig`)** | 在 `config.ts` 集中管控全站 16 项特性开闭，高干扰与无后端特性默认静默，页面 Frontmatter 绝对覆盖。 |
+| ⌨️ **全键盘极客导航与速查表** | 按 <kbd>?</kbd> 唤出全键盘速查浮层，支持 <kbd>J</kbd>/<kbd>K</kbd> 翻页、<kbd>T</kbd> 换肤、<kbd>Alt+Z</kbd> 专注模式纯键盘掌控。 |
+| 📰 **技术博客、多语言与多版本** | 包含博客时间轴标签筛选流、基于 GitHub Discussions 的 Giscus 评论区、多语言矩阵与历史归档横幅。 |
 
 ---
 
@@ -87,10 +92,10 @@ pnpm install
 ### 3. 本地开发与实时预览
 
 ```bash
-# 启动 VitePress 开发服务器（支持热重载）
+# 启动 VitePress 开发服务器（支持热重载，默认端口 5173）
 pnpm dev
 
-# 启动类型诊断
+# 严格类型诊断检查
 pnpm typecheck
 ```
 
@@ -102,9 +107,63 @@ pnpm typecheck
 # 编译全站静态产物（输出至 docs/.vitepress/dist）
 pnpm build
 
-# 本地预览生产构建产物
+# 本地启动预览服务器验证生产产物
 pnpm preview
 ```
+
+---
+
+## 🎛️ 特性开关矩阵 (`themeConfig.zenith`)
+
+Zenith 采用可插拔开关矩阵架构，所有特性均可在 `docs/.vitepress/config.ts` 顶部集中管控：
+
+```ts
+const zenithConfig = {
+  // 1. 进阶/特定场景特性（默认关闭，按需开启）
+  i18n: false,              // 国际化多语言矩阵（关闭时不显示顶栏语言切换）
+  versionSwitcher: false,   // 多版本管理与归档横幅（关闭时不显示版本下拉菜单）
+  helpful: false,           // 文档有用度评价（无后端埋点占位组件）
+  zenModeToggle: false,     // 右下角专注模式悬浮球（快捷键 Alt+Z 仍可直接使用）
+  contributors: false,      // 开源贡献者致谢流（单人/私有项目免受侵扰）
+
+  // 2. 旗舰体验特性（做成开关，默认开启，可一键关闭）
+  banner: true,             // 顶部全宽公告通知横幅
+  themePicker: true,        // 顶栏主题强调色盘选择器
+  commandPalette: true,     // 全局快捷命令中心浮层 (Ctrl+K / /)
+  blog: true,               // 博客系统与导航入口
+  pwaStatus: true,          // PWA 离线运行感知与安装横幅
+  mediumZoom: true,         // 正文插图平滑点击放大灯箱
+  readingMetrics: true,     // 阅读认知指标（字数与耗时估算）
+  readingProgressBar: true, // 页面顶部流光阅读进度条
+  linkPreview: true,        // 站内内链卡片悬浮即时预览
+  keyboardShortcuts: true,  // 全键盘极客导航与速查浮层
+  codeFolding: true,        // 超长代码块（>25行）平滑折叠
+}
+```
+
+> **页面级覆盖**：任意 Markdown 页面均可通过 Frontmatter 覆盖全局开关（如 `helpful: true` 或 `readingMetrics: false`）。
+
+---
+
+## 🧩 内置交互短代码组件库 (Auto-registered Shortcodes)
+
+在任意 Markdown 文档中均可**直接调用以下组件，无需手动 import**：
+
+| 组件标签 | 使用范例 | 核心功能与应用场景 |
+| :--- | :--- | :--- |
+| `<VpCardGrid>` & `<VpCard>` | `<VpCardGrid :cols="3"><VpCard title="..." icon="i-lucide-zap" /></VpCardGrid>` | 响应式多列自适应网格与悬浮高光卡片 |
+| `<VpBadge>` | `<VpBadge type="tip" dot>默认推荐</VpBadge>` | 6 种语义色与 3 种变体的状态胶囊徽标 |
+| `<VpTimeline>` | `<VpTimeline><VpTimelineItem date="..." title="...">...</VpTimelineItem></VpTimeline>` | 版本演进路线图、更新日志与大事件时间线 |
+| `<VpLinkCard>` | `<VpLinkCard title="..." link="..." icon="i-lucide-external-link" />` | 推荐关联资源、参考手册与外部链接卡片 |
+| `<VpDemoPreview>` | `<VpDemoPreview title="..." :code="...">...</VpDemoPreview>` | 交互运行态沙箱、源码折叠与一键试跑 |
+| `<VpApiTable>` | `<VpApiTable><VpApiItem name="src" type="string" required desc="..." /></VpApiTable>` | 结构化参数契约表，支持移动端卡片式自适应 |
+| `<VpPlayground>` | `<VpPlayground :files="{ 'index.ts': '...' }" />` | 一键投送 WebContainer 虚拟机秒级试跑 |
+| `<VpContributors>` | `<VpContributors :contributors="[...]" />` | 基于 Git 提交历史的贡献者头像行与协作入口 |
+| `<VpBlogList>` | `<VpBlogList />` | 博客专栏分类标签无刷新过滤与文章卡片流 |
+| `<VpImage>` | `<VpImage light="..." dark="..." caption="..." />` | 浅色/深色主题双图自适应切换与居中图注 |
+| `<VpVideo>` | `<VpVideo src="..." poster="..." caption="..." />` | 自适应 16:9 高质感视频播放器与离线兜底 |
+| `<VpBilibili>` | `<VpBilibili bvid="BV1xx411c7mD" />` | B站视频自适应嵌入，默认关闭弹幕防打扰 |
+| `<VpYouTube>` | `<VpYouTube id="dQw4w9WgXcQ" />` | 官方隐私增强模式国际化视频流嵌入 |
 
 ---
 
@@ -117,40 +176,27 @@ vitepress-zenith/
 │       └── deploy.yml          # GitHub Actions 自动化构建与 GitHub Pages 部署
 ├── docs/                       # 文档与博客源码目录
 │   ├── .vitepress/             # VitePress 核心配置与定制主题
-│   │   ├── config.ts           # 站点全局配置（导航、侧边栏、搜索、Markdown 扩展等）
+│   │   ├── config.ts           # 站点核心配置、开关矩阵、多语言与插件集成
 │   │   ├── theme/              # 主题定制层
-│   │   │   ├── index.ts        # 主题入口与短代码全局组件注册
-│   │   │   ├── components/     # 内置核心交互组件（ZenMode, Markmap, Mermaid, Banner 等）
-│   │   │   └── styles/         # 全局样式增强、自定义变量与中文排版微调
-│   │   └── utils/              # 侧边栏自动生成器与工具函数
-│   ├── blog/                   # 技术博客与文章矩阵（含时间轴归档与分类检索）
-│   ├── components/             # 交互短代码组件使用指引与示例
-│   ├── guide/                  # 快速起步与使用指南
-│   ├── public/                 # 静态资源（矢量 Logo、Favicon 等）
-│   └── index.md                # 首页 Hero 宣传页
-├── package.json                # 项目依赖与运行脚本
+│   │   │   ├── components/     # 全局交互短代码组件库 (VpCard, VpVideo, ZenMode 等)
+│   │   │   ├── composables/    # 状态控制组合式函数 (useZenMode, useThemePalette 等)
+│   │   │   ├── styles/         # 全局增强样式、色盘、代码折叠与打印规范
+│   │   │   ├── index.ts        # 主题入口与组件全局注册
+│   │   │   └── Layout.vue      # 根布局插槽装配与特性挂载
+│   │   └── utils/              # 自动化侧边栏生成、离线索引与工具函数
+│   ├── adr/                    # 架构决策记录 (ADR-0001 ~ ADR-0009)
+│   ├── blog/                   # 技术博客文章矩阵（标签筛选与时间线归档）
+│   ├── components/             # 交互短代码组件总览与使用范例
+│   ├── guide/                  # 基础指南与深度特性文档 (Zen Mode, Twoslash, PWA 等)
+│   ├── public/                 # 静态资源（矢量 Logo、PWA 图标与深浅模式演示图）
+│   └── index.md                # 首页 Hero 落地页
+├── CONTEXT.md                  # 核心领域语言定义与术语规范 (Ubiquitous Language)
+├── AGENTS.md                   # 仓库级 AI Agent 协同行为准则与架构约定
+├── package.json                # 项目依赖与执行脚本
 ├── tsconfig.json               # TypeScript 严格模式配置
 ├── uno.config.ts               # UnoCSS 原子类与 Lucide 图标集预设
-└── README.md                   # 根目录项目说明文档
+└── README.md                   # 项目核心说明文档
 ```
-
----
-
-## 🧩 内置短代码组件矩阵
-
-项目内置了大量高频交互组件，在任意 Markdown 文档中均可**直接调用，无需手动 import**：
-
-| 组件名称 | 标签使用示例 | 核心应用场景 |
-| :--- | :--- | :--- |
-| **全宽公告横幅** | `<GlobalBanner title="..." content="..." />` | 顶置发布重要通知、版本发版公告或活动提醒 |
-| **卡片网格容器** | `<CardGrid cols="2">...</CardGrid>` | 首页、引导页与特性展示矩阵栅格排版 |
-| **多态信息卡片** | `<Card title="..." icon="i-lucide-rocket">...</Card>` | 封装结构化信息、操作入口或关键要点 |
-| **版本演进时间轴**| `<Timeline :items="[...]" />` | 架构演进记录、Changelog、发布历程与路线图 |
-| **组件运行沙箱** | `<Sandbox preview="...">...</Sandbox>` | 实时调试交互演示组件并可切换查看源代码 |
-| **精美外链卡片** | `<LinkCard title="..." link="..." />` | 推荐关联资源、参考文档与友情链接 |
-| **思维导图渲染器**| ```` ```markmap ```` | 知识框架、技能树、知识脉络全景图 |
-| **架构时序图** | ```` ```mermaid ```` | 流程图、类图、甘特图与系统交互时序图 |
-| **包管理器切换** | `::: package-manager` | 跨页面偏好联动的 npm / pnpm / yarn / bun 选项卡 |
 
 ---
 
@@ -158,7 +204,7 @@ vitepress-zenith/
 
 项目内置了完整的 GitHub Actions 工作流（位于 `.github/workflows/deploy.yml`）。
 
-当代码推送或合并至 `master` / `main` 分支时，工作流将自动执行：
+当代码推送或合并至 `master` / `main` 分支时，自动化工作流将依次执行：
 1. 检出代码并恢复 pnpm 依赖缓存；
 2. 运行 `pnpm run typecheck` 校验 TypeScript 语法与类型安全；
 3. 执行 `pnpm run build` 构建生产级静态文档；
@@ -168,4 +214,4 @@ vitepress-zenith/
 
 ## 📄 开源许可证
 
-本项目基于 [MIT 许可证](./LICENSE) 开源发布，欢迎自由使用、分发与二次定制。
+本项目基于 [MIT 许可证](./LICENSE) 开源发布，欢迎自由使用、商业应用与二次定制。

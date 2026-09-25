@@ -501,3 +501,61 @@ export default defineConfig({
 <!-- 在任意博客主页中直接使用即可渲染全套博客卡片流 -->
 <VpBlogList />
 ```
+
+---
+
+## 17. 增强多媒体与流媒体短代码 (Media Assets)
+
+专为技术文档打造的高质感多媒体交互组件，消除原生 HTML 标签的生硬感，支持 16:9 响应式比例、现代圆角阴影、居中图注与深浅色模式自适应。详见 [图片与多媒体资产管理指南](../guide/media-assets.md)。
+
+### 17.1 深浅色模式双图适配 (VpImage)
+
+<VpImage
+  light="/theme-demo-light.svg"
+  dark="/theme-demo-dark.svg"
+  alt="深浅双模主题测试"
+  caption="实机演示：请点击页面右上角切换深浅色外观，查看图片自动交替（亦支持点击放大）"
+  width="520px"
+/>
+
+```html
+<VpImage
+  light="/theme-demo-light.svg"
+  dark="/theme-demo-dark.svg"
+  alt="深浅双模主题测试"
+  caption="实机演示：请点击页面右上角切换深浅色外观，查看图片自动交替"
+  width="520px"
+/>
+```
+
+### 17.2 高质感视频播放器 (VpVideo)
+
+<VpVideo
+  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  poster="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80"
+  caption="实机运行：VpVideo 高质感视频播放器"
+  width="80%"
+/>
+
+```html
+<VpVideo
+  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  poster="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80"
+  caption="视频 1-1：演示影片播放范例"
+  width="80%"
+/>
+```
+
+### 17.3 Bilibili / YouTube 流媒体嵌入 (VpBilibili / VpYouTube)
+
+<VpBilibili bvid="BV1GJ411x7h7" caption="实机运行：Bilibili 响应式嵌入播放器" width="80%" />
+
+```html
+<!-- Bilibili 演示（默认关闭弹幕，16:9 自适应） -->
+<VpBilibili bvid="BV1GJ411x7h7" caption="Bilibili 响应式播放器" width="80%" />
+
+<!-- YouTube 国际化流媒体（隐私增强域名嵌入） -->
+<VpYouTube id="dQw4w9WgXcQ" caption="YouTube 响应式播放器" width="80%" />
+```
+
+

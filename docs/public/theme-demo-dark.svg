@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="darkBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="moonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="240" rx="16" fill="url(#darkBg)" stroke="#312e81" stroke-width="2"/>
+  <circle cx="90" cy="120" r="44" fill="url(#moonGlow)"/>
+  <path d="M75 95 A30 30 0 1 0 115 135 A22 22 0 1 1 75 95 Z" fill="#e0e7ff"/>
+  <text x="160" y="105" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">
+    🌙 当前处于「深色模式」专属插图
+  </text>
+  <text x="160" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" fill="#94a3b8">
+    （纯 CSS 零 JS 无闪烁交替显隐，保护深色阅读暗环境下的眼睛舒适度）
+  </text>
+</svg>
