@@ -9,8 +9,12 @@ import DefaultTheme from 'vitepress/theme'
 import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import ZenModeToggle from './components/ZenModeToggle.vue'
 import DocMeta from './components/DocMeta.vue'
+import { useMediumZoom } from './composables/useMediumZoom'
 
 const { Layout } = DefaultTheme
+
+// 挂载正文图片平滑缩放灯箱
+useMediumZoom()
 </script>
 
 <template>

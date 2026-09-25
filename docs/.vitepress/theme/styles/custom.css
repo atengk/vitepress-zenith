@@ -34,3 +34,25 @@ body, h1, h2, h3, h4, h5, h6, p, li {
   transform: translateY(-2px);
   box-shadow: 0 12px 24px -10px var(--vp-c-brand-soft);
 }
+
+/* Medium-zoom 插图点击灯箱层级与视觉增强 */
+.medium-zoom-overlay {
+  z-index: 100 !important;
+  backdrop-filter: blur(4px);
+}
+
+.medium-zoom-image--opened {
+  z-index: 101 !important;
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.vp-doc img {
+  cursor: zoom-in;
+  border-radius: 6px;
+}
+
+.vp-doc img.no-zoom,
+.vp-doc img.logo {
+  cursor: default;
+}

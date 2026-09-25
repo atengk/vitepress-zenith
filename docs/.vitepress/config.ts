@@ -14,10 +14,29 @@ export default defineConfig({
   lang: 'zh-CN',
 
   markdown: {
+    math: true,
     lineNumbers: true,
     codeTransformers: [
       transformerTwoslash(),
     ],
+    config(md) {
+      const defaultFence = md.renderer.rules.fence!
+      md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+        const token = tokens[idx]
+        const lang = token.info.trim().split(/\s+/)[0]
+        if (lang === 'mermaid') {
+          const key = `mermaid-${idx}`
+          const code = encodeURIComponent(token.content)
+          return `<Mermaid id="${key}" code="${code}" />\n`
+        }
+        if (lang === 'markmap') {
+          const key = `markmap-${idx}`
+          const code = encodeURIComponent(token.content)
+          return `<Markmap id="${key}" code="${code}" />\n`
+        }
+        return defaultFence(tokens, idx, options, env, self)
+      }
+    },
   },
 
   head: [
@@ -44,6 +63,7 @@ export default defineConfig({
             { text: '快速上手', link: '/guide/getting-started' },
             { text: '包管理器联动选项卡', link: '/guide/package-manager-tabs' },
             { text: '代码块与 Twoslash', link: '/guide/code-enhancements' },
+            { text: '富媒体与可视化矩阵', link: '/guide/rich-media' },
           ],
         },
       ],
