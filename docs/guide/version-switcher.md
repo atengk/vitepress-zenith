@@ -68,7 +68,7 @@ export default defineConfig({
             text: '版本变更',
             items: [
               { text: '多版本管理指南', link: '/guide/version-switcher' },
-              { text: '更新日志 (Changelog)', link: 'https://github.com/zenith/vitepress-zenith/releases' },
+              { text: '更新日志 (Changelog)', link: 'https://github.com/atengk/vitepress-zenith/releases' },
             ],
           },
         ],

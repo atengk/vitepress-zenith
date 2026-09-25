@@ -25,8 +25,8 @@ order: 18
   :contributors="[
     {
       name: '孔余 (Ateng)',
-      avatar: 'https://avatars.githubusercontent.com/u/41898282?v=4',
-      github: 'kongyu',
+      avatar: 'https://github.com/atengk.png',
+      github: 'atengk',
       commitsCount: 12,
       lastCommitTime: 1790346106,
       lastCommitMessage: 'feat(contributors): 构建 Git 历史贡献者提取与协同体系'
@@ -39,7 +39,7 @@ order: 18
       lastCommitMessage: 'docs: 优化参数表与多语言排版规范'
     }
   ]"
-  edit-url="https://github.com/zenith/vitepress-zenith/edit/master/docs/guide/contributors-stream.md"
+  edit-url="https://github.com/atengk/vitepress-zenith/edit/master/docs/guide/contributors-stream.md"
 />
 
 ::: tip 生产环境全自动提取
@@ -119,7 +119,7 @@ contributors:
 export default defineConfig({
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/zenith/vitepress-zenith/edit/master/docs/:path',
+      pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
       text: '在 GitHub 上编辑此页',
     },
   },

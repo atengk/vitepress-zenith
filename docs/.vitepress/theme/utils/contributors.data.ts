@@ -52,16 +52,28 @@ function getEmailHash(email: string): string {
 }
 
 /**
- * 已知开源核心贡献者映射表（自动关联高精度 GitHub 头像与主页）
+ * 已知开源核心贡献者映射表（自动关联高精度 GitHub 真实头像与主页）
  */
-const KNOWN_AUTHORS: Record<string, { github: string; avatar: string }> = {
+const KNOWN_AUTHORS: Record<string, { name?: string; github: string; avatar: string }> = {
   孔余: {
-    github: 'kongyu',
-    avatar: 'https://avatars.githubusercontent.com/u/41898282?v=4',
+    name: '孔余 (Ateng)',
+    github: 'atengk',
+    avatar: 'https://github.com/atengk.png',
   },
   Ateng: {
-    github: 'ateng',
-    avatar: 'https://avatars.githubusercontent.com/u/41898282?v=4',
+    name: 'Ateng',
+    github: 'atengk',
+    avatar: 'https://github.com/atengk.png',
+  },
+  atengk: {
+    name: 'Ateng',
+    github: 'atengk',
+    avatar: 'https://github.com/atengk.png',
+  },
+  '2385569970@qq.com': {
+    name: '孔余 (Ateng)',
+    github: 'atengk',
+    avatar: 'https://github.com/atengk.png',
   },
 }
 
@@ -175,12 +187,18 @@ export default createContentLoader('**/*.md', {
       })
 
       const contributors: ContributorInfo[] = Object.values(authorMap).map((author) => {
-        const known = KNOWN_AUTHORS[author.name] || (author.email && KNOWN_AUTHORS[author.email])
+        const known =
+          KNOWN_AUTHORS[author.name] ||
+          (author.email && KNOWN_AUTHORS[author.email.toLowerCase()]) ||
+          KNOWN_AUTHORS[author.name.trim()]
         let avatar = ''
-        let github = known?.github
+        const github = known?.github || 'atengk'
+        const displayName = known?.name || author.name
 
         if (known?.avatar) {
           avatar = known.avatar
+        } else if (github) {
+          avatar = `https://github.com/${github}.png`
         } else if (author.email) {
           const hash = getEmailHash(author.email)
           avatar = `https://weavatar.com/avatar/${hash}?d=identicon`
@@ -189,7 +207,7 @@ export default createContentLoader('**/*.md', {
         }
 
         return {
-          name: author.name,
+          name: displayName,
           email: author.email,
           avatar,
           github,
@@ -222,12 +240,12 @@ export default createContentLoader('**/*.md', {
 
       // 若未提取到任何 Git 提交，且 Frontmatter 指定了 author，提供兜底保底项
       if (contributors.length === 0) {
-        const defaultAuthor = frontmatter.author || 'Ateng'
-        const known = KNOWN_AUTHORS[defaultAuthor]
+        const defaultAuthor = frontmatter.author || '孔余'
+        const known = KNOWN_AUTHORS[defaultAuthor] || KNOWN_AUTHORS['孔余']
         contributors.push({
-          name: defaultAuthor,
-          avatar: known?.avatar || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(defaultAuthor)}`,
-          github: known?.github || 'ateng',
+          name: known?.name || defaultAuthor,
+          avatar: known?.avatar || 'https://github.com/atengk.png',
+          github: known?.github || 'atengk',
           commitsCount: 1,
           lastCommitTime: Date.now() / 1000,
           lastCommitMessage: 'Initial document contribution',

@@ -340,7 +340,7 @@ export default withPwa(defineConfig({
                 text: '版本变更',
                 items: [
                   { text: '多版本管理指南', link: '/guide/version-switcher' },
-                  { text: '更新日志 (Changelog)', link: 'https://github.com/zenith/vitepress-zenith/releases' },
+                  { text: '更新日志 (Changelog)', link: 'https://github.com/atengk/vitepress-zenith/releases' },
                 ],
               },
             ],
@@ -365,7 +365,7 @@ export default withPwa(defineConfig({
           ],
         },
         editLink: {
-          pattern: 'https://github.com/zenith/vitepress-zenith/edit/master/docs/:path',
+          pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
           text: '在 GitHub 上编辑此页',
         },
         docFooter: {
@@ -429,7 +429,7 @@ export default withPwa(defineConfig({
                 text: 'Releases',
                 items: [
                   { text: 'Version Switcher Guide', link: '/guide/version-switcher' },
-                  { text: 'Changelog', link: 'https://github.com/zenith/vitepress-zenith/releases' },
+                  { text: 'Changelog', link: 'https://github.com/atengk/vitepress-zenith/releases' },
                 ],
               },
             ],
@@ -454,7 +454,7 @@ export default withPwa(defineConfig({
           ],
         },
         editLink: {
-          pattern: 'https://github.com/zenith/vitepress-zenith/edit/master/docs/:path',
+          pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
           text: 'Edit this page on GitHub',
         },
         docFooter: {

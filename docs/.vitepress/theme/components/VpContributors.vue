@@ -78,9 +78,9 @@ const list = computed<ContributorInfo[]>(() => {
   }
   return [
     {
-      name: frontmatter.value.author || 'Ateng',
-      avatar: 'https://avatars.githubusercontent.com/u/41898282?v=4',
-      github: 'kongyu',
+      name: frontmatter.value.author || '孔余 (Ateng)',
+      avatar: 'https://github.com/atengk.png',
+      github: 'atengk',
       commitsCount: 1,
       lastCommitTime: Date.now() / 1000,
       lastCommitMessage: 'Document initial creation',
@@ -95,7 +95,7 @@ const resolvedEditUrl = computed(() => {
   if (props.editUrl) return props.editUrl
   const pattern =
     theme.value.editLink?.pattern ||
-    'https://github.com/zenith/vitepress-zenith/edit/master/docs/:path'
+    'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path'
   return pattern.replace(':path', page.value.relativePath)
 })
 
@@ -153,6 +153,12 @@ function formatTimestamp(ts: number): string {
                 :alt="author.name"
                 class="vp-contributor-avatar"
                 loading="lazy"
+                @error="(e) => {
+                  const target = e.target as HTMLImageElement
+                  if (target && !target.src.includes('dicebear')) {
+                    target.src = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(author.name)}`
+                  }
+                }"
               />
             </a>
 
