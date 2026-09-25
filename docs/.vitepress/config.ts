@@ -109,9 +109,9 @@ export default defineConfig({
     giscus: {
       enabled: true,
       repo: 'atengk/vitepress-zenith',
-      repoId: 'R_kgDON7o88g',
+      repoId: 'R_kgDOUrCouQ',
       category: 'General',
-      categoryId: 'DIC_kwDON7o88s4Cn7ab',
+      categoryId: 'DIC_kwDOUrCouc4DGX2s',
       mapping: 'pathname',
       strict: '0',
       reactionsEnabled: '1',
