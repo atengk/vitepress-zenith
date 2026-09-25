@@ -107,3 +107,34 @@ body, h1, h2, h3, h4, h5, h6, p, li {
   transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* --------------------------------------------------------------------------
+ * 顶栏控制区布局与呼吸感微调 (NavBar Controls Spacing & Divider)
+ * 解决调色盘与社交链接贴脸碰撞、负边距吞噬间隙的问题，提供通透优雅的呼吸感
+ * -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+  /* 消除社交外链原生的 -8px 负边距，恢复正常容器边界 */
+  .VPNavBar .social-links {
+    margin-right: 0 !important;
+  }
+
+  /* 调色盘组件容器增加呼吸间距与微细分割线 */
+  .VPNavBar .vp-theme-picker {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+  }
+
+  /* 在社交链接与调色盘之间添加高度 24px 的优雅微分割线，与左侧外观分割线完美呼应 */
+  .VPNavBar .vp-theme-picker::before {
+    content: "";
+    display: block;
+    margin-right: 12px;
+    margin-left: 8px;
+    width: 1px;
+    height: 24px;
+    background-color: var(--vp-c-divider);
+    flex-shrink: 0;
+  }
+}
+
+
