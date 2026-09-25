@@ -256,6 +256,7 @@ VitePress Zenith 预置了一套现代高质感、在全站任何 Markdown 文�
 export default defineConfig({
   themeConfig: {
     giscus: {
+      enabled: true,
       repo: 'your-username/your-repo',
       repoId: 'R_kgDO...',
       category: 'General',

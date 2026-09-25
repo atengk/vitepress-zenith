@@ -107,7 +107,7 @@ export default defineConfig({
 
     // Giscus 评论系统配置（基于 GitHub Discussions 零运维讨论区）
     giscus: {
-      enabled: true,
+      enabled: false,
       repo: 'atengk/vitepress-zenith',
       repoId: 'R_kgDOUrCouQ',
       category: 'General',

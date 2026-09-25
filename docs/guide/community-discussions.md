@@ -54,7 +54,7 @@ export default defineConfig({
   themeConfig: {
     // Giscus 评论系统配置
     giscus: {
-      enabled: true, // 全局评论功能总开关，设为 false 时全站禁用评论
+      enabled: false, // 全局评论功能总开关，默认关闭（设为 true 即可激活全站评论）
       repo: 'atengk/vitepress-zenith',
       repoId: 'R_kgDON7o88g',
       category: 'General',
@@ -75,7 +75,7 @@ export default defineConfig({
 
 | 配置项 | 类型 | 默认值 | 详细说明 |
 | :--- | :--- | :--- | :--- |
-| `enabled` | `boolean` | `true` | 全局评论功能总开关，设为 `false` 时全站禁用评论功能 |
+| `enabled` | `boolean` | `false` | 全局评论功能总开关，默认 `false` 关闭；设为 `true` 时全站激活评论区 |
 | `repo` | `string` | 必填 | GitHub 仓库路径（格式为 `所有者/仓库名`） |
 | `repoId` | `string` | 必填 | 仓库在 GitHub GraphQL API 中的全局唯一 ID |
 | `category` | `string` | 必填 | 目标 Discussions 分类名称（如 `General`） |

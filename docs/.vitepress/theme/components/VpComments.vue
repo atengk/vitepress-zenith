@@ -10,7 +10,7 @@ import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { useData, useRoute } from 'vitepress'
 
 export interface GiscusConfig {
-  /** 全局评论功能总开关，默认 true；设为 false 时全站禁用评论 */
+  /** 全局评论功能总开关，默认 false；显式设为 true 时方全站激活评论 */
   enabled?: boolean
   repo: string
   repoId: string
@@ -39,8 +39,8 @@ const giscusConfig = computed<GiscusConfig | null>(() => {
 
 // 判断当前页面是否允许呈现评论组件
 const isCommentsEnabled = computed(() => {
-  // 1. 若全局未配置 Giscus 或显式声明 enabled: false，直接隐退
-  if (!giscusConfig.value || giscusConfig.value.enabled === false || !giscusConfig.value.repo) {
+  // 1. 若全局未配置 Giscus 或未显式开启（enabled !== true），直接隐退
+  if (!giscusConfig.value || giscusConfig.value.enabled !== true || !giscusConfig.value.repo) {
     return false
   }
   // 2. 若 Frontmatter 显式禁用（comments: false），隐退
