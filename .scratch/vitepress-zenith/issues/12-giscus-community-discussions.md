@@ -22,11 +22,13 @@ resolved
    - 监听 VitePress 全局 `isDark` 状态机，通过 `iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app')` 实现毫秒级深浅色主题无刷新换肤；
    - 监听路由 `route.path` 变更，平滑重载对应页面的 discussions 讨论串；
    - 优雅隐退逻辑：支持单页 Frontmatter `comments: false` 显式关闭，并在首页和未配置仓库时静默隐藏。
-2. **全局站点配置与主题注册**：
+2. **全局站点配置与专属技术指南沉淀**：
    - 在 `docs/.vitepress/config.ts` 的 `themeConfig` 中定义 `giscus` 配置项（`repo`、`repoId`、`category`、`categoryId`、`mapping`、`lang` 等）；
    - 在 `docs/.vitepress/theme/Layout.vue` 的 `#doc-after` 插槽中挂载 `<VpComments />`；
    - 在 `docs/.vitepress/theme/index.ts` 注册为全局可复用组件 `VpComments`；
+   - 沉淀专属深度技术指南 `docs/guide/community-discussions.md`（包含架构选型对比、GitHub Discussions 前置准备三步实操、完整参数契约表与换肤原理），配置 `order: 9` 纳入自动侧边栏；
+   - 同步在 `docs/.vitepress/theme/components/VpCommandPalette.vue` 注册快捷导航索引；
    - 在 `docs/components/overview.md` 增加第 8 节社区讨论组件使用指引。
 3. **构建与类型验证**：
    - 运行 `pnpm typecheck` 类型检查全绿通过；
-   - 运行 `pnpm build` 生产全量打包验证（39.91s 完成静态渲染与站点地图生成）。
+   - 运行 `pnpm build` 生产全量打包验证通过。

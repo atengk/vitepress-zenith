@@ -28,8 +28,9 @@ resolved
    - 胶囊按钮动态展示 `展开全部代码 (共 N 行)`，点击平滑展开（无高度限制且隐去遮罩），按钮切换为 `收起代码`；
    - 收起代码时若代码块顶端已滚出视口，自动平滑滚动回代码块顶部（`scrollIntoView({ behavior: 'smooth', block: 'start' })`）；
    - 渐变遮罩设置 `pointer-events: none`，代码右上角一键复制按钮与 Shiki Twoslash 浮层提示在折叠态下 100% 正常可用。
-3. **全局装配与文档范例验证**：
+3. **全局装配与专属技术指南沉淀**：
    - 在 `docs/.vitepress/theme/Layout.vue` 挂载 `useCodeFolding()`；
    - 在 `docs/.vitepress/theme/index.ts` 引入 `code-folding.css` 并导出 `useCodeFolding`；
-   - 在 `docs/guide/code-enhancements.md` 增加第 6 节超长代码块演示（38 行 TypeScript 架构范例）；
-   - 静态类型检查 `pnpm typecheck` 全绿；生产打包 `pnpm build` 47.95s 验证通过。
+   - 沉淀专属深度技术指南 `docs/guide/reading-experience.md`（涵盖认知减负理论、词法切分算法、实机折叠范例与自定义配置），配置 `order: 8` 纳入自动侧边栏；
+   - 同步在 `docs/.vitepress/theme/components/VpCommandPalette.vue` 注册快捷导航索引；
+   - 静态类型检查 `pnpm typecheck` 全绿；生产打包 `pnpm build` 全绿验证通过。
