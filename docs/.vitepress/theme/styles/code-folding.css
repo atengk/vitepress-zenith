@@ -1,0 +1,109 @@
+/**
+ * 超长代码块（>25行）半透明渐变遮罩与智能折叠样式规范
+ * @author Ateng
+ * @since 2026-09-25
+ */
+
+div[class*="language-"].has-code-folding {
+  position: relative;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 折叠状态约束最大高度，溢出隐藏 */
+div[class*="language-"].has-code-folding.is-collapsed {
+  max-height: 480px;
+  overflow: hidden;
+  padding-bottom: 48px;
+}
+
+div[class*="language-"].has-code-folding.is-collapsed pre {
+  overflow: hidden !important;
+}
+
+/* 展开状态完全放开 */
+div[class*="language-"].has-code-folding.is-expanded {
+  max-height: none;
+  padding-bottom: 52px;
+}
+
+/* 底部触发与遮罩控制器容器 */
+.code-fold-trigger {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 5;
+}
+
+div[class*="language-"].has-code-folding.is-collapsed .code-fold-trigger {
+  height: 120px;
+}
+
+div[class*="language-"].has-code-folding.is-expanded .code-fold-trigger {
+  height: 52px;
+}
+
+/* 半透明底部渐变遮罩 */
+.code-fold-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    var(--vp-code-block-bg, var(--vp-c-bg-soft)) 90%
+  );
+  transition: opacity 0.2s ease;
+}
+
+div[class*="language-"].has-code-folding.is-expanded .code-fold-gradient {
+  display: none;
+}
+
+/* 展开 / 收起操作悬浮胶囊按钮 */
+.code-fold-btn {
+  position: relative;
+  pointer-events: auto;
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  border-radius: 9999px;
+  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-1);
+  font-size: 0.82rem;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.code-fold-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);
+}
+
+.dark .code-fold-btn {
+  background-color: var(--vp-c-bg-soft);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.fold-btn-icon {
+  font-size: 1rem;
+  color: var(--vp-c-brand-1);
+  transition: transform 0.2s ease;
+}
+
+.fold-btn-text {
+  line-height: 1;
+}

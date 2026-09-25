@@ -89,13 +89,13 @@ watch(
     class="doc-meta-bar"
   >
     <div class="meta-item">
-      <span class="icon">📝</span>
+      <span class="meta-icon i-lucide-file-text" />
       <span>约 {{ wordCount.toLocaleString() }} 字</span>
     </div>
     <div class="meta-divider">·</div>
     <div class="meta-item">
-      <span class="icon">⏱️</span>
-      <span>预计 {{ readingTime }} 分钟</span>
+      <span class="meta-icon i-lucide-clock" />
+      <span>预计 {{ readingTime }} 分钟阅读</span>
     </div>
     <div class="meta-divider">·</div>
     <button
@@ -105,7 +105,7 @@ watch(
       title="一键切换沉浸专注阅读 (快捷键: Alt+Z)"
       @click="toggleZenMode"
     >
-      <span class="icon">🎯</span>
+      <span class="meta-icon i-lucide-sparkles" />
       <span>{{ isZenMode ? '退出专注' : '专注阅读' }}</span>
       <span class="shortcut">Alt+Z</span>
     </button>
@@ -119,8 +119,8 @@ watch(
   flex-wrap: wrap;
   gap: 8px;
   margin: 12px 0 24px;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   border: 1px solid var(--vp-c-divider);
   background-color: var(--vp-c-bg-soft);
   font-size: 13px;
@@ -131,7 +131,12 @@ watch(
 .meta-item {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+}
+
+.meta-icon {
+  font-size: 1rem;
+  color: var(--vp-c-brand-1);
 }
 
 .meta-divider {

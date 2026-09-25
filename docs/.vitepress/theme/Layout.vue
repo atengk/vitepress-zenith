@@ -13,11 +13,14 @@ import VpBanner from './components/VpBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
+import { useCodeFolding } from './composables/useCodeFolding'
 
 const { Layout } = DefaultTheme
 
 // 挂载正文图片平滑缩放灯箱
 useMediumZoom()
+// 挂载超长代码块智能折叠
+useCodeFolding()
 </script>
 
 <template>

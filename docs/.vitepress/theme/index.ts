@@ -23,13 +23,15 @@ import VpHelpful from './components/VpHelpful.vue'
 import VpBlogList from './components/VpBlogList.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
 import { useCommandPalette } from './composables/useCommandPalette'
+import { useCodeFolding } from './composables/useCodeFolding'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
 import './styles/zen-mode.css'
+import './styles/code-folding.css'
 import '@shikijs/vitepress-twoslash/style.css'
 
-export { useCommandPalette }
+export { useCommandPalette, useCodeFolding }
 
 export default {
   extends: DefaultTheme,

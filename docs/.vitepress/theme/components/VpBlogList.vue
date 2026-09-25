@@ -106,8 +106,13 @@ function selectTag(tag: string) {
             class="vp-post-card"
           >
             <div class="vp-post-meta">
-              <time class="vp-post-date">{{ post.date.formatted }}</time>
-              <span class="vp-post-author">✍️ {{ post.author }}</span>
+              <span class="meta-inline"><span class="i-lucide-calendar" /> {{ post.date.formatted }}</span>
+              <span class="meta-dot">·</span>
+              <span class="meta-inline"><span class="i-lucide-user" /> {{ post.author }}</span>
+              <span class="meta-dot">·</span>
+              <span class="meta-inline"><span class="i-lucide-file-text" /> 约 {{ (post.words || 0).toLocaleString() }} 字</span>
+              <span class="meta-dot">·</span>
+              <span class="meta-inline"><span class="i-lucide-clock" /> {{ post.readingTime || 1 }} 分钟阅读</span>
             </div>
 
             <h2 class="vp-post-title">
@@ -277,10 +282,22 @@ function selectTag(tag: string) {
 .vp-post-meta {
   display: flex;
   align-items: center;
-  gap: 14px;
-  font-size: 0.85rem;
-  color: var(--vp-c-text-3);
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--vp-c-text-2);
   margin-bottom: 10px;
+}
+
+.meta-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meta-dot {
+  color: var(--vp-c-text-3);
+  user-select: none;
 }
 
 .vp-post-title {
