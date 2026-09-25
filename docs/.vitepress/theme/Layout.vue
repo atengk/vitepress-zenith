@@ -11,6 +11,7 @@ import ZenModeToggle from './components/ZenModeToggle.vue'
 import DocMeta from './components/DocMeta.vue'
 import VpBanner from './components/VpBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
+import VpCommandPalette from './components/VpCommandPalette.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 
 const { Layout } = DefaultTheme
@@ -36,6 +37,7 @@ useMediumZoom()
 
     <template #layout-bottom>
       <ZenModeToggle />
+      <VpCommandPalette />
     </template>
   </Layout>
 </template>

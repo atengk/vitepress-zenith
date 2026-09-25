@@ -21,11 +21,15 @@ import VpDemoPreview from './components/VpDemoPreview.vue'
 import VpBanner from './components/VpBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpBlogList from './components/VpBlogList.vue'
+import VpCommandPalette from './components/VpCommandPalette.vue'
+import { useCommandPalette } from './composables/useCommandPalette'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
 import './styles/zen-mode.css'
 import '@shikijs/vitepress-twoslash/style.css'
+
+export { useCommandPalette }
 
 export default {
   extends: DefaultTheme,
@@ -46,5 +50,6 @@ export default {
     app.component('VpBanner', VpBanner)
     app.component('VpHelpful', VpHelpful)
     app.component('VpBlogList', VpBlogList)
+    app.component('VpCommandPalette', VpCommandPalette)
   },
 } satisfies Theme
