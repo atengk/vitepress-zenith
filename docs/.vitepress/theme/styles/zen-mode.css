@@ -10,14 +10,34 @@
 .VPDoc .aside,
 .VPDoc .container,
 .VPDoc .content,
-.VPNavBar .divider,
+.VPDoc .content-container,
+.VPNavBar .title,
 .VPNavBar .content {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 1. 顶部导航栏 (Navbar) 在专注模式下的对齐与分割线统一修复 */
-html.zen-mode .VPNavBar.has-sidebar .divider {
-  padding-left: 0 !important;
+/* 1. 顶部导航栏 (Navbar) 在专注模式下重置为标准 Flex 两端对齐，彻底消除标题与搜索框重叠 */
+html.zen-mode .VPNavBar {
+  background-color: var(--vp-nav-bg-color) !important;
+}
+
+html.zen-mode .VPNavBar.has-sidebar .wrapper {
+  padding: 0 32px !important;
+}
+
+html.zen-mode .VPNavBar.has-sidebar .container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  max-width: calc(var(--vp-layout-max-width) - 64px) !important;
+  margin: 0 auto !important;
+}
+
+html.zen-mode .VPNavBar.has-sidebar .title {
+  position: static !important;
+  width: auto !important;
+  padding: 0 !important;
+  border-bottom: none !important;
 }
 
 html.zen-mode .VPNavBarTitle.has-sidebar .title {
@@ -25,15 +45,22 @@ html.zen-mode .VPNavBarTitle.has-sidebar .title {
 }
 
 html.zen-mode .VPNavBar.has-sidebar .content {
-  padding-left: 32px !important;
-  padding-right: 32px !important;
+  position: static !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-@media (min-width: 1440px) {
-  html.zen-mode .VPNavBar.has-sidebar .content {
-    padding-left: max(32px, calc((100vw - var(--vp-layout-max-width)) / 2)) !important;
-    padding-right: max(32px, calc((100vw - var(--vp-layout-max-width)) / 2)) !important;
-  }
+html.zen-mode .VPNavBar.has-sidebar .content-body {
+  background-color: transparent !important;
+}
+
+html.zen-mode .VPNavBar.has-sidebar .divider {
+  display: block !important;
+  padding-left: 0 !important;
+}
+
+html.zen-mode .VPNavBar.has-sidebar .divider-line {
+  background-color: var(--vp-c-gutter) !important;
 }
 
 /* 2. 收起左侧边栏 (Sidebar) 与移动端局部导航 (LocalNav) */
@@ -67,7 +94,7 @@ html.zen-mode .VPDoc .aside {
   pointer-events: none !important;
 }
 
-/* 5. 正文容器黄金加宽并消除多余顶部空隙 */
+/* 5. 正文容器黄金加宽至 1180px (+70% 显著拓宽)，让代码、表格与图表彻底舒展 */
 html.zen-mode .VPDoc .container {
   max-width: 100% !important;
   display: flex !important;
@@ -76,15 +103,20 @@ html.zen-mode .VPDoc .container {
 }
 
 html.zen-mode .VPDoc .content {
-  max-width: 880px !important;
+  max-width: 1180px !important;
   width: 100% !important;
   margin: 0 auto !important;
   padding: 0 32px 96px !important;
 }
 
 html.zen-mode .VPDoc .content-container {
-  max-width: 100% !important;
+  max-width: 1180px !important;
+  width: 100% !important;
   margin: 0 auto !important;
+}
+
+html.zen-mode .vp-doc {
+  max-width: 100% !important;
 }
 
 /* 6. 专注模式下的排版呼吸感增强 */
