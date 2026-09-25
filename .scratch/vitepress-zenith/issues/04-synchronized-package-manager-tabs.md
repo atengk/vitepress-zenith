@@ -7,10 +7,10 @@
 01 — 工程底座与全能 Landing Page 骨架
 
 **状态 (Status):**
-ready-for-agent
+closed
 
-- [ ] 开发 Vue 响应式全局共享状态存储，维护当前选中的包管理器偏好
-- [ ] 封装 `<PackageManagerTabs>` 组件，支持自定义包名、参数与子命令，自动生成 4 大管理器命令
-- [ ] 实现跨页面状态实时联动，并在 `localStorage` 中持久化用户的偏好选择
-- [ ] 在 `.vitepress/theme/index.ts` 中全局注册组件，保证在 Markdown 中免 import 直接使用
-- [ ] 提供一键复制命令微交互与视觉反馈
+- [x] 开发 Vue 响应式全局共享状态存储，维护当前选中的包管理器偏好
+- [x] 封装 `<PackageManagerTabs>` 组件，支持自定义包名、参数与子命令，自动生成 4 大管理器命令
+- [x] 实现跨页面状态实时联动，并在 `localStorage` 中持久化用户的偏好选择
+- [x] 在 `.vitepress/theme/index.ts` 中全局注册组件，保证在 Markdown 中免 import 直接使用
+- [x] 提供一键复制命令微交互与视觉反馈

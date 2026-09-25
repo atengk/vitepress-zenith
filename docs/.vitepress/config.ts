@@ -42,6 +42,7 @@ export default defineConfig({
           items: [
             { text: '什么是 Zenith', link: '/guide/what-is-zenith' },
             { text: '快速上手', link: '/guide/getting-started' },
+            { text: '包管理器联动选项卡', link: '/guide/package-manager-tabs' },
             { text: '代码块与 Twoslash', link: '/guide/code-enhancements' },
           ],
         },

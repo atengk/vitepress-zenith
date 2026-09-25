@@ -9,18 +9,20 @@
 
 ## 安装与启动
 
-在项目根目录下执行以下命令即可启动本地开发服务器：
+在项目根目录下执行以下命令即可启动本地开发服务器。下方选项卡支持全站跨页面偏好联动：
 
-```bash
-# 1. 安装项目依赖
-pnpm install
+### 1. 安装项目依赖
 
-# 2. 启动本地开发服务（热更新）
-pnpm run docs:dev
+<PackageManagerTabs />
 
-# 3. 构建生产级静态站点（SSG）
-pnpm run docs:build
+### 2. 启动本地开发服务（热更新）
 
-# 4. 本地预览生产构建产物
-pnpm run docs:preview
-```
+<PackageManagerTabs command="run" script="docs:dev" />
+
+### 3. 构建生产级静态站点（SSG）
+
+<PackageManagerTabs command="run" script="docs:build" />
+
+### 4. 本地预览生产构建产物
+
+<PackageManagerTabs command="run" script="docs:preview" />

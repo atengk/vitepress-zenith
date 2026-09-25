@@ -8,6 +8,7 @@ import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import Layout from './Layout.vue'
+import PackageManagerTabs from './components/PackageManagerTabs.vue'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
@@ -19,5 +20,7 @@ export default {
   Layout,
   enhanceApp({ app, router, siteData }) {
     app.use(TwoslashFloatingVue)
+    app.component('PackageManagerTabs', PackageManagerTabs)
+    app.component('PackageTabs', PackageManagerTabs)
   },
 } satisfies Theme
