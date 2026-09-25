@@ -212,6 +212,7 @@ VitePress Zenith 预置了一套现代高质感、在全站任何 Markdown 文�
 
 <VpBanner
   id="demo-banner-doc"
+  :fixed="false"
   text="✨ 欢迎体验全新组件库与通知横幅组件！"
   link="/blog/"
   linkText="探索博客矩阵 →"

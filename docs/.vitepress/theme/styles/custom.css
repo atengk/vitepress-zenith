@@ -56,3 +56,17 @@ body, h1, h2, h3, h4, h5, h6, p, li {
 .vp-doc img.logo {
   cursor: default;
 }
+
+/* 全局顶部公告横幅高度平滑响应过渡 */
+:root {
+  --vp-layout-top-height: 0px;
+}
+
+.VPNav {
+  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s;
+}
+
+.VPSidebar {
+  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+

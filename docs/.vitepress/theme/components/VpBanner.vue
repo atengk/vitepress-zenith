@@ -1,11 +1,11 @@
 <!--
- * 全宽公告通知横幅组件（支持折叠与本地记忆防打扰）
+ * 全宽公告通知横幅组件（支持全局固定置顶、折叠收起与本地记忆防打扰）
  * @author Ateng
  * @since 2026-09-25
 -->
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 
 export interface VpBannerProps {
   /**
@@ -33,6 +33,11 @@ export interface VpBannerProps {
    * @default true
    */
   dismissible?: boolean
+  /**
+   * 是否作为全局顶部横幅（固定定位并自动响应驱动 --vp-layout-top-height 布局变量）
+   * @default true
+   */
+  fixed?: boolean
 }
 
 const props = withDefaults(defineProps<VpBannerProps>(), {
@@ -41,9 +46,27 @@ const props = withDefaults(defineProps<VpBannerProps>(), {
   link: '/guide/what-is-zenith',
   linkText: '了解详情 →',
   dismissible: true,
+  fixed: true,
 })
 
-const isVisible = ref(false)
+const bannerRef = ref<HTMLElement | null>(null)
+// 默认初始化为 true，避免页面初次载入时因展开动效引发导航栏瞬时高度测量偏差与闪烁
+const isVisible = ref(true)
+let resizeObserver: ResizeObserver | null = null
+
+/**
+ * 动态同步当前横幅实际高精度高度至全站布局变量 --vp-layout-top-height
+ */
+function updateLayoutTopHeight() {
+  if (!props.fixed || typeof window === 'undefined') return
+  if (isVisible.value && bannerRef.value) {
+    const rect = bannerRef.value.getBoundingClientRect()
+    const height = rect.height
+    document.documentElement.style.setProperty('--vp-layout-top-height', `${height}px`)
+  } else {
+    document.documentElement.style.setProperty('--vp-layout-top-height', '0px')
+  }
+}
 
 // 挂载时检查 localStorage 是否已关闭过该公告
 onMounted(() => {
@@ -51,11 +74,33 @@ onMounted(() => {
   try {
     const storageKey = `vp-zenith-banner-${props.id}`
     const isDismissed = localStorage.getItem(storageKey)
-    if (!isDismissed) {
-      isVisible.value = true
+    if (isDismissed) {
+      isVisible.value = false
+      updateLayoutTopHeight()
+      return
     }
   } catch {
-    isVisible.value = true
+    // 忽略异常并展示公告
+  }
+
+  nextTick(() => {
+    updateLayoutTopHeight()
+    if (bannerRef.value && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        updateLayoutTopHeight()
+      })
+      resizeObserver.observe(bannerRef.value)
+    }
+  })
+})
+
+onUnmounted(() => {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObserver = null
+  }
+  if (props.fixed && typeof window !== 'undefined') {
+    document.documentElement.style.setProperty('--vp-layout-top-height', '0px')
   }
 })
 
@@ -64,6 +109,9 @@ onMounted(() => {
  */
 function dismiss() {
   isVisible.value = false
+  if (props.fixed && typeof window !== 'undefined') {
+    document.documentElement.style.setProperty('--vp-layout-top-height', '0px')
+  }
   if (typeof window !== 'undefined') {
     try {
       const storageKey = `vp-zenith-banner-${props.id}`
@@ -76,8 +124,14 @@ function dismiss() {
 </script>
 
 <template>
-  <Transition name="vp-banner-fade">
-    <aside v-if="isVisible" class="vp-announcement-banner" role="alert">
+  <Transition name="vp-banner-fade" :appear="false">
+    <aside
+      v-if="isVisible"
+      ref="bannerRef"
+      class="vp-announcement-banner"
+      :class="{ 'is-fixed': fixed, 'is-inline': !fixed }"
+      role="alert"
+    >
       <div class="vp-banner-content">
         <slot>
           <span class="vp-banner-text">{{ text }}</span>
@@ -116,8 +170,6 @@ function dismiss() {
 
 <style scoped>
 .vp-announcement-banner {
-  position: relative;
-  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,6 +179,22 @@ function dismiss() {
   font-size: 0.88rem;
   line-height: 1.5;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.vp-announcement-banner.is-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--vp-z-index-layout-top, 60);
+}
+
+.vp-announcement-banner.is-inline {
+  position: relative;
+  border-radius: 8px;
+  margin: 16px 0;
 }
 
 .vp-banner-content {
@@ -186,15 +254,13 @@ function dismiss() {
   height: 14px;
 }
 
-/* 渐隐动效 */
-.vp-banner-fade-enter-active,
+/* 仅在用户手动点击关闭时触发平滑上滑折叠动效 */
 .vp-banner-fade-leave-active {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   max-height: 80px;
   overflow: hidden;
 }
 
-.vp-banner-fade-enter-from,
 .vp-banner-fade-leave-to {
   opacity: 0;
   max-height: 0;
