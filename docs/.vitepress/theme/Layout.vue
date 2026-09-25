@@ -15,6 +15,7 @@ import VpCommandPalette from './components/VpCommandPalette.vue'
 import VpComments from './components/VpComments.vue'
 import VpThemePicker from './components/VpThemePicker.vue'
 import VpLinkPreview from './components/VpLinkPreview.vue'
+import VpPwaStatus from './components/VpPwaStatus.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
@@ -60,6 +61,8 @@ useThemePalette()
       <ZenModeToggle />
       <VpCommandPalette />
       <VpLinkPreview />
+      <VpPwaStatus />
     </template>
+
   </Layout>
 </template>

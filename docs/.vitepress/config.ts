@@ -5,15 +5,121 @@
  */
 
 import { defineConfig } from 'vitepress'
+import { withPwa } from '@vite-pwa/vitepress'
 import UnoCSS from 'unocss/vite'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { getAutoSidebar } from './utils/sidebar'
 
-export default defineConfig({
+const base = process.env.BASE_PATH || (process.env.CI ? '/vitepress-zenith/' : '/')
+
+export default withPwa(defineConfig({
   title: 'VitePress Zenith',
   description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
   lang: 'zh-CN',
-  base: process.env.BASE_PATH || (process.env.CI ? '/vitepress-zenith/' : '/'),
+  base,
+
+  pwa: {
+    outDir: '.vitepress/dist',
+    registerType: 'autoUpdate',
+    includeAssets: ['logo.svg'],
+    manifest: {
+      id: base,
+      name: 'VitePress Zenith - 顶配技术文档与知识库',
+      short_name: 'Zenith',
+      description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
+      theme_color: '#6366f1',
+      background_color: '#0f172a',
+      display: 'standalone',
+      orientation: 'portrait',
+      start_url: base,
+      scope: base,
+      lang: 'zh-CN',
+      categories: ['documentation', 'productivity', 'education'],
+      icons: [
+        {
+          src: `${base}logo.svg`,
+          sizes: 'any',
+          type: 'image/svg+xml',
+          purpose: 'any',
+        },
+        {
+          src: `${base}logo.svg`,
+          sizes: 'any',
+          type: 'image/svg+xml',
+          purpose: 'maskable',
+        },
+      ],
+    },
+    workbox: {
+      globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2}'],
+      runtimeCaching: [
+        {
+          urlPattern: ({ request }) =>
+            request.destination === 'style' ||
+            request.destination === 'script' ||
+            request.destination === 'worker',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'static-resources',
+            expiration: {
+              maxEntries: 120,
+              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 天
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: ({ request }) => request.destination === 'image',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 24 * 60 * 60, // 60 天
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: ({ url }) =>
+            url.origin === 'https://fonts.googleapis.com' ||
+            url.origin === 'https://fonts.gstatic.com',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'google-fonts',
+            expiration: {
+              maxEntries: 30,
+              maxAgeSeconds: 365 * 24 * 60 * 60, // 1 年
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: ({ url }) => url.origin === 'https://cdn.jsdelivr.net',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'jsdelivr-cdn',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 天
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+      ],
+    },
+    experimental: {
+      includeAllowlist: true,
+    },
+  },
 
   markdown: {
     math: true,
@@ -75,6 +181,10 @@ export default defineConfig({
   head: [
     ['meta', { name: 'theme-color', content: '#6366f1' }],
     ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['link', { rel: 'apple-touch-icon', href: '/logo.svg' }],
+    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
+    ['meta', { name: 'apple-mobile-web-app-title', content: 'Zenith' }],
     ['meta', { name: 'keywords', content: 'VitePress, 知识库, 技术文档, Zen Mode, Twoslash, Markmap, MathJax, 博客矩阵' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
@@ -85,6 +195,7 @@ export default defineConfig({
     // 注入防闪烁 (Anti-FOUC) 极速色盘恢复内联脚本
     ['script', {}, `(function(){try{var p=localStorage.getItem('zenith-theme-palette');if(p&&p!=='indigo'){document.documentElement.dataset.themePalette=p;}}catch(e){}})();`],
   ],
+
 
   themeConfig: {
     siteTitle: 'VitePress Zenith',
@@ -229,4 +340,5 @@ export default defineConfig({
       UnoCSS(),
     ],
   },
-})
+}))
+

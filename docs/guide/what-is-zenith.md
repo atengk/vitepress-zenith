@@ -34,7 +34,9 @@ Zenith（天顶 / 禅意专注）通过深度扩展 VitePress 官方默认主题
 | **技术社区评论体系 (Giscus)** | 基于 GitHub Discussions 纯净免运维、深浅主题毫秒级无感换肤与全局开关 | [解耦式技术社区讨论体系](./community-discussions.md) |
 | **动态强调色盘与白皮书打印** | 4 套预置品牌色盘、Anti-FOUC 极速换肤与白皮书级 PDF 打印净化排版 | [动态强调色盘与白皮书级纯净打印](./theme-and-print.md) |
 | **站内内链智能悬浮预览** | 类似 Wikipedia / Notion 的内链悬浮卡片预览，280ms 防抖与视口翻转防碰撞 | [站内内链悬浮卡片预览](./link-hover-preview.md) |
+| **PWA 离线应用与预缓存** | Service Worker 断网秒开、全站预缓存、Web App Manifest 与桌面端一键安装 | [PWA 渐进式离线应用与预缓存](./pwa-offline.md) |
 | **交互短代码组件库** | 免 import 直接书写的卡片网格、胶囊徽标、时间轴、横幅与反馈组件 | [交互短代码组件库](../components/overview.md) |
 | **原生轻量博客流** | `createContentLoader` 静态数据聚合、标签多维筛选卡片流 | [博客归档矩阵](../blog/index.md) |
+
 
 

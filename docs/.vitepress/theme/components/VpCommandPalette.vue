@@ -398,7 +398,18 @@ const navigationItems = computed<PaletteItem[]>(() => [
     perform: () => navigate('/guide/link-hover-preview'),
   },
   {
+    id: 'nav-guide-pwa-offline',
+    title: '指南: PWA 渐进式离线应用与预缓存',
+    description: 'Service Worker 离线断网秒开、全站预缓存与桌面端原生安装体验',
+    category: 'navigation',
+    icon: 'i-lucide-download',
+    badge: '离线能力',
+    keywords: ['pwa', 'offline', 'service worker', 'cache', 'install', '离线', '缓存', '安装'],
+    perform: () => navigate('/guide/pwa-offline'),
+  },
+  {
     id: 'nav-blog',
+
     title: '专栏: 团队技术博客与演进动态',
     description: '时间轴归档、多维分类、标签墙与博文矩阵',
     category: 'navigation',
