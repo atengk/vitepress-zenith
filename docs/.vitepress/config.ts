@@ -40,9 +40,20 @@ export default defineConfig({
     },
   },
 
+  sitemap: {
+    hostname: 'https://vitepress-zenith.pages.dev',
+  },
+
   head: [
     ['meta', { name: 'theme-color', content: '#6366f1' }],
     ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['meta', { name: 'keywords', content: 'VitePress, 知识库, 技术文档, Zen Mode, Twoslash, Markmap, MathJax, 博客矩阵' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['meta', { property: 'og:title', content: 'VitePress Zenith - 顶配旗舰级技术文档与知识库模板' }],
+    ['meta', { property: 'og:site_name', content: 'VitePress Zenith' }],
+    ['meta', { property: 'og:description', content: '开箱即用集成沉浸式专注阅读 (Zen Mode)、Twoslash 动态类型、Markmap 思维导图、全站包管理器联动与 UnoCSS 原子图标体系' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
   ],
 
   themeConfig: {

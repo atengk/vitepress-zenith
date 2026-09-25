@@ -14,10 +14,10 @@
 08 — 原生轻量博客与运营套件
 
 **状态 (Status):**
-ready-for-agent
+completed
 
-- [ ] 编写 `.github/workflows/deploy.yml`，配置推送主分支自动触发静态打包与 Pages 部署
-- [ ] 编写详尽的指南文档（`docs/guide/`），覆盖所有 Zenith 功能的用法、短代码语法与配置参数
-- [ ] 编写 SEO 与站点地图（Sitemap）配置，预留社交分享卡片与网站统计插槽
-- [ ] 运行 `pnpm run build` 进行端到端生产级编译构建，验证 0 报错与 SSG 完整性
-- [ ] 运行 `pnpm run preview` 本地拉起静态服务器，验证各交互功能运行完备无误
+- [x] 编写 `.github/workflows/deploy.yml`，配置推送主分支自动触发静态打包与 Pages 部署
+- [x] 编写详尽的指南文档（`docs/guide/`），覆盖所有 Zenith 功能的用法、短代码语法与配置参数
+- [x] 编写 SEO 与站点地图（Sitemap）配置，预留社交分享卡片与网站统计插槽
+- [x] 运行 `pnpm run build` 进行端到端生产级编译构建，验证 0 报错与 SSG 完整性
+- [x] 运行 `pnpm run preview` 本地拉起静态服务器，验证各交互功能运行完备无误

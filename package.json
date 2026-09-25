@@ -5,6 +5,9 @@
   "description": "基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板",
   "type": "module",
   "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
