@@ -67,6 +67,14 @@ export default defineConfig({
           ],
         },
       ],
+      '/components/': [
+        {
+          text: '交互短代码组件库',
+          items: [
+            { text: '组件总览与范例', link: '/components/overview' },
+          ],
+        },
+      ],
     },
 
     socialLinks: [
