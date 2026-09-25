@@ -18,7 +18,7 @@
     "@shikijs/vitepress-twoslash": "^4.4.3",
     "@unocss/preset-icons": "^66.0.0",
     "@unocss/preset-uno": "^66.0.0",
-    "markdown-it-mathjax3": "^5.2.0",
+    "markdown-it-mathjax3": "^4.3.2",
     "markmap-lib": "^0.18.12",
     "markmap-view": "^0.18.12",
     "medium-zoom": "^1.1.0",
