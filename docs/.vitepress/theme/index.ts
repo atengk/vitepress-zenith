@@ -6,16 +6,18 @@
 
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
+import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import Layout from './Layout.vue'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
 import './styles/zen-mode.css'
+import '@shikijs/vitepress-twoslash/style.css'
 
 export default {
   extends: DefaultTheme,
   Layout,
   enhanceApp({ app, router, siteData }) {
-    // 基础扩展入口，后续工单将在此处注入短代码组件与全局交互
+    app.use(TwoslashFloatingVue)
   },
 } satisfies Theme

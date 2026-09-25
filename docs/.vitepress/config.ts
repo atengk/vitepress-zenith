@@ -6,11 +6,19 @@
 
 import { defineConfig } from 'vitepress'
 import UnoCSS from 'unocss/vite'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 
 export default defineConfig({
   title: 'VitePress Zenith',
   description: '基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板',
   lang: 'zh-CN',
+
+  markdown: {
+    lineNumbers: true,
+    codeTransformers: [
+      transformerTwoslash(),
+    ],
+  },
 
   head: [
     ['meta', { name: 'theme-color', content: '#6366f1' }],
@@ -34,6 +42,7 @@ export default defineConfig({
           items: [
             { text: '什么是 Zenith', link: '/guide/what-is-zenith' },
             { text: '快速上手', link: '/guide/getting-started' },
+            { text: '代码块与 Twoslash', link: '/guide/code-enhancements' },
           ],
         },
       ],
