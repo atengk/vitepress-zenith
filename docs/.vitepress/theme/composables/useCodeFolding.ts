@@ -36,6 +36,21 @@ export function useCodeFolding(threshold = DEFAULT_FOLD_THRESHOLD) {
 
       const lineCount = Math.max(lineNumbers.length, codeLines, textLines)
 
+      // 1.1 防御性自动修复：若代码块包含行号容器但行号数量不足（如被插件截断），动态补齐缺失行号
+      const wrapper = block.querySelector('.line-numbers-wrapper')
+      if (wrapper && lineNumbers.length < lineCount) {
+        let startNum = 1
+        const firstNum = lineNumbers[0]?.textContent
+        if (firstNum && !isNaN(Number(firstNum))) {
+          startNum = Number(firstNum)
+        }
+        let html = ''
+        for (let i = 0; i < lineCount; i++) {
+          html += `<span class="line-number">${startNum + i}</span><br>`
+        }
+        wrapper.innerHTML = html
+      }
+
       // 2. 未达到折叠阈值则跳过
       if (lineCount <= threshold) return
 

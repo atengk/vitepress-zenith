@@ -36,7 +36,34 @@ export default defineConfig({
           const code = encodeURIComponent(token.content)
           return `<Markmap id="${key}" code="${code}" />\n`
         }
-        return defaultFence(tokens, idx, options, env, self)
+        const rendered = defaultFence(tokens, idx, options, env, self)
+
+        // 修复 VitePress 内置 lineNumberPlugin 在结合 Twoslash 时因误用 rawCode.indexOf("</code>") 导致行号在第一个悬浮弹窗处提前截断的缺陷
+        const wrapperIdx = rendered.indexOf('<div class="line-numbers-wrapper"')
+        if (wrapperIdx !== -1) {
+          const matchStartLineNumber = token.info.match(/=(\d+)/)
+          const startLineNumber = matchStartLineNumber ? parseInt(matchStartLineNumber[1], 10) : 1
+          const codeBeforeWrapper = rendered.slice(0, wrapperIdx)
+          // 排除 Twoslash 悬浮提示框 (<template v-slot:popper>...</template>) 内部包含的独立高亮代码行，仅统计主干代码行数
+          const cleanCode = codeBeforeWrapper
+            .replace(/<template\s+(?:v-slot:popper|#popper)[\s\S]*?<\/template>/g, '')
+            .replace(/<span\s+class="[^"]*twoslash-floating[^"]*"[\s\S]*?<\/span>\s*<\/span>\s*<\/span>/g, '')
+          const lineMatches = cleanCode.match(/class="line(?:\s+[^"]*)?"/g)
+          const rawLines = token.content.replace(/\r\n/g, '\n').replace(/\n$/, '').split('\n').length
+          const lineCount = lineMatches ? lineMatches.length : rawLines
+
+          const lineNumbersCode = Array.from(
+            { length: lineCount },
+            (_, i) => `<span class="line-number">${i + startLineNumber}</span><br>`
+          ).join('')
+
+          return rendered.replace(
+            /<div class="line-numbers-wrapper"[^>]*>[\s\S]*?<\/div>/,
+            `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`
+          )
+        }
+
+        return rendered
       }
     },
   },
@@ -80,6 +107,7 @@ export default defineConfig({
 
     // Giscus 评论系统配置（基于 GitHub Discussions 零运维讨论区）
     giscus: {
+      enabled: true,
       repo: 'atengk/vitepress-zenith',
       repoId: 'R_kgDON7o88g',
       category: 'General',

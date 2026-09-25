@@ -54,6 +54,7 @@ export default defineConfig({
   themeConfig: {
     // Giscus 评论系统配置
     giscus: {
+      enabled: true, // 全局评论功能总开关，设为 false 时全站禁用评论
       repo: 'atengk/vitepress-zenith',
       repoId: 'R_kgDON7o88g',
       category: 'General',
@@ -74,6 +75,7 @@ export default defineConfig({
 
 | 配置项 | 类型 | 默认值 | 详细说明 |
 | :--- | :--- | :--- | :--- |
+| `enabled` | `boolean` | `true` | 全局评论功能总开关，设为 `false` 时全站禁用评论功能 |
 | `repo` | `string` | 必填 | GitHub 仓库路径（格式为 `所有者/仓库名`） |
 | `repoId` | `string` | 必填 | 仓库在 GitHub GraphQL API 中的全局唯一 ID |
 | `category` | `string` | 必填 | 目标 Discussions 分类名称（如 `General`） |
@@ -106,7 +108,7 @@ VitePress Zenith 在底层针对 SPA 单页应用的特性对 Giscus 进行了�
 
 ## 5. 细粒度控制与页面级禁用
 
-- **全局静默隐退**：若未在 `config.ts` 中配置 `repo`，或者访问站点首页（Landing Page），系统会自动完全隐藏评论区，不产生任何多余的网络请求；
+- **全局总开关与静默隐退**：可在 `themeConfig.giscus` 中配置 `enabled: false` 一键全站关闭评论区；若未在 `config.ts` 中配置 `repo`，或者访问站点首页（Landing Page），系统亦会自动完全隐藏评论区，不产生任何多余的网络请求；
 - **单文档显式禁用**：对于免责声明、更新日志或特定保密草稿，只需在文档头部的 Frontmatter 中声明 `comments: false`，即可针对该单篇页面精确关闭评论区：
 
 ```yaml
