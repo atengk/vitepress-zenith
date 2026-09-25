@@ -114,7 +114,7 @@ const resolvedLatestLink = computed(() => {
     }
   }
 
-  return isEnglish.value ? '/en/guide/what-is-zenith' : '/guide/what-is-zenith'
+  return isEnglish.value ? '/en/guide/getting-started' : '/guide/getting-started'
 })
 
 const resolvedTitle = computed(() => {

@@ -1,5 +1,6 @@
 /**
- * 博客文章元数据提取与编译期聚合 Loader
+ * 博客文章元数据提取与编译期聚合 Loader (主题层受管数据加载器)
+ * 采用相对 docs 根目录的 glob 匹配，在无博客或未配置文章时安全返回空数组
  * @author Ateng
  * @since 2026-09-25
  */
@@ -28,6 +29,10 @@ export default createContentLoader('blog/posts/*.md', {
   excerpt: true,
   includeSrc: true,
   transform(raw): Post[] {
+    if (!Array.isArray(raw) || raw.length === 0) {
+      return []
+    }
+
     return raw
       .filter((item) => !item.frontmatter?.hidden)
       .map(({ url, frontmatter, excerpt, src }) => {

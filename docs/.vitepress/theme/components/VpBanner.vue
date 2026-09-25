@@ -20,7 +20,7 @@ export interface VpBannerProps {
   text?: string
   /**
    * 跳转链接地址
-   * @default '/guide/what-is-zenith'
+   * @default '/guide/getting-started'
    */
   link?: string
   /**
@@ -43,7 +43,7 @@ export interface VpBannerProps {
 const props = withDefaults(defineProps<VpBannerProps>(), {
   id: 'zenith-announcement-v1',
   text: '🎉 欢迎体验 VitePress Zenith 旗舰级技术文档与知识库矩阵模板！',
-  link: '/guide/what-is-zenith',
+  link: '/guide/getting-started',
   linkText: '了解详情 →',
   dismissible: true,
   fixed: true,

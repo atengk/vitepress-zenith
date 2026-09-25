@@ -6,7 +6,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { data as posts, type Post } from '../../../blog/posts.data'
+import { data as rawPosts, type Post } from '../utils/posts.data'
+
+// 安全兜底文章列表（防空安全契约）
+const posts = computed<Post[]>(() => Array.isArray(rawPosts) ? rawPosts : [])
 
 // 当前选中的筛选标签（默认 'all' 表示全部）
 const activeTag = ref<string>('all')
@@ -14,7 +17,7 @@ const activeTag = ref<string>('all')
 // 提取所有标签及其包含的文章篇数
 const tagCounts = computed(() => {
   const counts: Record<string, number> = {}
-  for (const post of posts) {
+  for (const post of posts.value) {
     for (const tag of post.tags) {
       counts[tag] = (counts[tag] || 0) + 1
     }
@@ -28,9 +31,9 @@ const tagsList = computed(() => Object.keys(tagCounts.value).sort())
 // 根据当前选中的标签过滤文章
 const filteredPosts = computed(() => {
   if (activeTag.value === 'all') {
-    return posts
+    return posts.value
   }
-  return posts.filter((post) => post.tags.includes(activeTag.value))
+  return posts.value.filter((post) => post.tags.includes(activeTag.value))
 })
 
 // 按年份分组聚合过滤后的博文列表

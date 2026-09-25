@@ -33,7 +33,7 @@ const { isOpen, close, attachGlobalListeners } = useCommandPalette()
 const { isZenMode, toggleZenMode } = useZenMode()
 const { currentPalette, setPalette } = useThemePalette()
 const { openShortcuts } = useKeyboardShortcuts()
-const { isDark, localeIndex } = useData()
+const { isDark, localeIndex, theme } = useData()
 const router = useRouter()
 
 // 输入检索词与高亮指针
@@ -293,239 +293,68 @@ const staticActions = computed<PaletteItem[]>(() => [
   },
 ])
 
-// 全站核心导航列表
-const navigationItems = computed<PaletteItem[]>(() => [
-  {
-    id: 'nav-home',
-    title: '首页 (Landing Page)',
-    description: '天顶旗舰级文档矩阵视觉门面与产品特性总览',
-    category: 'navigation',
-    icon: 'i-lucide-compass',
-    badge: '门户',
-    keywords: ['home', 'index', '首页', '门面'],
-    perform: () => navigate('/'),
-  },
-  {
-    id: 'nav-guide-zenith',
-    title: '指南: 什么是 VitePress Zenith',
-    description: '核心架构愿景、技术矩阵与设计规范',
-    category: 'navigation',
-    icon: 'i-lucide-book-open',
-    badge: '文档',
-    keywords: ['guide', 'zenith', '指南', '入门', '愿景'],
-    perform: () => navigate('/guide/what-is-zenith'),
-  },
-  {
-    id: 'nav-guide-zen-mode',
-    title: '指南: 沉浸式专注阅读 (Zen Mode)',
-    description: '双侧栏解耦对称平移与无缝心流机制',
-    category: 'navigation',
-    icon: 'i-lucide-sparkles',
-    badge: '文档',
-    keywords: ['zen', 'mode', '沉浸', '专注', '阅读'],
-    perform: () => navigate('/guide/zen-mode'),
-  },
-  {
-    id: 'nav-guide-twoslash',
-    title: '指南: Shiki Twoslash 动态类型',
-    description: '代码块悬浮类型推导与编译器即时诊断',
-    category: 'navigation',
-    icon: 'i-lucide-code',
-    badge: '文档',
-    keywords: ['twoslash', 'shiki', 'typescript', '类型', '代码高亮'],
-    perform: () => navigate('/guide/code-enhancements'),
-  },
-  {
-    id: 'nav-guide-pm-tabs',
-    title: '指南: 全站联动包管理器选项卡',
-    description: 'npm / pnpm / yarn / bun 偏好跨页面同步',
-    category: 'navigation',
-    icon: 'i-lucide-layers',
-    badge: '文档',
-    keywords: ['package', 'npm', 'pnpm', 'yarn', 'bun', '包管理'],
-    perform: () => navigate('/guide/package-manager-tabs'),
-  },
-  {
-    id: 'nav-guide-rich-media',
-    title: '指南: 全能富媒体与架构图表',
-    description: 'LaTeX 数学公式、Mermaid 架构图与 Markmap 思维导图',
-    category: 'navigation',
-    icon: 'i-lucide-image',
-    badge: '文档',
-    keywords: ['rich', 'media', 'mermaid', 'markmap', 'latex', '图表', '思维导图'],
-    perform: () => navigate('/guide/rich-media'),
-  },
-  {
-    id: 'nav-guide-search',
-    title: '指南: 离线全文检索与自动侧边栏',
-    description: 'Minisearch 中文分词与物理目录智能映射',
-    category: 'navigation',
-    icon: 'i-lucide-search',
-    badge: '文档',
-    keywords: ['search', 'sidebar', 'minisearch', '搜索', '侧边栏'],
-    perform: () => navigate('/guide/search-and-sidebar'),
-  },
-  {
-    id: 'nav-guide-reading-exp',
-    title: '指南: 阅读认知增强与代码折叠',
-    description: '中西文字数算法、阅读时长推导与超长代码块智能折叠',
-    category: 'navigation',
-    icon: 'i-lucide-clock',
-    badge: '文档',
-    keywords: ['reading', 'metrics', 'fold', 'code', '字数', '耗时', '代码折叠'],
-    perform: () => navigate('/guide/reading-experience'),
-  },
-  {
-    id: 'nav-guide-community',
-    title: '指南: 解耦式技术社区讨论体系',
-    description: '基于 GitHub Discussions 的无服务器评论体系与深浅换肤',
-    category: 'navigation',
-    icon: 'i-lucide-messages-square',
-    badge: '文档',
-    keywords: ['giscus', 'discussions', 'comments', '社区', '讨论', '评论'],
-    perform: () => navigate('/guide/community-discussions'),
-  },
-  {
-    id: 'nav-components',
-    title: '组件库: 交互短代码组件总览',
-    description: 'Card, Timeline, Sandbox, Banner 等免导入全局短代码',
-    category: 'navigation',
-    icon: 'i-lucide-component',
-    badge: '组件',
-    keywords: ['components', 'shortcodes', 'card', 'timeline', '组件库'],
-    perform: () => navigate('/components/overview'),
-  },
-  {
-    id: 'nav-guide-theme-and-print',
-    title: '指南: 动态强调色盘与白皮书级纯净打印',
-    description: '4 套高质感品牌色动态切换与白皮书级 PDF 打印输出指南',
-    category: 'navigation',
-    icon: 'i-lucide-palette',
-    badge: '体验规范',
-    keywords: ['palette', 'color', 'print', 'pdf', '打印', '色盘', '换肤', '白皮书'],
-    perform: () => navigate('/guide/theme-and-print'),
-  },
-  {
-    id: 'nav-guide-link-hover-preview',
-    title: '指南: 站内内链悬浮卡片预览',
-    description: '类似 Wikipedia/Notion 的智能即时上下文摘要预览体系',
-    category: 'navigation',
-    icon: 'i-lucide-external-link',
-    badge: '阅读体验',
-    keywords: ['preview', 'link', 'hover', 'popover', '内链', '悬浮', '预览', '气泡'],
-    perform: () => navigate('/guide/link-hover-preview'),
-  },
-  {
-    id: 'nav-guide-pwa-offline',
-    title: '指南: PWA 渐进式离线应用与预缓存',
-    description: 'Service Worker 离线断网秒开、全站预缓存与桌面端原生安装体验',
-    category: 'navigation',
-    icon: 'i-lucide-download',
-    badge: '离线能力',
-    keywords: ['pwa', 'offline', 'service worker', 'cache', 'install', '离线', '缓存', '安装'],
-    perform: () => navigate('/guide/pwa-offline'),
-  },
-  {
-    id: 'nav-guide-api-table',
-    title: '指南: 结构化参数契约表组件',
-    description: '根除窄屏横向截断、移动端卡片自适应降级与即时参数检索',
-    category: 'navigation',
-    icon: 'i-lucide-table',
-    badge: '组件契约',
-    keywords: ['api', 'table', 'props', 'parameters', '参数表', '契约', '表格', '移动端'],
-    perform: () => navigate('/guide/structured-api-table'),
-  },
-  {
-    id: 'nav-guide-playground-stackblitz',
-    title: '指南: 在线沙箱直达 (StackBlitz)',
-    description: 'WebContainer 虚拟机秒级启动、代码片段一键投送试跑与调试',
-    category: 'navigation',
-    icon: 'i-lucide-zap',
-    badge: '调试沙箱',
-    keywords: ['stackblitz', 'playground', 'sandbox', 'webcontainer', '沙箱', '试跑', '调试'],
-    perform: () => navigate('/guide/playground-stackblitz'),
-  },
-  {
-    id: 'nav-guide-i18n-matrix',
-    title: '指南: 中英多语言国际化架构 (i18n)',
-    description: '双语映射矩阵、自动侧边栏隔离推导与混合词法离线分词',
-    category: 'navigation',
-    icon: 'i-lucide-globe',
-    badge: '国际化',
-    keywords: ['i18n', 'locale', 'english', 'language', '国际化', '多语言', '英文', '双语'],
-    perform: () => navigate('/guide/i18n-matrix'),
-  },
-  {
-    id: 'nav-guide-version-switcher',
-    title: '指南: 多版本文档管理与归档警告',
-    description: '顶栏版本下拉菜单、<VpLegacyBanner> 警告横幅与等价路径平滑跳转',
-    category: 'navigation',
-    icon: 'i-lucide-git-branch',
-    badge: '版本管理',
-    keywords: ['version', 'legacy', 'archive', 'banner', '版本', '归档', '旧版', '警告'],
-    perform: () => navigate('/guide/version-switcher'),
-  },
-  {
-    id: 'nav-guide-keyboard-shortcuts',
-    title: '指南: 全键盘极客导航与快捷键速查',
-    description: '监听 ? 唤起速查浮层、J/K 平滑翻页、T 换肤与 Alt+Z 专注阅读',
-    category: 'navigation',
-    icon: 'i-lucide-keyboard',
-    badge: '极客体验',
-    keywords: ['keyboard', 'shortcuts', 'geek', 'navigation', '快捷键', '键盘', '极客', '速查'],
-    perform: () => navigate('/guide/keyboard-shortcuts'),
-  },
-  {
-    id: 'nav-guide-contributors-stream',
-    title: '指南: 开源贡献者致谢流与 GitHub 协同',
-    description: 'Git 提交自动挖掘、<VpContributors> 重叠头像流与 GitHub 编辑协同',
-    category: 'navigation',
-    icon: 'i-lucide-users',
-    badge: '社区协同',
-    keywords: ['contributors', 'avatar', 'github', 'edit', '贡献者', '头像', '编辑', '协同'],
-    perform: () => navigate('/guide/contributors-stream'),
-  },
-  {
-    id: 'nav-v0-legacy-guide',
-    title: '归档: v0.9.0 历史版本指引样例',
-    description: '查阅历史归档演示页面与自动触发的归档警告横幅',
-    category: 'navigation',
-    icon: 'i-lucide-history',
-    badge: '历史归档',
-    keywords: ['v0', 'legacy', 'archive', '0.9.0', '旧版', '归档'],
-    perform: () => navigate('/v0/guide/'),
-  },
-  {
-    id: 'nav-blog',
-
-
-
-
-    title: '专栏: 团队技术博客与演进动态',
-    description: '时间轴归档、多维分类、标签墙与博文矩阵',
-    category: 'navigation',
-    icon: 'i-lucide-newspaper',
-    badge: '博客',
-    keywords: ['blog', 'posts', '博客', '文章', '动态'],
-    perform: () => navigate('/blog/'),
-  },
-  {
-    id: 'nav-github',
-    title: '开源仓库: GitHub (atengk/vitepress-zenith)',
-    description: '在 GitHub 查看源码、Star 支持或提交 Issue',
-    category: 'navigation',
-    icon: 'i-lucide-github',
-    shortcut: ['Repo ↗'],
-    badge: '社区',
-    keywords: ['github', 'repo', 'open source', '开源', '仓库'],
-    perform: () => {
-      if (typeof window !== 'undefined') {
-        window.open('https://github.com/atengk/vitepress-zenith', '_blank')
-      }
-      close()
+// 全站核心导航列表（解耦硬编码演示文章，完全交由 Minisearch 动态检索驱动）
+const navigationItems = computed<PaletteItem[]>(() => {
+  const items: PaletteItem[] = [
+    {
+      id: 'nav-home',
+      title: '首页 (Landing Page)',
+      description: '回到全站门户门面主页',
+      category: 'navigation',
+      icon: 'i-lucide-compass',
+      badge: '门户',
+      keywords: ['home', 'index', '首页', '门面'],
+      perform: () => navigate('/'),
     },
-  },
-])
+    {
+      id: 'nav-components-overview',
+      title: '交互短代码组件库总览',
+      description: '查看全套免 import 短代码组件与语法参考手册',
+      category: 'navigation',
+      icon: 'i-lucide-box',
+      badge: '组件库',
+      keywords: ['components', 'overview', '组件', '短代码', '手册'],
+      perform: () => navigate('/components/overview'),
+    },
+  ]
+
+  // 若全局开关开启了博客，安全动态追加博客专栏入口
+  if (theme.value.zenith?.blog) {
+    items.push({
+      id: 'nav-blog',
+      title: '专栏: 团队技术博客与演进动态',
+      description: '时间轴归档、多维分类、标签墙与博文矩阵',
+      category: 'navigation',
+      icon: 'i-lucide-newspaper',
+      badge: '博客',
+      keywords: ['blog', 'posts', '博客', '文章', '动态'],
+      perform: () => navigate('/blog/'),
+    })
+  }
+
+  // 动态读取当前配置中的 GitHub 社交仓库地址
+  const githubLink = (theme.value.socialLinks || []).find((s: any) => s.icon === 'github')?.link
+  if (githubLink) {
+    items.push({
+      id: 'nav-github',
+      title: '开源仓库 (GitHub)',
+      description: '在 GitHub 查看源码、Star 支持或提交 Issue',
+      category: 'navigation',
+      icon: 'i-lucide-github',
+      shortcut: ['Repo ↗'],
+      badge: '社区',
+      keywords: ['github', 'repo', 'open source', '开源', '仓库'],
+      perform: () => {
+        if (typeof window !== 'undefined') {
+          window.open(githubLink, '_blank')
+        }
+        close()
+      },
+    })
+  }
+
+  return items
+})
 
 // 动态检索文档结果
 const documentResults = ref<PaletteItem[]>([])

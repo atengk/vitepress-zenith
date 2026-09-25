@@ -47,7 +47,7 @@ const versionNavItemZh = {
     {
       text: '当前版本',
       items: [
-        { text: 'v1.0.0 (最新稳定版)', link: '/guide/what-is-zenith' },
+        { text: 'v1.0.0 (最新稳定版)', link: '/guide/getting-started' },
       ],
     },
     {
@@ -133,7 +133,7 @@ const enLocaleConfig = {
   themeConfig: {
     nav: [
       { text: 'Home', link: '/en/' },
-      { text: 'Guide', link: '/en/guide/what-is-zenith' },
+      { text: 'Guide', link: '/en/guide/getting-started' },
       { text: 'Components', link: '/components/overview' },
       ...(zenithConfig.blog ? [{ text: 'Blog', link: '/blog/' }] : []),
       ...(zenithConfig.versionSwitcher ? [versionNavItemEn] : []),
@@ -152,7 +152,7 @@ const enLocaleConfig = {
             text: 'v0.9.0 Archived',
             items: [
               { text: 'Legacy Overview', link: '/v0/guide/' },
-              { text: 'Back to Latest v1.0.0', link: '/en/guide/what-is-zenith' },
+              { text: 'Back to Latest v1.0.0', link: '/en/guide/getting-started' },
             ],
           },
         ],
@@ -480,7 +480,7 @@ export default withPwa(defineConfig({
       themeConfig: {
         nav: [
           { text: '首页', link: '/' },
-          { text: '指南', link: '/guide/what-is-zenith' },
+          { text: '指南', link: '/guide/getting-started' },
           { text: '组件', link: '/components/overview' },
           ...(zenithConfig.blog ? [{ text: '博客', link: '/blog/' }] : []),
           ...(zenithConfig.versionSwitcher ? [versionNavItemZh] : []),
@@ -499,7 +499,7 @@ export default withPwa(defineConfig({
                 text: 'v0.9.0 历史归档',
                 items: [
                   { text: '旧版指引概览', link: '/v0/guide/' },
-                  { text: '返回最新稳定版 v1.0.0', link: '/guide/what-is-zenith' },
+                  { text: '返回最新稳定版 v1.0.0', link: '/guide/getting-started' },
                 ],
               },
             ],

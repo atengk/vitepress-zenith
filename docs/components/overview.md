@@ -236,15 +236,15 @@ const count = ref(0)
   id="demo-banner-doc"
   :fixed="false"
   text="✨ 欢迎体验全新组件库与通知横幅组件！"
-  link="/blog/"
-  linkText="探索博客矩阵 →"
+  link="/guide/getting-started"
+  linkText="查阅起步指南 →"
 />
 
 ```html
 <VpBanner
   id="announcement-v1"
   text="🎉 欢迎体验 VitePress Zenith 旗舰级技术文档与知识库矩阵模板！"
-  link="/guide/what-is-zenith"
+  link="/guide/getting-started"
   linkText="了解详情 →"
   :dismissible="true"
 />
@@ -403,7 +403,7 @@ export default defineConfig({
   :visible="true"
   current-version="v0.9.0"
   latest-version="v1.0.0"
-  latest-link="/guide/what-is-zenith"
+  latest-link="/guide/getting-started"
   title="历史归档版本提示"
   message="当前查阅的是历史旧版文档，部分 API 已在最新稳定版中升级或重构。"
   button-text="前往最新版文档"
@@ -414,7 +414,7 @@ export default defineConfig({
   :visible="true"
   current-version="v0.9.0"
   latest-version="v1.0.0"
-  latest-link="/guide/what-is-zenith"
+  latest-link="/guide/getting-started"
   title="历史归档版本提示"
   message="当前查阅的是历史旧版文档，建议前往最新版获取完整功能支持。"
   button-text="前往最新稳定版"
@@ -506,7 +506,7 @@ export default defineConfig({
 
 ## 17. 增强多媒体与流媒体短代码 (Media Assets)
 
-专为技术文档打造的高质感多媒体交互组件，消除原生 HTML 标签的生硬感，支持 16:9 响应式比例、现代圆角阴影、居中图注与深浅色模式自适应。详见 [图片与多媒体资产管理指南](../guide/media-assets.md)。
+专为技术文档打造的高质感多媒体交互组件，消除原生 HTML 标签的生硬感，支持 16:9 响应式比例、现代圆角阴影、居中图注与深浅色模式自适应。
 
 ### 17.1 深浅色模式双图适配 (VpImage)
 
