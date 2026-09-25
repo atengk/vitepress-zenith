@@ -78,6 +78,21 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/atengk/vitepress-zenith' },
     ],
 
+    // Giscus 评论系统配置（基于 GitHub Discussions 零运维讨论区）
+    giscus: {
+      repo: 'atengk/vitepress-zenith',
+      repoId: 'R_kgDON7o88g',
+      category: 'General',
+      categoryId: 'DIC_kwDON7o88s4Cn7ab',
+      mapping: 'pathname',
+      strict: '0',
+      reactionsEnabled: '1',
+      emitMetadata: '0',
+      inputPosition: 'top',
+      lang: 'zh-CN',
+      loading: 'lazy',
+    },
+
     // 页面底部翻页中文配置
     docFooter: {
       prev: '上一篇',

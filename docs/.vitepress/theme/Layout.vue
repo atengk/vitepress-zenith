@@ -12,6 +12,7 @@ import DocMeta from './components/DocMeta.vue'
 import VpBanner from './components/VpBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
+import VpComments from './components/VpComments.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 import { useCodeFolding } from './composables/useCodeFolding'
 
@@ -36,6 +37,10 @@ useCodeFolding()
 
     <template #doc-footer-before>
       <VpHelpful />
+    </template>
+
+    <template #doc-after>
+      <VpComments />
     </template>
 
     <template #layout-bottom>

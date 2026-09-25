@@ -240,3 +240,31 @@ VitePress Zenith 预置了一套现代高质感、在全站任何 Markdown 文�
 <VpHelpful />
 ```
 
+---
+
+## 8. 技术社区讨论与评论 (VpComments)
+
+基于 GitHub Discussions 的无服务器评论体系，已默认挂载于全站技术文档与博客专栏末尾，支持深浅模式无缝自适应：
+
+- **零服务器成本**：无任何自建数据库或外部服务器依赖，天然具备防刷屏与高质量技术交流氛围；
+- **主题实时换肤**：监听 VitePress 的 `isDark` 状态机，无需重新刷新页面即可实时切换 Giscus 深浅主题；
+- **页面级精确控制**：在任意文章 Frontmatter 中声明 `comments: false`，即可针对特定草稿或公告单独关闭评论区。
+
+### 全局配置示例 (`docs/.vitepress/config.ts`)
+
+```ts
+export default defineConfig({
+  themeConfig: {
+    giscus: {
+      repo: 'your-username/your-repo',
+      repoId: 'R_kgDO...',
+      category: 'General',
+      categoryId: 'DIC_kwDO...',
+      mapping: 'pathname',
+      lang: 'zh-CN',
+    },
+  },
+})
+```
+
+

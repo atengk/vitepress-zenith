@@ -22,6 +22,7 @@ import VpBanner from './components/VpBanner.vue'
 import VpHelpful from './components/VpHelpful.vue'
 import VpBlogList from './components/VpBlogList.vue'
 import VpCommandPalette from './components/VpCommandPalette.vue'
+import VpComments from './components/VpComments.vue'
 import { useCommandPalette } from './composables/useCommandPalette'
 import { useCodeFolding } from './composables/useCodeFolding'
 import 'virtual:uno.css'
@@ -53,5 +54,6 @@ export default {
     app.component('VpHelpful', VpHelpful)
     app.component('VpBlogList', VpBlogList)
     app.component('VpCommandPalette', VpCommandPalette)
+    app.component('VpComments', VpComments)
   },
 } satisfies Theme
