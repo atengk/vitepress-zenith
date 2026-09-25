@@ -1,0 +1,63 @@
+/**
+ * 沉浸式专注阅读模式 (Zen Mode) 核心布局样式
+ * @author Ateng
+ * @since 2026-09-25
+ */
+
+/* 核心布局平滑过渡动效 */
+.VPSidebar,
+.VPContent,
+.VPDoc .aside,
+.VPDoc .container > .content {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 开启沉浸模式时的布局覆写 */
+html.zen-mode .VPSidebar {
+  transform: translateX(-100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html.zen-mode .VPLocalNav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+html.zen-mode .VPContent.has-sidebar {
+  padding-left: 0 !important;
+}
+
+html.zen-mode .VPDoc .aside {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+html.zen-mode .VPDoc .container {
+  max-width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+html.zen-mode .VPDoc .container > .content {
+  max-width: 880px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 32px 32px !important;
+}
+
+/* 沉浸模式下的阅读正文排版优化 */
+html.zen-mode .vp-doc p,
+html.zen-mode .vp-doc li {
+  line-height: 1.95;
+  font-size: 1.05rem;
+}
