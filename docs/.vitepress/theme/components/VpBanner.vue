@@ -5,7 +5,8 @@
 -->
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { useData } from 'vitepress'
 
 export interface VpBannerProps {
   /**
@@ -47,6 +48,14 @@ const props = withDefaults(defineProps<VpBannerProps>(), {
   linkText: '了解详情 →',
   dismissible: true,
   fixed: true,
+})
+
+const { theme } = useData()
+const displayText = computed(() => {
+  if (props.text && props.text !== '🎉 欢迎体验 VitePress Zenith 旗舰级技术文档与知识库矩阵模板！') {
+    return props.text
+  }
+  return theme.value?.zenith?.bannerText || props.text
 })
 
 const bannerRef = ref<HTMLElement | null>(null)
@@ -134,7 +143,7 @@ function dismiss() {
     >
       <div class="vp-banner-content">
         <slot>
-          <span class="vp-banner-text">{{ text }}</span>
+          <span class="vp-banner-text">{{ displayText }}</span>
           <a v-if="link" :href="link" class="vp-banner-link">
             {{ linkText }}
           </a>

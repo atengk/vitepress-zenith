@@ -81,14 +81,28 @@ async function main() {
   const siteTitle = await ask('📝 知识库/站点中文标题', '企业级技术文档中心')
   const siteDesc = await ask('💡 站点一句话描述', '基于 VitePress Zenith 构建的现代化全能型技术知识库')
   const authorName = await ask('👤 项目作者/团队名称', 'Ateng')
+  const githubRepo = await ask('🔗 GitHub 仓库开源地址 (如 https://github.com/my-org/my-docs，留空则为私有离线模式)', '')
 
   // 2. 特性开关配置
-  console.log('\n--- 步骤 2/4: 可插拔特性开关定制 ---')
+  console.log('\n--- 步骤 2/4: 可插拔特性开关与工程配置定制 ---')
   const enableBlogInput = await ask('📰 是否启用技术博客专栏？(y/n)', 'n')
   const enableBlog = enableBlogInput.toLowerCase() === 'y'
 
   const enableI18nInput = await ask('🌐 是否启用中英双语国际化矩阵？(y/n)', 'n')
   const enableI18n = enableI18nInput.toLowerCase() === 'y'
+
+  const showComponentsNavInput = await ask('🧩 是否在顶栏导航显示组件库参考手册？(y/n)', 'n')
+  const showComponentsNav = showComponentsNavInput.toLowerCase() === 'y'
+
+  const enableBannerInput = await ask('📢 是否启用全站顶部公告通知横幅？(y/n)', 'n')
+  const enableBanner = enableBannerInput.toLowerCase() === 'y'
+  let bannerText = ''
+  if (enableBanner) {
+    bannerText = await ask('📣 请输入顶部公告横幅文案', `🎉 欢迎查阅 ${siteTitle}！`)
+  }
+
+  const enableDeployWorkflowInput = await ask('🚀 是否保留 GitHub Pages 自动化构建与部署工作流？(y/n)', 'y')
+  const enableDeployWorkflow = enableDeployWorkflowInput.toLowerCase() === 'y'
 
   const resetGitInput = await ask('🔄 是否彻底重置 Git 提交历史（创建崭新仓库）？(y/n)', 'y')
   const resetGit = resetGitInput.toLowerCase() === 'y'
@@ -103,7 +117,14 @@ async function main() {
     pkg.version = '1.0.0'
     pkg.description = siteDesc
     pkg.author = authorName
-    delete pkg.repository
+    if (githubRepo) {
+      pkg.repository = {
+        type: 'git',
+        url: githubRepo.endsWith('.git') ? githubRepo : `${githubRepo}.git`,
+      }
+    } else {
+      delete pkg.repository
+    }
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8')
     console.log('✅ package.json 元数据重置完成')
   }
@@ -112,22 +133,78 @@ async function main() {
   const configPath = path.resolve(rootDir, 'docs/.vitepress/config.ts')
   if (fs.existsSync(configPath)) {
     let configContent = fs.readFileSync(configPath, 'utf-8')
-    // 替换站点标题与描述
+
+    // 替换站点标题、描述与主题标题
     configContent = configContent.replace(/title:\s*['"][^'"]+['"]/g, `title: '${siteTitle}'`)
     configContent = configContent.replace(/description:\s*['"][^'"]+['"]/g, `description: '${siteDesc}'`)
+    configContent = configContent.replace(/siteTitle:\s*['"][^'"]+['"]/g, `siteTitle: '${siteTitle}'`)
+
     // 更新导航与历史链接中的演示路径为起步指南路径
     configContent = configContent.replaceAll('/guide/what-is-zenith', '/guide/getting-started')
     configContent = configContent.replaceAll('/en/guide/what-is-zenith', '/en/guide/getting-started')
-    // 更新 zenithConfig 开关
+
+    // 更新 zenithConfig 开关与公告配置
     configContent = configContent.replace(/blog:\s*(true|false)/, `blog: ${enableBlog}`)
     configContent = configContent.replace(/i18n:\s*(true|false)/, `i18n: ${enableI18n}`)
+    if (enableBanner) {
+      configContent = configContent.replace(
+        /banner:\s*(true|false)[^\n]*/,
+        `banner: true,             // 顶部全宽公告通知横幅 (<VpBanner>)：已启用\n  bannerText: '${bannerText}',`
+      )
+    } else {
+      configContent = configContent.replace(
+        /banner:\s*(true|false)[^\n]*/,
+        `banner: false,            // 顶部全宽公告通知横幅 (<VpBanner>)：默认关闭`
+      )
+    }
+
+    // 顶栏组件库参考手册链接控制
+    if (!showComponentsNav) {
+      configContent = configContent.replace(/\s*\{\s*text:\s*['"]组件['"],\s*link:\s*['"]\/components\/overview['"]\s*\},?/, '')
+      configContent = configContent.replace(/\s*\{\s*text:\s*['"]Components['"],\s*link:\s*['"]\/components\/overview['"]\s*\},?/, '')
+    }
+
+    // 社交仓库与编辑此页链接适配
+    if (githubRepo) {
+      const cleanRepo = githubRepo.replace(/\/$/, '').replace(/\.git$/, '')
+      configContent = configContent.replace(
+        /socialLinks:\s*\[[\s\S]*?\{[\s\S]*?icon:\s*['"]github['"][\s\S]*?\}[\s\S]*?\]/,
+        `socialLinks: [\n      { icon: 'github', link: '${cleanRepo}' },\n    ]`
+      )
+      configContent = configContent.replaceAll(
+        'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+        `${cleanRepo}/edit/master/docs/:path`
+      )
+    } else {
+      configContent = configContent.replace(
+        /socialLinks:\s*\[[\s\S]*?\{[\s\S]*?icon:\s*['"]github['"][\s\S]*?\}[\s\S]*?\]/,
+        `socialLinks: []`
+      )
+      configContent = configContent.replaceAll(
+        'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+        ''
+      )
+    }
+
+    // 页脚版权年份与作者名称更新
+    const currentYear = new Date().getFullYear()
+    configContent = configContent.replace(
+      /copyright:\s*['"][^'"]+['"]/,
+      `copyright: 'Copyright © ${currentYear}-present ${siteTitle || authorName}'`
+    )
+
+    // PWA Manifest 名称与描述更新
+    configContent = configContent.replace(/name:\s*['"]VitePress Zenith[^'"]*['"]/, `name: '${siteTitle}'`)
+    configContent = configContent.replace(/short_name:\s*['"][^'"]+['"]/, `short_name: '${projectName}'`)
+
     fs.writeFileSync(configPath, configContent, 'utf-8')
-    console.log('✅ docs/.vitepress/config.ts 开关与站点标题配置完成')
+    console.log('✅ docs/.vitepress/config.ts 特性开关、导航与品牌元数据配置完成')
   }
 
   // 3.3 清理业务演示文档并创建起步模板
   safeRemove('docs/guide')
   safeRemove('docs/v0')
+
   if (!enableBlog) {
     safeRemove('docs/blog')
   } else {
@@ -151,6 +228,7 @@ description: 本站点已启用基于 VitePress Zenith 的技术博客专栏，�
 您可以在此目录持续新增 Markdown 文件，系统将自动汇总至博文矩阵与时间轴归档。
 `
     )
+    console.log('✅ 博客起步博文初始化完成 (docs/blog/posts/welcome.md)')
   }
 
   if (!enableI18n) {
@@ -169,6 +247,7 @@ order: 1
 This is the starter documentation based on **VitePress Zenith**.
 `
     )
+    console.log('✅ 英文起步指南初始化完成 (docs/en/guide/getting-started.md)')
   }
 
   // 生成起步文档 docs/guide/getting-started.md
@@ -203,6 +282,14 @@ ${siteDesc}
   console.log('✅ 新项目业务指南初始化完成 (docs/guide/getting-started.md)')
 
   // 3.4 重置首页落地页 docs/index.md
+  const secondAction = showComponentsNav
+    ? `    - theme: alt
+      text: 组件参考手册
+      link: /components/overview`
+    : `    - theme: alt
+      text: 架构设计决策
+      link: /adr/0001-init-project`
+
   writeFile(
     'docs/index.md',
     `---
@@ -219,9 +306,7 @@ hero:
     - theme: brand
       text: 立即查阅指南 →
       link: /guide/getting-started
-    - theme: alt
-      text: 组件参考手册
-      link: /components/overview
+${secondAction}
 
 features:
   - icon: 🎯
@@ -276,7 +361,118 @@ _Avoid_: 混淆业务名词, 模糊定义
   )
   console.log('✅ 架构决策记录重置完成 (docs/adr/0001-init-project.md)')
 
-  // 3.7 清空临时工单
+  // 3.7 重置根目录工程文档 README.md 与 AGENTS.md
+  const readmePath = path.resolve(rootDir, 'README.md')
+  const templateReadmePath = path.resolve(rootDir, 'README.template.md')
+  if (fs.existsSync(readmePath) && !fs.existsSync(templateReadmePath)) {
+    fs.renameSync(readmePath, templateReadmePath)
+  }
+  writeFile(
+    'README.md',
+    `# ${siteTitle}
+
+> ${siteDesc}
+
+本项目基于现代化全能型文档矩阵架构构建，提供毫秒级热更体验、离线全文检索、沉浸式阅读与自适应组件支持。
+
+---
+
+## 🚀 快速起步
+
+### 1. 安装项目依赖
+
+\`\`\`bash
+pnpm install
+\`\`\`
+
+### 2. 启动本地开发服务
+
+\`\`\`bash
+pnpm dev
+\`\`\`
+
+本地开发服务将运行在 \`http://localhost:5173\`，编辑 Markdown 即刻获得热更新渲染。
+
+### 3. 执行 TypeScript 严格类型检查
+
+\`\`\`bash
+pnpm typecheck
+\`\`\`
+
+### 4. 构建生产级静态站点 (SSG)
+
+\`\`\`bash
+pnpm build
+\`\`\`
+
+静态部署产物将输出至 \`docs/.vitepress/dist\`。
+
+### 5. 本地预览生产构建产物
+
+\`\`\`bash
+pnpm preview
+\`\`\`
+
+---
+
+## 📁 核心目录结构
+
+\`\`\`text
+├── docs/
+│   ├── .vitepress/          # 全站主题、插件与导航配置
+│   ├── guide/               # 业务指引与技术知识库正文
+│   ├── public/              # 静态公共资源（Logo、自定义配图）
+│   └── index.md             # 站点落地首页
+├── scripts/                 # 自动化治理与脱敏脚手架
+├── CONTEXT.md               # 业务领域模型真理来源
+├── AGENTS.md                # 仓库开发规范与 AI 协同协议
+└── package.json
+\`\`\`
+
+---
+
+## 📚 模板参考与内参
+
+本项目派生自 **VitePress Zenith** 模板。如需查阅内置的各种交互短代码组件（卡片、时间轴、双模图片、API 表格等）调用范例与高级主题配置，请参考本地内参：
+- [模板功能总览与内参说明](./README.template.md)
+`
+  )
+  console.log('✅ README.md 已重置为新项目专属规范文档 (母体模板内参备份为 README.template.md)')
+
+  const agentsPath = path.resolve(rootDir, 'AGENTS.md')
+  if (fs.existsSync(agentsPath)) {
+    let agentsContent = fs.readFileSync(agentsPath, 'utf-8')
+    agentsContent = agentsContent.replace(
+      /本项目是基于 VitePress 1\.6\+ 与 Vue 3\.5 构建的现代化全能型技术文档、知识库与技术博客矩阵模板（VitePress Zenith）。/,
+      `本项目是【${siteTitle}】，${siteDesc}。基于 VitePress 1.6+ 与 Vue 3.5 构建。`
+    )
+    fs.writeFileSync(agentsPath, agentsContent, 'utf-8')
+    console.log('✅ AGENTS.md 业务项目名称与协同规范已同步更新')
+  }
+
+  // 3.8 GitHub Actions 持续集成工作流控制
+  const deployYmlPath = path.resolve(rootDir, '.github/workflows/deploy.yml')
+  if (enableDeployWorkflow) {
+    if (fs.existsSync(deployYmlPath)) {
+      let deployContent = fs.readFileSync(deployYmlPath, 'utf-8')
+      deployContent = deployContent.replace(
+        /name:\s*部署 VitePress Zenith 至 GitHub Pages/,
+        `name: 部署 ${siteTitle} 至 GitHub Pages`
+      )
+      fs.writeFileSync(deployYmlPath, deployContent, 'utf-8')
+      console.log('✅ .github/workflows/deploy.yml 工作流名称已更新')
+    }
+  } else {
+    safeRemove('.github')
+    console.log('✅ 已清理 .github/ 持续集成工作流')
+  }
+
+  // 3.9 清理 public/ 演示矢量图片
+  safeRemove('docs/public/theme-demo-light.svg')
+  safeRemove('docs/public/theme-demo-dark.svg')
+  console.log('✅ 已清理 docs/public/ 演示矢量素材 (保留 logo.svg 占位)')
+
+  // 3.10 清空临时工单
   safeRemove('.scratch')
 
   // 4. 重置 Git 历史（可选）
