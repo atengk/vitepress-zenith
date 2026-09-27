@@ -16,8 +16,8 @@
 
 ### 1.2 可插拔功能开关矩阵 (Pluggable Feature Switch Matrix)
 全站进阶特性统一在 `docs/.vitepress/config.ts` 中的 `themeConfig.zenith` 进行强类型集中管控：
-- **进阶/高干扰特性默认静默 (Opt-in，默认 `false`)**：`i18n`（多语言切换）、`versionSwitcher`（多版本下拉与归档横幅）、`helpful`（点赞点踩）、`zenModeToggle`（右下角专注悬浮球）、`contributors`（贡献者致谢流）；
-- **核心体验特性做成开关（默认开启 `true`，可一键全局关闭）**：`banner`、`themePicker`、`commandPalette`、`blog`、`pwaStatus`、`mediumZoom`、`readingMetrics`、`readingProgressBar`、`linkPreview`、`keyboardShortcuts`、`codeFolding`；
+- **进阶/高干扰特性默认静默 (Opt-in，默认 `false`)**：`i18n`（多语言切换）、`versionSwitcher`（多版本下拉与归档横幅）、`helpful`（点赞点踩）、`zenModeToggle`（右下角专注悬浮球）、`contributors`（贡献者致谢流）、`themePicker`（顶栏主题强调色盘选择器）；
+- **核心体验特性做成开关（默认开启 `true`，可一键全局关闭）**：`banner`、`commandPalette`、`blog`、`pwaStatus`、`mediumZoom`、`readingMetrics`、`readingProgressBar`、`linkPreview`、`keyboardShortcuts`、`codeFolding`、`zenMode`；
 - **单页 Frontmatter 绝对覆盖**：任意 Markdown 可通过 `helpful: true` 或 `readingMetrics: false` 进行局部覆盖。首页（`layout: home`）强制跳过正文增强组件。
 
 ---

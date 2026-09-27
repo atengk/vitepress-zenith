@@ -23,10 +23,10 @@ const zenithConfig = {
   helpful: false,           // 文档有用度评价 (<VpHelpful>)：默认关闭（无后端埋点占位组件）
   zenModeToggle: false,     // 右下角专注模式悬浮球 (<ZenModeToggle>)：默认关闭（快捷键 Alt+Z 仍可直接使用）
   contributors: false,      // 开源贡献者致谢流 (<VpContributors>)：默认关闭（单人/私有项目免受侵扰）
+  themePicker: false,       // 顶栏主题强调色盘选择器 (<VpThemePicker>)：默认关闭（按需开启）
 
   // 2. 旗舰体验特性（做成开关，默认开启）
   banner: true,             // 顶部全宽公告通知横幅 (<VpBanner>)：默认开启
-  themePicker: true,        // 顶栏主题强调色盘选择器 (<VpThemePicker>)：默认开启
   commandPalette: true,     // 全局快捷命令中心浮层 (<VpCommandPalette>)：默认开启
   blog: true,               // 博客系统与顶栏导航入口：默认开启
   pwaStatus: true,          // PWA 离线运行感知与安装横幅 (<VpPwaStatus>)：默认开启

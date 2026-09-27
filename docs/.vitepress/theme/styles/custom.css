@@ -48,15 +48,15 @@ body, h1, h2, h3, h4, h5, h6, p, li {
 }
 
 .VPHero .image-src:hover {
-  transform: scale(1.04) translateY(-4px);
+  transform: translate(-50%, -50%) scale(1.04) translateY(-4px);
 }
 
 @keyframes hero-logo-float {
   0%, 100% {
-    transform: translateY(0);
+    transform: translate(-50%, -50%) translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translate(-50%, -50%) translateY(-10px);
   }
 }
 

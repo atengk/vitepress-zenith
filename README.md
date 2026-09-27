@@ -135,10 +135,10 @@ const zenithConfig = {
   helpful: false,           // 文档有用度评价（无后端埋点占位组件）
   zenModeToggle: false,     // 右下角专注模式悬浮球（快捷键 Alt+Z 仍可直接使用）
   contributors: false,      // 开源贡献者致谢流（单人/私有项目免受侵扰）
+  themePicker: false,       // 顶栏主题强调色盘选择器（按需开启）
 
   // 2. 旗舰体验特性（做成开关，默认开启，可一键关闭）
   banner: true,             // 顶部全宽公告通知横幅
-  themePicker: true,        // 顶栏主题强调色盘选择器
   commandPalette: true,     // 全局快捷命令中心浮层 (Ctrl+K / /)
   blog: true,               // 博客系统与导航入口
   pwaStatus: true,          // PWA 离线运行感知与安装横幅

@@ -105,9 +105,9 @@ const showBanner = computed(() => {
   return resolveFeatureSwitch('banner', true)
 })
 
-// 11. 顶栏主题强调色盘选择器（默认 true）
+// 11. 顶栏主题强调色盘选择器（默认 false：按需开启）
 const showThemePicker = computed(() => {
-  return resolveFeatureSwitch('themePicker', true)
+  return resolveFeatureSwitch('themePicker', false)
 })
 
 // 12. 全局交互命令中心浮层（默认 true）
