@@ -105,11 +105,11 @@ const categories: ShortcutCategory[] = [
     icon: '✨',
     items: [
       {
-        keys: ['Click'],
-        label: '超长代码折叠与展开',
-        labelEn: 'Expand / Fold Code Block',
-        description: '点击超过 25 行代码底部的渐变遮罩展开全文',
-        descriptionEn: 'Click the gradient mask to expand code',
+        keys: ['Scroll'],
+        label: '超长代码自适应滚动',
+        labelEn: 'Adaptive Code Scroll',
+        description: '超过 35 行代码块平滑内滚动浏览全文，行号绝对对齐',
+        descriptionEn: 'Smooth scroll long code blocks with synchronized line numbers',
       },
       {
         keys: ['Click'],
