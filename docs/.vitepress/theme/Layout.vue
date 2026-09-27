@@ -100,9 +100,9 @@ const showLegacyBanner = computed(() => {
   return resolveFeatureSwitch('versionSwitcher', false)
 })
 
-// 10. 顶部全宽公告通知横幅（默认 true）
+// 10. 顶部全宽公告通知横幅（默认 false：按需开启）
 const showBanner = computed(() => {
-  return resolveFeatureSwitch('banner', true)
+  return resolveFeatureSwitch('banner', false)
 })
 
 // 11. 顶栏主题强调色盘选择器（默认 false：按需开启）
@@ -115,9 +115,9 @@ const showCommandPalette = computed(() => {
   return resolveFeatureSwitch('commandPalette', true)
 })
 
-// 13. PWA 离线运行感知与应用安装横幅（默认 true）
+// 13. PWA 离线运行感知与应用安装横幅（默认 false：按需开启）
 const showPwaStatus = computed(() => {
-  return resolveFeatureSwitch('pwaStatus', true)
+  return resolveFeatureSwitch('pwaStatus', false)
 })
 
 // 14. 正文图片平滑缩放灯箱（默认 true）
