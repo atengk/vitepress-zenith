@@ -145,12 +145,12 @@ const staticActions = computed<PaletteItem[]>(() => [
   {
     id: 'action-zen-mode',
     title: isZenMode.value ? '退出沉浸专注阅读 (Zen Mode)' : '进入沉浸专注阅读 (Zen Mode)',
-    description: '隐藏双侧边栏与目录大纲，聚焦正文黄金阅读区域',
+    description: '彻底隐藏顶栏与双侧边栏，聚焦 1240px 黄金纯净视界',
     category: 'action',
     icon: 'i-lucide-sparkles',
     shortcut: ['Alt', 'Z'],
-    badge: '阅读模式',
-    keywords: ['zen', 'focus', '阅读', '专注', '全屏', '侧边栏', '沉浸'],
+    badge: '专注阅读',
+    keywords: ['zen', 'focus', '阅读', '专注', '全屏', '侧边栏', '沉浸', 'Alt+Z', 'Alt+F'],
     perform: () => {
       toggleZenMode()
       close()

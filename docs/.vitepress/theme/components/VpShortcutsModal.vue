@@ -63,8 +63,8 @@ const categories: ShortcutCategory[] = [
       },
       {
         keys: ['Alt', 'Z'],
-        label: '开启 / 退出沉浸式专注阅读',
-        labelEn: 'Toggle Zen Reading Mode',
+        label: '开启 / 退出沉浸式专注阅读 (亦支持 Alt+F)',
+        labelEn: 'Toggle Zen Reading Mode (also Alt+F)',
       },
       {
         keys: ['Ctrl / ⌘', 'P'],

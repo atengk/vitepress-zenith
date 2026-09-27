@@ -56,18 +56,22 @@ export function useZenMode() {
         return
       }
 
-      // 2. 判断 Alt+Z 组合键（兼顾 event.code 与 event.key，防输入法与特殊键盘映射）
+      // 2. 判断 Alt+Z 或 Alt+F 组合键（双键别名映射，兼顾极客与全屏阅读肌肉记忆）
       const isKeyZ = event.code === 'KeyZ' || event.key === 'z' || event.key === 'Z'
-      if (event.altKey && isKeyZ) {
+      const isKeyF = event.code === 'KeyF' || event.key === 'f' || event.key === 'F'
+      if (event.altKey && (isKeyZ || isKeyF)) {
         event.preventDefault()
         toggleZenMode()
         return
       }
 
-      // 3. 判断 Escape 键退出沉浸模式
+      // 3. 判断 Escape 键退出专注模式（当无活动顶层模态框遮罩时响应）
       if (event.key === 'Escape' && isZenMode.value) {
-        event.preventDefault()
-        applyZenMode(false)
+        const hasOverlay = document.querySelector('.command-palette-mask, .vp-shortcuts-overlay, .medium-zoom-overlay') !== null
+        if (!hasOverlay) {
+          event.preventDefault()
+          applyZenMode(false)
+        }
       }
     })
   }
@@ -102,5 +106,6 @@ export function useZenMode() {
     isZenMode,
     toggleZenMode,
     applyZenMode,
+    exitZenMode: () => applyZenMode(false),
   }
 }

@@ -21,6 +21,7 @@ import VpLinkPreview from './components/VpLinkPreview.vue'
 import VpPwaStatus from './components/VpPwaStatus.vue'
 import VpShortcutsModal from './components/VpShortcutsModal.vue'
 import VpContributors from './components/VpContributors.vue'
+import VpZenHoverBar from './components/VpZenHoverBar.vue'
 import { useMediumZoom } from './composables/useMediumZoom'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
@@ -124,6 +125,12 @@ const enableMediumZoom = computed(() => {
   return resolveFeatureSwitch('mediumZoom', true)
 })
 
+// 15. 沉浸式专注阅读顶部智能感应胶囊（默认 true）
+const showZenHoverBar = computed(() => {
+  if (isHome.value) return false
+  return resolveFeatureSwitch('zenMode', true)
+})
+
 // 挂载正文图片平滑缩放灯箱
 if (enableMediumZoom.value) {
   useMediumZoom()
@@ -179,6 +186,7 @@ if (showKeyboardShortcuts.value) {
       <VpLinkPreview v-if="showLinkPreview" />
       <VpPwaStatus v-if="showPwaStatus" />
       <VpShortcutsModal v-if="showKeyboardShortcuts" />
+      <VpZenHoverBar v-if="showZenHoverBar" />
     </template>
 
   </Layout>

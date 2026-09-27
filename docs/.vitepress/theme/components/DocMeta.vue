@@ -107,26 +107,28 @@ watch(
       <span>预计 {{ readingTime }} 分钟阅读</span>
     </div>
     <div class="meta-divider">·</div>
-    <button
-      type="button"
-      class="zen-quick-btn"
-      :class="{ active: isZenMode }"
-      title="一键切换沉浸专注阅读 (快捷键: Alt+Z)"
-      @click="toggleZenMode"
-    >
-      <span class="meta-icon i-lucide-sparkles" />
-      <span>{{ isZenMode ? '退出专注' : '专注阅读' }}</span>
-      <span class="shortcut">Alt+Z</span>
-    </button>
-    <button
-      type="button"
-      class="print-quick-btn"
-      title="一键打印或导出白皮书级 PDF (快捷键: Ctrl+P)"
-      @click="triggerPrint"
-    >
-      <span class="meta-icon i-lucide-printer" />
-      <span>打印</span>
-    </button>
+    <div class="meta-actions">
+      <button
+        type="button"
+        class="zen-quick-btn"
+        :class="{ active: isZenMode }"
+        title="一键切换沉浸专注阅读 (快捷键: Alt+Z 或 Alt+F)"
+        @click="toggleZenMode"
+      >
+        <span class="meta-icon i-lucide-sparkles" />
+        <span>{{ isZenMode ? '退出专注' : '专注阅读' }}</span>
+        <span class="shortcut">Alt+Z</span>
+      </button>
+      <button
+        type="button"
+        class="print-quick-btn"
+        title="一键打印或导出白皮书级 PDF (快捷键: Ctrl+P)"
+        @click="triggerPrint"
+      >
+        <span class="meta-icon i-lucide-printer" />
+        <span>打印</span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -162,11 +164,18 @@ watch(
   user-select: none;
 }
 
+.meta-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+
 .zen-quick-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  margin-left: auto;
   padding: 3px 8px;
   border-radius: 4px;
   border: 1px solid var(--vp-c-divider);

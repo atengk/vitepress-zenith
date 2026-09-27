@@ -39,6 +39,7 @@ import { useCommandPalette } from './composables/useCommandPalette'
 import { useCodeFolding } from './composables/useCodeFolding'
 import { useThemePalette } from './composables/useThemePalette'
 import { useKeyboardShortcuts } from './composables/useKeyboardShortcuts'
+import { useZenMode } from './composables/useZenMode'
 import 'virtual:uno.css'
 import './styles/vars.css'
 import './styles/custom.css'
@@ -48,7 +49,7 @@ import './styles/zen-mode.css'
 import './styles/code-folding.css'
 import '@shikijs/vitepress-twoslash/style.css'
 
-export { useCommandPalette, useCodeFolding, useThemePalette, useKeyboardShortcuts }
+export { useCommandPalette, useCodeFolding, useThemePalette, useKeyboardShortcuts, useZenMode }
 
 export default {
   extends: DefaultTheme,

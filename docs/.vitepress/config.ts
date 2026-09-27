@@ -36,6 +36,7 @@ const zenithConfig = {
   linkPreview: true,        // 站内内链卡片悬浮预览 (<VpLinkPreview>)：默认开启
   keyboardShortcuts: true,  // 全键盘极客导航与速查浮层 (<VpShortcutsModal>)：默认开启
   codeFolding: true,        // 超长代码块（>25行）渐变折叠：默认开启
+  zenMode: true,            // 沉浸式专注阅读模式（Alt+Z / Alt+F / 顶部感应胶囊）：默认开启
 }
 
 /**

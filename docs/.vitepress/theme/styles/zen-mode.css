@@ -1,135 +1,45 @@
 /**
- * 沉浸式专注阅读模式 (Zen Mode) 核心布局与规范样式
+ * 沉浸式专注阅读模式 (Zen Mode) 全屏黄金版心样式规范
+ * 彻底隐藏顶栏、侧边栏、底栏与外围干扰，留给正文 1240px 舒展纯净画布
  * @author Ateng
- * @since 2026-09-25
+ * @since 2026-09-27
  */
 
-/* 1. 分层解耦平滑过渡动效 (Decoupled Symmetrical Transition)
-   - 禁用导致布局回流与文字逐行抖动的暴力 transition: all
-   - 严格仅对硬件加速属性 (transform, opacity) 与容器间距做精细过渡
-*/
-.VPSidebar {
-  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), opacity 0.25s ease !important;
+/* 1. 消除顶部动态占位与隐藏所有外围非正文控件 */
+html.zen-mode {
+  --vp-layout-top-height: 0px !important;
 }
 
-.VPContent.has-sidebar {
-  transition: padding-left 0.3s cubic-bezier(0.2, 0, 0, 1), padding-right 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
-}
-
-.VPDoc .aside {
-  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1), max-width 0.3s cubic-bezier(0.2, 0, 0, 1), padding 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
-}
-
-.VPDoc .aside-container {
-  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), opacity 0.25s ease !important;
-}
-
-.VPDoc .aside-curtain {
-  transition: opacity 0.25s ease !important;
-}
-
-/* 顶部导航栏：彻底移除内部元素位移补间，消除搜索框横向飘移与抽搐 */
-.VPNavBar {
-  transition: background-color 0.25s ease, border-color 0.25s ease !important;
-}
-
-.VPNavBar .title,
-.VPNavBar .content,
-.VPNavBar .content-body,
-.VPNavBarSearch,
-.VPNavBar .container,
-.VPNavBar .wrapper {
-  transition: none !important;
-}
-
-/* 2. 顶部导航栏 (Navbar) 在专注模式下重置为标准 Flex 两端对齐，消除重叠与位移 */
-html.zen-mode .VPNavBar {
-  background-color: var(--vp-nav-bg-color) !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .wrapper {
-  padding: 0 32px !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .container {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  max-width: calc(var(--vp-layout-max-width) - 64px) !important;
-  margin: 0 auto !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .title {
-  position: static !important;
-  width: auto !important;
-  padding: 0 !important;
-  border-bottom: none !important;
-}
-
-html.zen-mode .VPNavBarTitle.has-sidebar .title {
-  border-bottom: none !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .content {
-  position: static !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .content-body {
-  background-color: transparent !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .divider {
-  display: block !important;
-  padding-left: 0 !important;
-}
-
-html.zen-mode .VPNavBar.has-sidebar .divider-line {
-  background-color: var(--vp-c-gutter) !important;
-}
-
-/* 3. 左侧边栏 (Sidebar) 对称向左滑出 */
-html.zen-mode .VPSidebar {
-  transform: translateX(-100%) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-html.zen-mode .VPLocalNav {
+html.zen-mode .VPNavBar,
+html.zen-mode .VPNav,
+html.zen-mode .VPSidebar,
+html.zen-mode .VPLocalNav,
+html.zen-mode .VPDoc .aside,
+html.zen-mode .VPFooter,
+html.zen-mode .vp-banner,
+html.zen-mode .vp-announcement-banner,
+html.zen-mode .vp-legacy-banner,
+html.zen-mode .reading-progress-bar,
+html.zen-mode .zen-mode-toggle,
+html.zen-mode .vp-pwa-banner {
   display: none !important;
 }
 
-/* 4. 主内容区域 (Content) 双向重置与居中 */
+/* 2. 主内容区域 (Content) 消除顶边距与双侧边栏留白 */
+html.zen-mode .VPContent,
 html.zen-mode .VPContent.has-sidebar {
+  padding-top: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
 
-/* 5. 右侧目录大纲 (Aside) 对称向右滑出 */
-html.zen-mode .VPDoc .aside {
-  width: 0 !important;
-  max-width: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  pointer-events: none !important;
-  overflow: hidden !important;
+/* 3. VPDoc 正文外层居中排布与舒适呼吸留白 */
+html.zen-mode .VPDoc {
+  padding: 80px 0 96px !important;
 }
 
-html.zen-mode .VPDoc .aside-container {
-  transform: translateX(100%) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-html.zen-mode .VPDoc .aside-curtain {
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 6. 正文容器黄金加宽至 1180px (+70% 显著拓宽)，让代码、表格与图表彻底舒展 */
 html.zen-mode .VPDoc .container {
   max-width: 100% !important;
   display: flex !important;
@@ -137,15 +47,16 @@ html.zen-mode .VPDoc .container {
   margin: 0 auto !important;
 }
 
+/* 4. 黄金舒适阅读加宽版心 (1240px)，宽屏下舒展居中且维持舒适眼动范围 */
 html.zen-mode .VPDoc .content {
-  max-width: 1180px !important;
+  max-width: 1240px !important;
   width: 100% !important;
   margin: 0 auto !important;
-  padding: 0 32px 96px !important;
+  padding: 0 36px 96px !important;
 }
 
 html.zen-mode .VPDoc .content-container {
-  max-width: 1180px !important;
+  max-width: 1240px !important;
   width: 100% !important;
   margin: 0 auto !important;
 }
@@ -154,7 +65,7 @@ html.zen-mode .vp-doc {
   max-width: 100% !important;
 }
 
-/* 7. 专注模式下的排版呼吸感增强 */
+/* 5. 专注阅读模式下的专业排版呼吸感增强 */
 html.zen-mode .vp-doc p,
 html.zen-mode .vp-doc li {
   line-height: 1.95;
