@@ -24,7 +24,7 @@ custom_bump_version() {
   # mvn versions:set -DnewVersion="$RAW_VERSION" -DgenerateBackupPoms=false
 
   # --- [选项 2] Node.js (npm / pnpm) ---
-  npm version "$RAW_VERSION" --no-git-tag-version
+  npm version "$RAW_VERSION" --no-git-tag-version --allow-same-version
 
   return 0
 }
