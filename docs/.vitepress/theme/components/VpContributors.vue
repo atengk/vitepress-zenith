@@ -95,7 +95,7 @@ const resolvedEditUrl = computed(() => {
   if (props.editUrl) return props.editUrl
   const pattern =
     theme.value.editLink?.pattern ||
-    'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path'
+    'https://github.com/atengk/vitepress-zenith/edit/main/docs/:path'
   return pattern.replace(':path', page.value.relativePath)
 })
 

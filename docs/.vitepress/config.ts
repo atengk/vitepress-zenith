@@ -160,7 +160,7 @@ const enLocaleConfig = {
       } : {}),
     },
     editLink: {
-      pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+      pattern: 'https://github.com/atengk/vitepress-zenith/edit/main/docs/:path',
       text: 'Edit this page on GitHub',
     },
     docFooter: {
@@ -508,7 +508,7 @@ export default withPwa(defineConfig({
           } : {}),
         },
         editLink: {
-          pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+          pattern: 'https://github.com/atengk/vitepress-zenith/edit/main/docs/:path',
           text: '在 GitHub 上编辑此页',
         },
         docFooter: {

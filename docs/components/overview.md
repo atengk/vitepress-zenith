@@ -461,14 +461,14 @@ export default defineConfig({
       lastCommitMessage: 'docs: 完善组件库示例与多语言矩阵'
     }
   ]"
-  edit-url="https://github.com/atengk/vitepress-zenith/edit/master/docs/components/overview.md"
+  edit-url="https://github.com/atengk/vitepress-zenith/edit/main/docs/components/overview.md"
 />
 
 ```html
 <VpContributors
   title="本篇核心贡献团队"
   :contributors="pageContributors"
-  edit-url="https://github.com/atengk/vitepress-zenith/edit/master/docs/:path"
+  edit-url="https://github.com/atengk/vitepress-zenith/edit/main/docs/:path"
 />
 ```
 

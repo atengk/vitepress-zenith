@@ -39,7 +39,7 @@ order: 18
       lastCommitMessage: 'docs: 优化参数表与多语言排版规范'
     }
   ]"
-  edit-url="https://github.com/atengk/vitepress-zenith/edit/master/docs/guide/contributors-stream.md"
+  edit-url="https://github.com/atengk/vitepress-zenith/edit/main/docs/guide/contributors-stream.md"
 />
 
 ::: tip 生产环境全自动提取
@@ -119,7 +119,7 @@ contributors:
 export default defineConfig({
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+      pattern: 'https://github.com/atengk/vitepress-zenith/edit/main/docs/:path',
       text: '在 GitHub 上编辑此页',
     },
   },

@@ -76,7 +76,7 @@ pnpm release v1.2.0 --dry-run
 ```
 
 脚本将依次执行严密的前置自检：
-1. 校验当前是否处于合规主干分支（`master` / `main`）；
+1. 校验当前是否处于合规主干分支（`main`）；
 2. 拦截本地未提交的修改或未跟踪文件；
 3. 校验本地分支与远程仓库是否同步，并自动感知超前提交；
 4. 校验目标 Tag 是否已被本地或远端占用。
@@ -135,7 +135,7 @@ Zenith 的 GitHub 自动化流水线遵循职责单一与解耦设计：
 | 流水线名称 | 配置文件 | 触发时机 | 核心职责 |
 | :--- | :--- | :--- | :--- |
 | **持续集成门禁** | `.github/workflows/ci.yml` | PR (opened/edited/sync) / Push 分支 | 校验 PR 标题符合 Conventional 规范、执行 ShellCheck 脚本安全分析、TypeScript 类型检查与生产静态编译 |
-| **即时持续部署** | `.github/workflows/deploy.yml` | Push 合并至 `master` / `main` | 实时将最新文档静态编译并部署至 GitHub Pages，改动即时可见 |
+| **即时持续部署** | `.github/workflows/deploy.yml` | Push 合并至 `main` | 实时将最新文档静态编译并部署至 GitHub Pages，改动即时可见 |
 | **自动化发版与分发**| `.github/workflows/release.yml` | 推送标签 `v*` 或手动网页调度 | 提取增量 `git-cliff --latest` 分类日志、打包静态产物 Zip、挂载 SHA-256 校验和并向 GHCR 推送多架构 Docker 镜像 |
 | **自动化依赖巡检** | `.github/dependabot.yml` | 每月定时执行 | 自动检测并提交 GitHub Actions 与包管理器依赖升级 PR |
 
@@ -145,6 +145,6 @@ Zenith 的 GitHub 自动化流水线遵循职责单一与解耦设计：
 
 作为一个严谨的开源技术模板与知识库基建，Zenith 遵循顶级开源社区的标准治理范式：
 
-1. **社区行为准则 (`CODE_OF_CONDUCT.md`)**：采纳 Contributor Covenant v2.1，营造友善、包容且多元的协作生态；详见根目录 [CODE_OF_CONDUCT.md](https://github.com/atengk/vitepress-zenith/blob/master/CODE_OF_CONDUCT.md)；
-2. **安全策略与漏洞披露 (`SECURITY.md`)**：明确支持版本矩阵，建立基于 GitHub Security Advisories 的私密上报机制，杜绝在公开 Issue 泄露漏洞 PoC；详见根目录 [SECURITY.md](https://github.com/atengk/vitepress-zenith/blob/master/SECURITY.md)；
+1. **社区行为准则 (`CODE_OF_CONDUCT.md`)**：采纳 Contributor Covenant v2.1，营造友善、包容且多元的协作生态；详见根目录 [CODE_OF_CONDUCT.md](https://github.com/atengk/vitepress-zenith/blob/main/CODE_OF_CONDUCT.md)；
+2. **安全策略与漏洞披露 (`SECURITY.md`)**：明确支持版本矩阵，建立基于 GitHub Security Advisories 的私密上报机制，杜绝在公开 Issue 泄露漏洞 PoC；详见根目录 [SECURITY.md](https://github.com/atengk/vitepress-zenith/blob/main/SECURITY.md)；
 3. **Issue 治理与导流 (`.github/ISSUE_TEMPLATE/config.yml`)**：禁用无模板空白 Issue，引导日常技术答疑前往 GitHub Discussions，保持 Issue 跟踪专注于高价值缺陷与特性规格。

@@ -142,10 +142,10 @@ fi
 REPO_ROOT=$(git rev-parse --show-toplevel)
 cd "$REPO_ROOT"
 
-# 1.3 校验当前分支是否为默认主干分支 (main 或 master)
+# 1.3 校验当前分支是否为默认主干分支 (main 或兼容历史 master)
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$CURRENT_BRANCH" != "main" ] && [ "$CURRENT_BRANCH" != "master" ]; then
-  log_error "当前处于分支 [$CURRENT_BRANCH]，严禁在非主干分支发版！请先切换至主干分支: git checkout main (或 master)"
+  log_error "当前处于分支 [$CURRENT_BRANCH]，严禁在非主干分支发版！请先切换至主干分支: git checkout main"
   exit 1
 fi
 log_success "当前处于合规主干分支: $CURRENT_BRANCH"

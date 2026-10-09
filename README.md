@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/atengk/vitepress-zenith/blob/master/LICENSE">
+  <a href="https://github.com/atengk/vitepress-zenith/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square" alt="Apache-2.0 License" />
   </a>
   <a href="https://nodejs.org/">
@@ -261,7 +261,7 @@ vitepress-zenith/
 1. **持续集成质量门禁 (`.github/workflows/ci.yml`)**：
    在 Pull Request 或向主干推送时，自动化执行 PR 标题规范校验（`action-semantic-pull-request`）、ShellCheck 静态分析、`pnpm typecheck` 与 `pnpm build`，杜绝任何语法与构建损坏。
 2. **文档即时发布 (`.github/workflows/deploy.yml`)**：
-   合并至 `main` / `master` 分支后，自动将最新文档构建并发布至 **GitHub Pages**。
+   合并至 `main` 分支后，自动将最新文档构建并发布至 **GitHub Pages**。
 3. **全自动发版与容器镜像分发 (`.github/workflows/release.yml`)**：
    当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，流水线将自动：
    - 提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes；

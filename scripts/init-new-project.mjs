@@ -175,8 +175,8 @@ async function main() {
         `socialLinks: [\n      { icon: 'github', link: '${cleanRepo}' },\n    ]`
       )
       configContent = configContent.replaceAll(
-        'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
-        `${cleanRepo}/edit/master/docs/:path`
+        'https://github.com/atengk/vitepress-zenith/edit/main/docs/:path',
+        `${cleanRepo}/edit/main/docs/:path`
       )
     } else {
       configContent = configContent.replace(
@@ -184,7 +184,7 @@ async function main() {
         `socialLinks: []`
       )
       configContent = configContent.replaceAll(
-        'https://github.com/atengk/vitepress-zenith/edit/master/docs/:path',
+        'https://github.com/atengk/vitepress-zenith/edit/main/docs/:path',
         ''
       )
     }
