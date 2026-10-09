@@ -1,0 +1,45 @@
+name: CI (持续集成质量门禁)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - 'feat*'
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-build:
+    name: 类型检查与构建验证
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出源码
+        uses: actions/checkout@v4
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: 设置 Node.js 环境 (20.x)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: 确定性安装锁定依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 严格 TypeScript 类型检查
+        run: pnpm typecheck
+
+      - name: 生产级静态站点编译构建
+        run: pnpm build

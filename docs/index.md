@@ -44,4 +44,7 @@ features:
   - icon: 🤝
     title: 开源贡献者致谢与社区协同
     details: 构建期自动挖掘 Git 提交聚合作者头像流，无感集成 Giscus 社区讨论与 GitHub 一键协同编辑。
+  - icon: 🚀
+    title: 工业级开源底座与容器化交付
+    details: 基于 oss-template 规范集成 CI 门禁、双通道发版防呆、git-cliff 自动更新日志与 ~25MB 多架构 Docker 镜像。
 ---

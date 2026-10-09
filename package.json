@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "private": true,
   "description": "基于 VitePress 的现代化全能型技术文档、知识库与技术博客矩阵模板",
+  "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "dev": "vitepress dev docs",
@@ -12,6 +13,8 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "init:project": "node scripts/init-new-project.mjs",
+    "commit": "bash scripts/commit.sh",
+    "release": "bash scripts/release.sh",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

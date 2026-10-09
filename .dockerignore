@@ -1,0 +1,33 @@
+# Git & CI/CD
+.git
+.github
+.gitignore
+.gitattributes
+
+# Local dependencies & caches
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+.scratch/
+
+# Logs & temp files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE & Editor configs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Markdown & Documentation sources not needed for container image
+README.md
+AGENTS.md
+CONTEXT.md
+CONTRIBUTING.md
+docs/adr/

@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="https://github.com/atengk/vitepress-zenith/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="MIT License" />
+    <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square" alt="Apache-2.0 License" />
   </a>
   <a href="https://nodejs.org/">
     <img src="https://img.shields.io/badge/Node-%3E%3D20.0.0-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node Version" />
@@ -111,7 +111,33 @@ pnpm build
 pnpm preview
 ```
 
-### 5. 派生并初始化全新业务项目 (Scaffold Sanitization)
+### 5. 交互式规范提交 (Conventional Commits)
+
+```bash
+pnpm commit
+```
+
+### 6. 全生命周期安全发版与演练
+
+```bash
+# 演练模式 (不产生实际 Git 变更，安全执行 5 大前置自检)
+pnpm release -- --dry-run
+
+# 正式发版 (自动自检、更新 package.json 版本号并推送到 GitHub 触发 Release 流水线)
+pnpm release v1.2.0
+```
+
+### 7. 极简轻量容器化部署 (Docker ~25MB)
+
+```bash
+# 构建本地生产镜像
+docker build -t vitepress-zenith:latest .
+
+# 启动容器 (映射至本地 8080 端口)
+docker run -d --name zenith-docs -p 8080:80 vitepress-zenith:latest
+```
+
+### 8. 派生并初始化全新业务项目 (Scaffold Sanitization)
 
 若您希望基于本模板为全新的业务领域编写文档，克隆到新目录后只需执行一行交互式初始化向导：
 
@@ -182,46 +208,56 @@ const zenithConfig = {
 ```text
 vitepress-zenith/
 ├── .github/
+│   ├── ISSUE_TEMPLATE/        # 特化缺陷反馈与需求建议 Issue 模板
+│   ├── PULL_REQUEST_TEMPLATE  # 集成零绝对路径与质量自检清单的 PR 模板
 │   └── workflows/
-│       └── deploy.yml          # GitHub Actions 自动化构建与 GitHub Pages 部署
-├── docs/                       # 文档与博客源码目录
-│   ├── .vitepress/             # VitePress 核心配置与定制主题
-│   │   ├── config.ts           # 站点核心配置、开关矩阵、多语言与插件集成
-│   │   ├── theme/              # 主题定制层
-│   │   │   ├── components/     # 全局交互短代码组件库 (VpCard, VpVideo, ZenMode 等)
-│   │   │   ├── composables/    # 状态控制组合式函数 (useZenMode, useThemePalette 等)
-│   │   │   ├── styles/         # 全局增强样式、色盘、代码折叠与打印规范
-│   │   │   ├── index.ts        # 主题入口与组件全局注册
-│   │   │   └── Layout.vue      # 根布局插槽装配与特性挂载
-│   │   └── utils/              # 自动化侧边栏生成、离线索引与工具函数
-│   ├── adr/                    # 架构决策记录 (ADR-0001 ~ ADR-0009)
-│   ├── blog/                   # 技术博客文章矩阵（标签筛选与时间线归档）
-│   ├── components/             # 交互短代码组件总览与使用范例
-│   ├── guide/                  # 基础指南与深度特性文档 (Zen Mode, Twoslash, PWA 等)
-│   ├── public/                 # 静态资源（矢量 Logo、PWA 图标与深浅模式演示图）
-│   └── index.md                # 首页 Hero 落地页
-├── CONTEXT.md                  # 核心领域语言定义与术语规范 (Ubiquitous Language)
-├── AGENTS.md                   # 仓库级 AI Agent 协同行为准则与架构约定
-├── package.json                # 项目依赖与执行脚本
-├── tsconfig.json               # TypeScript 严格模式配置
-├── uno.config.ts               # UnoCSS 原子类与 Lucide 图标集预设
-└── README.md                   # 项目核心说明文档
+│       ├── ci.yml             # 质量门禁 (PR & Push 自动执行类型检查与构建)
+│       ├── deploy.yml         # GitHub Actions 自动化构建与 GitHub Pages 部署
+│       └── release.yml        # 双通道发版、git-cliff 更新日志与 Docker GHCR 推送
+├── docs/                      # 文档与博客源码目录
+│   ├── .vitepress/            # VitePress 核心配置与定制主题
+│   ├── adr/                   # 架构决策记录 (ADR-0001 ~ ADR-0011)
+│   ├── blog/                  # 技术博客文章矩阵（标签筛选与时间线归档）
+│   ├── components/            # 交互短代码组件总览与使用范例
+│   ├── guide/                 # 基础指南与实战手册 (Zen Mode, Twoslash, 容器化等)
+│   └── index.md               # 首页 Hero 落地页
+├── deploy/
+│   └── nginx.conf             # 生产级 Nginx 配置 (Clean URLs、Gzip、长效强缓存)
+├── scripts/
+│   ├── commit.sh              # 交互式规范化提交助手 (Conventional Commits)
+│   ├── release.sh             # 全生命周期发版防呆自检脚本 (支持 --dry-run)
+│   └── init-new-project.mjs   # 新项目脚手架脱敏与一键初始化程序
+├── Dockerfile                 # 极简多阶段 Docker 构建配置 (~25MB)
+├── .cliff.toml                # git-cliff 自动化变更日志提取与分组规则
+├── .dockerignore              # Docker 镜像构建忽略规则
+├── .editorconfig              # 跨 IDE 编码风格与 2 空格缩进规范
+├── .gitattributes             # Git 行尾规范 (强制 text=auto eol=lf)
+├── CONTRIBUTING.md            # 开发者与开源贡献指南
+├── CONTEXT.md                 # 核心领域语言定义与术语规范 (Ubiquitous Language)
+├── AGENTS.md                  # 仓库级 AI Agent 协同行为准则与架构约定
+├── package.json               # 项目依赖、指令与 Apache-2.0 许可证声明
+└── README.md                  # 项目核心说明文档
 ```
 
 ---
 
-## 🚢 自动化 CI/CD 与部署
+## 🚢 自动化 CI/CD 与多维交付体系
 
-项目内置了完整的 GitHub Actions 工作流（位于 `.github/workflows/deploy.yml`）。
+项目基于 [atengk/oss-template](https://github.com/atengk/oss-template) 构建了三维立体 GitHub Actions 流水线：
 
-当代码推送或合并至 `master` / `main` 分支时，自动化工作流将依次执行：
-1. 检出代码并恢复 pnpm 依赖缓存；
-2. 运行 `pnpm run typecheck` 校验 TypeScript 语法与类型安全；
-3. 执行 `pnpm run build` 构建生产级静态文档；
-4. 自动上传产物并部署至 **GitHub Pages**。
+1. **持续集成质量门禁 (`.github/workflows/ci.yml`)**：
+   在 Pull Request 或向主干推送时，自动化执行 `pnpm install --frozen-lockfile`、`pnpm typecheck` 与 `pnpm build`，杜绝语法错误与构建损坏。
+2. **文档即时发布 (`.github/workflows/deploy.yml`)**：
+   合并至 `main` / `master` 分支后，自动将最新文档构建并发布至 **GitHub Pages**。
+3. **全自动发版与容器镜像分发 (`.github/workflows/release.yml`)**：
+   当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，流水线将自动：
+   - 提取并利用 `git-cliff` 解析 Conventional Commits 生成精美分类 Release Notes；
+   - 压缩打包生产静态产物为 `vitepress-zenith-dist-*.zip` 并计算 SHA-256 校验和挂载至 GitHub Release；
+   - 自动构建 `linux/amd64` 与 `linux/arm64` 双架构轻量 Docker 镜像并推送至 **GitHub Container Registry (`ghcr.io`)**。
 
 ---
 
 ## 📄 开源许可证
 
-本项目基于 [MIT 许可证](./LICENSE) 开源发布，欢迎自由使用、商业应用与二次定制。
+本项目基于 [Apache License 2.0](./LICENSE) 开源发布，欢迎自由使用、商业应用与二次定制。
+

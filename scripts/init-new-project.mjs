@@ -101,8 +101,11 @@ async function main() {
     bannerText = await ask('📣 请输入顶部公告横幅文案', `🎉 欢迎查阅 ${siteTitle}！`)
   }
 
-  const enableDeployWorkflowInput = await ask('🚀 是否保留 GitHub Pages 自动化构建与部署工作流？(y/n)', 'y')
+  const enableDeployWorkflowInput = await ask('🚀 是否保留 GitHub Pages 静态站点部署工作流 (deploy.yml)？(y/n)', 'y')
   const enableDeployWorkflow = enableDeployWorkflowInput.toLowerCase() === 'y'
+
+  const enableCiReleaseInput = await ask('📦 是否保留开源质量门禁 CI、自动发版 Release 与容器化工程底座？(y/n)', 'y')
+  const enableCiRelease = enableCiReleaseInput.toLowerCase() === 'y'
 
   const resetGitInput = await ask('🔄 是否彻底重置 Git 提交历史（创建崭新仓库）？(y/n)', 'y')
   const resetGit = resetGitInput.toLowerCase() === 'y'
@@ -413,17 +416,46 @@ pnpm build
 pnpm preview
 \`\`\`
 
+### 6. 交互式规范化提交 (Conventional Commits)
+
+\`\`\`bash
+pnpm commit
+\`\`\`
+
+### 7. 全生命周期安全发版与演练
+
+\`\`\`bash
+# 演练模式 (不产生实际 Git 变更，安全验证前置自检)
+pnpm release -- --dry-run
+
+# 正式发版 (自检通过后自动更新版本号、打附注 Tag 并推送到远端)
+pnpm release v1.0.0
+\`\`\`
+
+### 8. 极简轻量容器化部署 (Docker ~25MB)
+
+\`\`\`bash
+# 构建本地生产镜像
+docker build -t ${projectName}:latest .
+
+# 启动容器并在本地访问 http://localhost:8080
+docker run -d -p 8080:80 --name ${projectName} ${projectName}:latest
+\`\`\`
+
 ---
 
 ## 📁 核心目录结构
 
 \`\`\`text
-├── docs/
+├── docs/                    # 技术文档、静态资源与知识库正文
 │   ├── .vitepress/          # 全站主题、插件与导航配置
 │   ├── guide/               # 业务指引与技术知识库正文
 │   ├── public/              # 静态公共资源（Logo、自定义配图）
 │   └── index.md             # 站点落地首页
-├── scripts/                 # 自动化治理与脱敏脚手架
+├── deploy/                  # 生产级 Nginx 与静态容器配置
+├── scripts/                 # 发版防呆 (release.sh) 与规范提交 (commit.sh)
+├── Dockerfile               # 极简 Node 构建 + Nginx Alpine 多阶段镜像
+├── .cliff.toml              # 自动化语义更新日志生成规则
 ├── CONTEXT.md               # 业务领域模型真理来源
 ├── AGENTS.md                # 仓库开发规范与 AI 协同协议
 └── package.json
@@ -450,7 +482,7 @@ pnpm preview
     console.log('✅ AGENTS.md 业务项目名称与协同规范已同步更新')
   }
 
-  // 3.8 GitHub Actions 持续集成工作流控制
+  // 3.8 GitHub Actions 与持续集成工作流控制
   const deployYmlPath = path.resolve(rootDir, '.github/workflows/deploy.yml')
   if (enableDeployWorkflow) {
     if (fs.existsSync(deployYmlPath)) {
@@ -463,16 +495,47 @@ pnpm preview
       console.log('✅ .github/workflows/deploy.yml 工作流名称已更新')
     }
   } else {
-    safeRemove('.github')
-    console.log('✅ 已清理 .github/ 持续集成工作流')
+    safeRemove(deployYmlPath)
+    console.log('✅ 已安全移除 GitHub Pages 部署工作流 (deploy.yml)')
   }
 
-  // 3.9 清理 public/ 演示矢量图片
+  if (!enableCiRelease) {
+    safeRemove('.github/workflows/ci.yml')
+    safeRemove('.github/workflows/release.yml')
+    safeRemove('.github/ISSUE_TEMPLATE')
+    safeRemove('.github/PULL_REQUEST_TEMPLATE.md')
+    safeRemove('.cliff.toml')
+    safeRemove('scripts/commit.sh')
+    safeRemove('scripts/release.sh')
+    console.log('✅ 已清理开源 CI/CD 门禁与自动发版工具链')
+  } else {
+    console.log('✅ 已保留开源质量门禁 CI、自动发版 Release 与容器化工程底座')
+  }
+
+  // 若用户两项均未选择保留，则清理整个 .github 目录
+  if (!enableDeployWorkflow && !enableCiRelease) {
+    safeRemove('.github')
+    console.log('✅ 已清理全部 .github/ 工作流与协作模版')
+  }
+
+  // 3.9 更新开源许可证版权所有者
+  const licensePath = path.resolve(rootDir, 'LICENSE')
+  if (fs.existsSync(licensePath)) {
+    let licenseContent = fs.readFileSync(licensePath, 'utf-8')
+    licenseContent = licenseContent.replace(
+      /Copyright 2026-present Ateng and VitePress Zenith Contributors/,
+      `Copyright ${new Date().getFullYear()}-present ${authorName || siteTitle} and Contributors`
+    )
+    fs.writeFileSync(licensePath, licenseContent, 'utf-8')
+    console.log('✅ LICENSE 许可证版权所有者已同步更新')
+  }
+
+  // 3.10 清理 public/ 演示矢量图片
   safeRemove('docs/public/theme-demo-light.svg')
   safeRemove('docs/public/theme-demo-dark.svg')
   console.log('✅ 已清理 docs/public/ 演示矢量素材 (保留 logo.svg 占位)')
 
-  // 3.10 清空临时工单
+  // 3.11 清空临时工单
   safeRemove('.scratch')
 
   // 4. 重置 Git 历史（可选）

@@ -46,9 +46,9 @@
 - 针对不可逆、影响深远或权衡显著的架构调整，在 `docs/adr/` 目录下按编号创建标准化决策记录（如 `0008-zenith-theme-config-feature-switches.md`）；
 - 每次架构变更只增加不篡改历史。
 
-### 3.3 本地工单系统 (Issue Tracker)
-- 基于 `.scratch/` 目录维护轻量级 Markdown 工单流；
-- 遵循五大标准分流标签（`needs-triage`、`needs-info`、`ready-for-agent`、`ready-for-human`、`wontfix`）；
+### 3.3 工单追踪系统 (GitHub Issues)
+- 基于 GitHub Issues 与 `gh` CLI 统一纳管需求、规格与任务工单；
+- 严格遵循五大标准分流标签（`needs-triage`、`needs-info`、`ready-for-agent`、`ready-for-human`、`wontfix`）；
 - 详见 [docs/agents/issue-tracker.md](./docs/agents/issue-tracker.md) 与 [docs/agents/triage-labels.md](./docs/agents/triage-labels.md)。
 
 ---

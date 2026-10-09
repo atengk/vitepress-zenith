@@ -116,7 +116,19 @@ _Avoid_: 裸写固定高度iframe黑边, 暴力将百兆高清视频直推源码
 通过 `.light-only`/`.dark-only` 纯 CSS 无闪烁切换机制及 `<VpImage>` 短代码组件，让架构图与插图随系统或用户深浅色外观切换自动呈现最佳对比度视觉方案。
 _Avoid_: 深色背景下白底图刺眼, 手动JS暴力换图抖动
 
+**双通道自动化发版 (Dual-channel Automated Release)**:
+本地交互式防呆脚本（Git Tag 驱动）与 GitHub Actions 云端按需调度（workflow_dispatch）协同触发生产级版本发布与资产挂载的交付体系。
+_Avoid_: 手动网页乱打Tag, 裸推未构建提交, 本地暴力直传制品
 
+**全生命周期发版防呆 (Release Preflight Verification)**:
+在发版打 Tag 前对未提交改动、远端分支落后、依赖类型检查与生产静态编译进行全自动化拦截防御的自检机制。
+_Avoid_: 脏工作区发版, 带编译报错发版, 遗留临时调试代码发布
 
+**语义化更新日志生成 (Semantic Changelog Generation)**:
+基于 git-cliff 解析 Conventional Commits 规范，自动对功能特性、缺陷修复与破坏性变更进行分类提取并渲染为 Release 摘要的机制。
+_Avoid_: 人肉编写更新摘要, 机械堆砌PR流水账
 
+**容器化轻量交付 (Containerized Distribution)**:
+基于 Node.js 生产编译与 Nginx Alpine 静态托管两阶段分离的多架构（amd64/arm64）Docker 镜像交付范式，原生集成 Clean URLs 友好路由与长效缓存策略。
+_Avoid_: 携带厚重Node运行时的单阶段臃肿镜像, 缺失SPA路由重定向配置, 仅支持单一架构构建
 

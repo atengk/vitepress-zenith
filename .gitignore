@@ -10,6 +10,7 @@ docs/.vitepress/*.mjs
 
 # Scratch & Temp diagnostics
 scratch/
+.scratch/
 
 # Editor & System
 .DS_Store

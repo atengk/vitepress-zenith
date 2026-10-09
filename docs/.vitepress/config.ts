@@ -467,7 +467,7 @@ export default withPwa(defineConfig({
     },
 
     footer: {
-      message: '基于 MIT 协议开源发布',
+      message: '基于 Apache-2.0 协议开源发布',
       copyright: 'Copyright © 2026-present VitePress Zenith',
     },
   },
