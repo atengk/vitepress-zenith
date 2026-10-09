@@ -43,8 +43,9 @@ jobs:
             TAG_NAME="${GITHUB_REF#refs/tags/}"
           fi
           
-          if [[ ! "$TAG_NAME" =~ ^v[0-9] ]]; then
-            echo "::error::非法版本标签: $TAG_NAME (必须以 v 加数字开头，如 v1.0.0)"
+          # 语义化版本正则双重防呆：阻断非标原生标签误触发发版
+          if ! echo "$TAG_NAME" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'; then
+            echo "::error::推送的标签 [$TAG_NAME] 不符合语义化版本规范！必须形如 v1.0.0 或 v1.0.0-rc.1，已安全终止发版流水线。"
             exit 1
           fi
 

@@ -14,5 +14,17 @@ trim_trailing_whitespace = true
 [*.md]
 trim_trailing_whitespace = false
 
+[*.{java,py,rs}]
+indent_size = 4
+
+[*.go]
+indent_style = tab
+indent_size = 4
+
+[*.{json,yml,yaml,xml}]
+indent_style = space
+indent_size = 2
+
 [Makefile]
 indent_style = tab
+
