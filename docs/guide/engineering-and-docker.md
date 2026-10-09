@@ -161,7 +161,7 @@ Zenith 的 GitHub 自动化流水线遵循职责单一与解耦设计：
 | **持续集成门禁** | `.github/workflows/ci.yml` | PR (opened/edited/sync) / Push 分支 | 校验 PR 标题符合 Conventional 规范、执行 ShellCheck 脚本安全分析、TypeScript 类型检查与生产静态编译 |
 | **即时持续部署** | `.github/workflows/deploy.yml` | Push 合并至 `main` | 实时将最新文档静态编译并部署至 GitHub Pages，改动即时可见 |
 | **自动化发版与分发**| `.github/workflows/release.yml` | 推送标签 `v*` 或手动网页调度 | 提取增量 `git-cliff --latest` 分类日志、打包静态产物 Zip、挂载 SHA-256 校验和，并基于精确源码检出向 GHCR 推送五维标签多架构 Docker 镜像 |
-| **自动化依赖巡检** | `.github/dependabot.yml` | 每月定时执行 | 自动检测并提交 GitHub Actions 与包管理器依赖升级 PR |
+| **自动化依赖巡检** | `.github/dependabot.yml` | 每月定时执行 | 对 GitHub Actions 实施全版本智能聚合 PR 巡检，对前端 npm 依赖实施 Minor/Patch 双轨安全巡检 |
 
 ---
 

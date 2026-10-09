@@ -140,4 +140,14 @@ _Avoid_: 强依赖体积庞大的第三方Hook框架, 提交无校验导致脏�
 结合 Contributor Covenant 行为准则、GitHub Security Advisories 私密漏洞披露渠道与 Issue 无模板空白提交防御的现代开源治理体系。
 _Avoid_: 在公开讨论区披露安全PoC, 缺乏行为规范导致社区争议, 堆砌无格式无效Issue
 
+**五维镜像标签矩阵 (5-Dimensional Image Tag Matrix)**:
+在容器化分发阶段，由自动化流水线输出的覆盖最新版 (`latest`)、精确语义版本 (`{{version}}`)、次版本浮动 (`{{major}}.{{minor}}`)、主版本浮动 (`{{major}}`) 与 Git 原生标签对齐 (`v{{version}}`) 的标准化镜像标签体系，原生具备预发版本 (Prerelease) 自动隔离机制，防止开发期标签污染生产环境。
+_Avoid_: 仅输出单个 latest 覆盖生产, 缺少小版本固定, 预发版本污染生产 latest
 
+**发版源码精确防漂移 (Release Source Immutability / Anti-drift)**:
+在多阶段分布式云端发版流水线中，下游容器构建与制品打包强制指定发版附注 Tag（而非动态变动的分支 HEAD）精确锁定源码检出，彻底阻断并发提交引起的版本脱节风险。
+_Avoid_: 依赖动态分支检出导致镜像代码与发布版本脱节, 发版构建期代码突变
+
+**依赖智能聚合编排 (Aggregated Dependency Orchestration)**:
+在自动化依赖巡检中，对向下兼容性高、升级频率频密的 CI 工具链与 Actions 实施全版本（含 Major/Minor/Patch）单一 PR 智能打包聚合，避免碎片化通知轰炸与并发限流截断，同时对业务核心依赖维持保守类型过滤的分层治理机制。
+_Avoid_: 无限制单列几十张独立PR导致合并地狱, 盲目自动合并破坏性业务依赖
