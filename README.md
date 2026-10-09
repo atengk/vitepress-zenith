@@ -111,20 +111,29 @@ pnpm build
 pnpm preview
 ```
 
-### 5. 交互式规范提交 (Conventional Commits)
+### 5. 规范化提交与守卫钩子 (Conventional Commits)
 
 ```bash
+# 方式 A: 交互向导提交
 pnpm commit
+
+# 方式 B: 参数化 / AI 一键提交 (推荐先精准 git add，再调用助手)
+bash scripts/commit.sh -t feat -s core -m "实现新功能" -p -y
 ```
+
+> **原生钩子守卫**：项目内置了 `.githooks/commit-msg` 纯 Shell 原生钩子（零外部依赖，毫秒级自愈生效），自动拦截不规范提交并智能放行 Merge / Revert。
 
 ### 6. 全生命周期安全发版与演练
 
 ```bash
-# 演练模式 (不产生实际 Git 变更，安全执行 5 大前置自检)
+# 演练模式 (不产生实际 Git 变更，安全执行前置自检)
 pnpm release -- --dry-run
 
-# 正式发版 (自动自检、更新 package.json 版本号并推送到 GitHub 触发 Release 流水线)
-pnpm release v1.2.0
+# 交互式发版 (自检通过后自动更新版本号、打附注 Tag 并推送到 GitHub 触发 Release 流水线)
+pnpm release v1.2.1
+
+# CI / 脚本 / AI 一键自动化发版 (-y)
+bash scripts/release.sh v1.2.1 -y
 ```
 
 ### 7. 极简轻量容器化部署 (Docker ~25MB)
@@ -221,17 +230,21 @@ vitepress-zenith/
 │   ├── components/            # 交互短代码组件总览与使用范例
 │   ├── guide/                 # 基础指南与实战手册 (Zen Mode, Twoslash, 容器化等)
 │   └── index.md               # 首页 Hero 落地页
+├── .githooks/
+│   └── commit-msg             # 纯原生 Shell 提交守卫钩子 (Conventional 规范校验)
 ├── deploy/
 │   └── nginx.conf             # 生产级 Nginx 配置 (Clean URLs、Gzip、长效强缓存)
 ├── scripts/
-│   ├── commit.sh              # 交互式规范化提交助手 (Conventional Commits)
-│   ├── release.sh             # 全生命周期发版防呆自检脚本 (支持 --dry-run)
+│   ├── commit.sh              # 规范化提交助手 (支持向导与 AI/非交互式参数)
+│   ├── release.sh             # 全生命周期发版防呆自检脚本 (支持 -y 与 --dry-run)
 │   └── init-new-project.mjs   # 新项目脚手架脱敏与一键初始化程序
 ├── Dockerfile                 # 极简多阶段 Docker 构建配置 (~25MB)
-├── .cliff.toml                # git-cliff 自动化变更日志提取与分组规则
+├── .cliff.toml                # git-cliff 自动化增量变更日志提取与分组规则
 ├── .dockerignore              # Docker 镜像构建忽略规则
 ├── .editorconfig              # 跨 IDE 编码风格与 2 空格缩进规范
 ├── .gitattributes             # Git 行尾规范 (强制 text=auto eol=lf)
+├── SECURITY.md                # 安全策略与负责任私密漏洞披露渠道
+├── CODE_OF_CONDUCT.md         # 社区行为准则 (Contributor Covenant v2.1)
 ├── CONTRIBUTING.md            # 开发者与开源贡献指南
 ├── CONTEXT.md                 # 核心领域语言定义与术语规范 (Ubiquitous Language)
 ├── AGENTS.md                  # 仓库级 AI Agent 协同行为准则与架构约定
@@ -246,14 +259,16 @@ vitepress-zenith/
 项目基于 [atengk/oss-template](https://github.com/atengk/oss-template) 构建了三维立体 GitHub Actions 流水线：
 
 1. **持续集成质量门禁 (`.github/workflows/ci.yml`)**：
-   在 Pull Request 或向主干推送时，自动化执行 `pnpm install --frozen-lockfile`、`pnpm typecheck` 与 `pnpm build`，杜绝语法错误与构建损坏。
+   在 Pull Request 或向主干推送时，自动化执行 PR 标题规范校验（`action-semantic-pull-request`）、ShellCheck 静态分析、`pnpm typecheck` 与 `pnpm build`，杜绝任何语法与构建损坏。
 2. **文档即时发布 (`.github/workflows/deploy.yml`)**：
    合并至 `main` / `master` 分支后，自动将最新文档构建并发布至 **GitHub Pages**。
 3. **全自动发版与容器镜像分发 (`.github/workflows/release.yml`)**：
    当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，流水线将自动：
-   - 提取并利用 `git-cliff` 解析 Conventional Commits 生成精美分类 Release Notes；
+   - 提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes；
    - 压缩打包生产静态产物为 `vitepress-zenith-dist-*.zip` 并计算 SHA-256 校验和挂载至 GitHub Release；
    - 自动构建 `linux/amd64` 与 `linux/arm64` 双架构轻量 Docker 镜像并推送至 **GitHub Container Registry (`ghcr.io`)**。
+4. **依赖自动化巡检 (`.github/dependabot.yml`)**：
+   每月定时巡检 Actions 与依赖库版本并自动提交安全升级 PR。
 
 ---
 

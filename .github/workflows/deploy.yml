@@ -34,7 +34,7 @@ jobs:
       - name: 配置 Node.js 运行时
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: pnpm
 
       - name: 识别 GitHub Pages 路由前缀

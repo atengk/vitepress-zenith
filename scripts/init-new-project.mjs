@@ -502,14 +502,43 @@ docker run -d -p 8080:80 --name ${projectName} ${projectName}:latest
   if (!enableCiRelease) {
     safeRemove('.github/workflows/ci.yml')
     safeRemove('.github/workflows/release.yml')
+    safeRemove('.github/dependabot.yml')
     safeRemove('.github/ISSUE_TEMPLATE')
     safeRemove('.github/PULL_REQUEST_TEMPLATE.md')
     safeRemove('.cliff.toml')
+    safeRemove('.githooks')
+    safeRemove('SECURITY.md')
+    safeRemove('CODE_OF_CONDUCT.md')
     safeRemove('scripts/commit.sh')
     safeRemove('scripts/release.sh')
-    console.log('✅ 已清理开源 CI/CD 门禁与自动发版工具链')
+    console.log('✅ 已清理开源 CI/CD 门禁、Git 提交钩子与自动发版工具链')
   } else {
-    console.log('✅ 已保留开源质量门禁 CI、自动发版 Release 与容器化工程底座')
+    // 联动更新 SECURITY.md、config.yml 与 .cliff.toml 中的目标仓库
+    if (githubRepo) {
+      const secPath = path.resolve(rootDir, 'SECURITY.md')
+      if (fs.existsSync(secPath)) {
+        let secContent = fs.readFileSync(secPath, 'utf-8')
+        secContent = secContent.replace(/atengk\/vitepress-zenith/g, githubRepo)
+        fs.writeFileSync(secPath, secContent, 'utf-8')
+      }
+      const issueConfigPath = path.resolve(rootDir, '.github/ISSUE_TEMPLATE/config.yml')
+      if (fs.existsSync(issueConfigPath)) {
+        let issueConfigContent = fs.readFileSync(issueConfigPath, 'utf-8')
+        issueConfigContent = issueConfigContent.replace(/atengk\/vitepress-zenith/g, githubRepo)
+        fs.writeFileSync(issueConfigPath, issueConfigContent, 'utf-8')
+      }
+      const cliffPath = path.resolve(rootDir, '.cliff.toml')
+      if (fs.existsSync(cliffPath)) {
+        const repoParts = githubRepo.split('/')
+        if (repoParts.length === 2) {
+          let cliffContent = fs.readFileSync(cliffPath, 'utf-8')
+          cliffContent = cliffContent.replace(/owner = "atengk"/, `owner = "${repoParts[0]}"`)
+          cliffContent = cliffContent.replace(/repo = "vitepress-zenith"/, `repo = "${repoParts[1]}"`)
+          fs.writeFileSync(cliffPath, cliffContent, 'utf-8')
+        }
+      }
+    }
+    console.log('✅ 已保留并适配开源质量门禁 CI、自动发版 Release 与容器化工程底座')
   }
 
   // 若用户两项均未选择保留，则清理整个 .github 目录

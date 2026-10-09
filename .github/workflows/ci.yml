@@ -10,19 +10,63 @@ on:
     branches:
       - main
       - master
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
+  validate-pr-title:
+    name: 校验 PR 标题规范
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: read
+    steps:
+      - name: 校验 PR 标题符合 Conventional Commits
+        uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+
   lint-and-build:
-    name: 类型检查与构建验证
+    name: 类型检查、脚本语法与构建验证
     runs-on: ubuntu-latest
     steps:
       - name: 检出源码
         uses: actions/checkout@v4
+
+      - name: 静态校验工程脚本与 Git 钩子语法与规范 (Bash Syntax & ShellCheck)
+        run: |
+          if ls scripts/*.sh >/dev/null 2>&1; then
+            bash -n scripts/*.sh
+            shellcheck --severity=warning scripts/*.sh
+          fi
+          if ls .githooks/* >/dev/null 2>&1; then
+            bash -n .githooks/*
+            shellcheck --severity=warning .githooks/*
+          fi
 
       - name: 设置 pnpm
         uses: pnpm/action-setup@v4

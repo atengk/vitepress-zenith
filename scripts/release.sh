@@ -16,15 +16,23 @@ set -eo pipefail
 # 若 downstream 具体项目需要自动更新工程文件版本号，解除下方对应语言的一行配置，
 # 或在 custom_bump_version 函数中编写自定义命令。传入参数 $1 为不带 v 前缀的版本号（如 1.2.0）。
 # ==============================================================================
+# shellcheck disable=SC2034
 custom_bump_version() {
   local RAW_VERSION="$1"   # 纯版本号，如 "1.2.0"
   local FULL_VERSION="v$1" # 带 v 前缀的完整标签，如 "v1.2.0"
+  : "${RAW_VERSION}" "${FULL_VERSION}"
 
   # --- [选项 1] Java (Maven) ---
   # mvn versions:set -DnewVersion="$RAW_VERSION" -DgenerateBackupPoms=false
 
   # --- [选项 2] Node.js (npm / pnpm) ---
   npm version "$RAW_VERSION" --no-git-tag-version --allow-same-version
+
+  # --- [选项 3] Rust (Cargo) ---
+  # cargo set-version "$RAW_VERSION"
+
+  # --- [选项 4] Python (Poetry) ---
+  # poetry version "$RAW_VERSION"
 
   return 0
 }
@@ -67,19 +75,30 @@ log_error() {
 # 参数解析
 DRY_RUN=false
 TARGET_VERSION=""
+AUTO_CONFIRM=false
 
 for arg in "$@"; do
   case "$arg" in
-    --dry-run)
+    -n|--dry-run)
       DRY_RUN=true
       ;;
+    -y|--yes)
+      AUTO_CONFIRM=true
+      ;;
     -h|--help)
-      printf "%b\n" "用法: bash scripts/release.sh [版本号] [--dry-run]"
+      printf "%b\n" "用法: bash scripts/release.sh [版本号] [选项]"
       printf "%b\n" ""
       printf "%b\n" "参数说明:"
-      printf "%b\n" "  [版本号]    可选。符合 SemVer 格式的标签名（如 v1.0.0）。若未提供则启动交互式向导。"
-      printf "%b\n" "  --dry-run   可选。演练模式，仅执行检查并预览拟执行命令，不产生任何真实 Git 变更。"
-      printf "%b\n" "  -h, --help  显示帮助信息。"
+      printf "%b\n" "  [版本号]      可选。符合 SemVer 格式的标签名（如 v1.0.0）。若未提供且处于交互终端则启动向导。"
+      printf "%b\n" "  -y, --yes     可选。跳过最终确认提示，直接执行发版（适合 CI 或 AI 自动化调用）。"
+      printf "%b\n" "  -n, --dry-run 可选。演练模式，仅执行检查并预览拟执行命令，不产生任何真实 Git 变更。"
+      printf "%b\n" "  -h, --help    显示帮助信息。"
+      printf "%b\n" ""
+      printf "%b\n" "无参数运行示例 (交互向导模式):"
+      printf "%b\n" "  bash scripts/release.sh"
+      printf "%b\n" ""
+      printf "%b\n" "自动化调用示例 (AI / CI 一键发版):"
+      printf "%b\n" "  bash scripts/release.sh v1.0.0 -y"
       exit 0
       ;;
     v*)
@@ -126,7 +145,7 @@ cd "$REPO_ROOT"
 # 1.3 校验当前分支是否为默认主干分支 (main 或 master)
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$CURRENT_BRANCH" != "main" ] && [ "$CURRENT_BRANCH" != "master" ]; then
-  log_error "当前处于分支 [$CURRENT_BRANCH]，严禁在非主干分支发版！请先切换至 main 分支: git checkout main"
+  log_error "当前处于分支 [$CURRENT_BRANCH]，严禁在非主干分支发版！请先切换至主干分支: git checkout main (或 master)"
   exit 1
 fi
 log_success "当前处于合规主干分支: $CURRENT_BRANCH"
@@ -143,16 +162,29 @@ if [ -n "$DIRTY_FILES" ]; then
 fi
 log_success "工作区状态检查通过: 干净无未提交代码"
 
-# 1.5 校验与远端仓库同步状态 (防漏拉远端代码)
+# 1.5 校验与远端仓库同步状态 (防漏拉远端代码与超前提交自动同步)
 log_info "正在拉取远端最新状态 (git fetch origin)..."
+AHEAD_COUNT=0
 if git fetch origin "$CURRENT_BRANCH" >/dev/null 2>&1; then
-  BEHIND_COUNT=$(git rev-list "HEAD..origin/$CURRENT_BRANCH" --count 2>/dev/null || echo "0")
+  # 优先检测上游追踪分支，若未设置则对比 origin/$CURRENT_BRANCH
+  UPSTREAM_REF="@{u}"
+  if ! git rev-parse --verify "$UPSTREAM_REF" >/dev/null 2>&1; then
+    UPSTREAM_REF="origin/$CURRENT_BRANCH"
+  fi
+
+  BEHIND_COUNT=$(git rev-list "HEAD..$UPSTREAM_REF" --count 2>/dev/null || echo "0")
   if [ "$BEHIND_COUNT" -gt 0 ]; then
-    log_error "本地分支落后于远端 origin/$CURRENT_BRANCH ($BEHIND_COUNT 个提交未合并)！"
+    log_error "本地分支落后于远端 $UPSTREAM_REF ($BEHIND_COUNT 个提交未合并)！"
     log_error "发版前必须合并远端最新代码，请先执行: git pull origin $CURRENT_BRANCH"
     exit 1
   fi
-  log_success "与远程分支状态同步: 本地代码为最新"
+
+  AHEAD_COUNT=$(git rev-list "$UPSTREAM_REF..HEAD" --count 2>/dev/null || echo "0")
+  if [ "$AHEAD_COUNT" -gt 0 ]; then
+    log_info "检测到本地有 $AHEAD_COUNT 个未推送到远端的主干提交，发版时将自动同步推送。"
+  else
+    log_success "与远程分支状态同步: 本地代码为最新"
+  fi
 else
   log_warn "无法连接远程仓库进行同步校验（可能处于离线环境），跳过远端拉取校验。"
 fi
@@ -160,8 +192,8 @@ fi
 # ==============================================================================
 # 2. 版本号解析与语义化推导
 # ==============================================================================
-# 获取最近一次符合 v* 规范的 Git Tag
-LATEST_TAG=$(git describe --tags --abbrev=0 --match "v[0-9]*" 2>/dev/null || echo "")
+# 获取最近一次历史 Git Tag (自适应兼容 v1.0.0 与 1.0.0 两种历史风格)
+LATEST_TAG=$(git describe --tags --abbrev=0 --match "*[0-9]*" 2>/dev/null || echo "")
 
 if [ -z "$LATEST_TAG" ]; then
   log_info "未检测到历史版本 Tag，将基于初始版本 v0.0.0 推导。"
@@ -172,7 +204,7 @@ if [ -z "$LATEST_TAG" ]; then
 else
   log_info "检测到当前最新版本 Tag: $LATEST_TAG"
   BASE_VERSION="$LATEST_TAG"
-  # 提取版本号数字部分 (去掉 v 前缀以及可能的预发布后缀与构建元数据)
+  # 提取版本号纯数字部分
   CLEAN_VER=$(echo "$BASE_VERSION" | sed 's/^v//' | cut -d'-' -f1 | cut -d'+' -f1)
   V_MAJOR=$(echo "$CLEAN_VER" | cut -d'.' -f1)
   V_MINOR=$(echo "$CLEAN_VER" | cut -d'.' -f2)
@@ -190,7 +222,13 @@ NEXT_MAJOR="v$((V_MAJOR + 1)).0.0"
 
 # 若未通过命令行传入版本号，启动交互式选择向导
 if [ -z "$TARGET_VERSION" ]; then
+  if [ ! -t 0 ]; then
+    log_error "非交互式环境下必须显式提供版本号参数！例如: bash scripts/release.sh v1.4.0 -y"
+    exit 1
+  fi
+
   printf "\n%b\n" "${COLOR_BOLD}请选择本次发布的目标版本号 (Semantic Versioning):${COLOR_RESET}"
+  printf "  %b0)%b 退出发版流程 (Quit / Exit)\n" "${COLOR_YELLOW}" "${COLOR_RESET}"
   printf "  %b1)%b Patch  (🐛 补丁修复 / 缺陷修复)   : %b%s%b\n" "${COLOR_GREEN}" "${COLOR_RESET}" "${COLOR_CYAN}" "$NEXT_PATCH" "${COLOR_RESET}"
   printf "  %b2)%b Minor  (🚀 新功能引入 / 向下兼容) : %b%s%b\n" "${COLOR_GREEN}" "${COLOR_RESET}" "${COLOR_CYAN}" "$NEXT_MINOR" "${COLOR_RESET}"
   printf "  %b3)%b Major  (💥 破坏性更新 / 架构大改) : %b%s%b\n" "${COLOR_GREEN}" "${COLOR_RESET}" "${COLOR_CYAN}" "$NEXT_MAJOR" "${COLOR_RESET}"
@@ -198,10 +236,14 @@ if [ -z "$TARGET_VERSION" ]; then
 
   CHOICE=""
   while [ -z "$TARGET_VERSION" ]; do
-    printf "%b请输入选项 [1-4]: %b" "${COLOR_BOLD}" "${COLOR_RESET}"
+    printf "%b请输入选项 [0-4]: %b" "${COLOR_BOLD}" "${COLOR_RESET}"
     read -r CHOICE
     CHOICE=$(echo "$CHOICE" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     case "$CHOICE" in
+      0|[qQ]|[eE][xX][iI][tT])
+        log_info "已取消发版。"
+        exit 0
+        ;;
       1) TARGET_VERSION="$NEXT_PATCH" ;;
       2) TARGET_VERSION="$NEXT_MINOR" ;;
       3) TARGET_VERSION="$NEXT_MAJOR" ;;
@@ -215,7 +257,7 @@ if [ -z "$TARGET_VERSION" ]; then
         TARGET_VERSION="$CUSTOM_VER"
         ;;
       *)
-        log_warn "无效选项，请输入 1 到 4 之间的有效编号。"
+        log_warn "无效选项，请输入 0 到 4 之间的有效编号。"
         ;;
     esac
   done
@@ -251,6 +293,9 @@ printf "\n%b\n" "${COLOR_BOLD}${COLOR_CYAN}----------------------- 发版计划�
 printf "  基准历史版本 : %s\n" "$BASE_VERSION"
 printf "  本次目标版本 : %b%s%b\n" "${COLOR_BOLD}${COLOR_GREEN}" "$TARGET_VERSION" "${COLOR_RESET}"
 printf "  目标 Git 分支: %s\n" "$CURRENT_BRANCH"
+if [ "$AHEAD_COUNT" -gt 0 ]; then
+  printf "  主干前置同步 : 推送本地超前提交至 origin/%s (%s 个提交)\n" "$CURRENT_BRANCH" "$AHEAD_COUNT"
+fi
 printf "  拟执行动作   : 1. 执行工程版本更新钩子 (custom_bump_version)\n"
 printf "                 2. 创建附注标签: git tag -a %s -m \"Release %s\"\n" "$TARGET_VERSION" "$TARGET_VERSION"
 printf "                 3. 推送标签至远端: git push origin %s\n" "$TARGET_VERSION"
@@ -258,6 +303,9 @@ printf "                 4. 触发 GitHub Actions 自动发版与产物挂载流
 printf "%b\n\n" "${COLOR_BOLD}${COLOR_CYAN}------------------------------------------------------------${COLOR_RESET}"
 
 if [ "$DRY_RUN" = true ]; then
+  if [ "$AHEAD_COUNT" -gt 0 ]; then
+    log_info "[DRY-RUN] 模拟执行 git push origin $CURRENT_BRANCH..."
+  fi
   log_info "[DRY-RUN] 模拟执行 custom_bump_version $RAW_VERSION..."
   log_info "[DRY-RUN] 模拟执行 git tag -a $TARGET_VERSION -m 'Release $TARGET_VERSION'..."
   log_info "[DRY-RUN] 模拟执行 git push origin $TARGET_VERSION..."
@@ -265,20 +313,24 @@ if [ "$DRY_RUN" = true ]; then
   exit 0
 fi
 
-printf "%b确认以此计划立即发版并推送到 GitHub? [Y/n]: %b" "${COLOR_BOLD}" "${COLOR_RESET}"
-read -r CONFIRM_RELEASE
-CONFIRM_RELEASE=$(echo "$CONFIRM_RELEASE" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-case "$CONFIRM_RELEASE" in
-  [nN][oO]|[nN])
-    log_warn "发版操作已由用户取消，未执行任何改动。"
-    exit 0
-    ;;
-  *)
-    ;;
-esac
+if [ "$AUTO_CONFIRM" = true ] || [ ! -t 0 ]; then
+  log_info "已指定 -y 或处于非交互环境，跳过人工确认，直接执行发版流程。"
+else
+  printf "%b确认以此计划立即发版并推送到 GitHub? [Y/n]: %b" "${COLOR_BOLD}" "${COLOR_RESET}"
+  read -r CONFIRM_RELEASE
+  CONFIRM_RELEASE=$(echo "$CONFIRM_RELEASE" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  case "$CONFIRM_RELEASE" in
+    [nN][oO]|[nN])
+      log_warn "发版操作已由用户取消，未执行任何改动。"
+      exit 0
+      ;;
+    *)
+      ;;
+  esac
+fi
 
 # ==============================================================================
-# 4. 执行版本号更新钩子与提交
+# 4. 执行版本号更新钩子与主干分支同步
 # ==============================================================================
 log_info "正在执行工程版本号更新钩子 (custom_bump_version)..."
 custom_bump_version "$RAW_VERSION"
@@ -292,18 +344,28 @@ if [ -n "$HOOK_CHANGES" ]; then
   log_info "正在将版本提交推送到 origin/$CURRENT_BRANCH..."
   git push origin "$CURRENT_BRANCH"
   log_success "工程版本提交已推送到主干分支。"
+elif [ "$AHEAD_COUNT" -gt 0 ]; then
+  log_info "正在将本地主干超前提交推送到 origin/$CURRENT_BRANCH..."
+  git push origin "$CURRENT_BRANCH"
+  log_success "主干超前提交已同步至远端。"
 else
   log_info "未检测到工程文件变动（当前工程保持无版本文件模式）。"
 fi
 
 # ==============================================================================
-# 5. 打标签与推送
+# 5. 打标签与推送 (含推送失败自动回滚)
 # ==============================================================================
 log_info "正在创建附注 Git Tag: $TARGET_VERSION..."
 git tag -a "$TARGET_VERSION" -m "Release $TARGET_VERSION"
 
 log_info "正在推送标签到远程仓库 (git push origin $TARGET_VERSION)..."
-git push origin "$TARGET_VERSION"
+if ! git push origin "$TARGET_VERSION"; then
+  log_error "推送标签 $TARGET_VERSION 到远程仓库失败！"
+  log_warn "正在自动回滚本地标签，以防本地脏 Tag 阻塞后续发版..."
+  git tag -d "$TARGET_VERSION" >/dev/null 2>&1 || true
+  log_error "发版中断：标签推送失败，本地标签已安全清理。"
+  exit 1
+fi
 
 log_success "标签推送成功！"
 

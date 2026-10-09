@@ -15,6 +15,7 @@
 *.css text eol=lf
 *.scss text eol=lf
 *.sh text eol=lf
+.githooks/* text eol=lf
 *.toml text eol=lf
 Dockerfile text eol=lf
 

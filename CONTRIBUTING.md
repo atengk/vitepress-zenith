@@ -36,9 +36,14 @@ pnpm dev
 ```
 
 - **常见类型**：`feat`（新特性）、`fix`（缺陷修复）、`docs`（文档）、`perf`（性能优化）、`refactor`（重构）、`style`（样式微调）、`chore`（构建/杂项）。
-- **提交助手**：你可以直接在终端运行交互式提交助手：
+- **提交守卫钩子**：项目内置了纯原生 `.githooks/commit-msg` 钩子。首次运行提交脚本或手动配置 `git config core.hooksPath .githooks` 即可自动生效，拦截非合规提交并智能放行 Merge / Revert。
+- **提交助手**：你可以直接在终端运行交互式向导，或在脚本/AI 中通过参数化命令快速提交：
   ```bash
+  # 交互式向导
   pnpm commit
+
+  # 自动化/参数化提交 (推荐先精准 git add，再调用助手)
+  bash scripts/commit.sh -t feat -s core -m "实现新功能" -p -y
   ```
 
 ### 2. 质量门禁与预检红线
@@ -73,6 +78,14 @@ pnpm release v1.2.0
 
 ---
 
+## 🤝 社区准则与安全政策
+
+- **行为准则**：参与本项目社区讨论与协同开发，请共同遵守 [行为准则 (CODE_OF_CONDUCT.md)](./CODE_OF_CONDUCT.md)。
+- **安全漏洞报告**：发现疑似安全隐患，请勿在公开 Issue 披露，请遵循 [安全策略 (SECURITY.md)](./SECURITY.md) 通过 GitHub Advisories 或私密邮箱联络维护者。
+
+---
+
 ## 📄 开源许可证
 
 本项目遵循 [Apache License 2.0](./LICENSE) 开源协议。提交任何 Pull Request 即代表你同意将你的贡献在 Apache-2.0 协议条款下进行开源分发。
+

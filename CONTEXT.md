@@ -132,3 +132,12 @@ _Avoid_: 人肉编写更新摘要, 机械堆砌PR流水账
 基于 Node.js 生产编译与 Nginx Alpine 静态托管两阶段分离的多架构（amd64/arm64）Docker 镜像交付范式，原生集成 Clean URLs 友好路由与长效缓存策略。
 _Avoid_: 携带厚重Node运行时的单阶段臃肿镜像, 缺失SPA路由重定向配置, 仅支持单一架构构建
 
+**轻量本地提交通用钩子 (Zero-dependency Git Hooks)**:
+基于 `.githooks/` 的纯原生 Shell 提交守门机制，无需外部 Node/Husky 依赖即可在提交期实时校验 Conventional Commits，支持自动放行 Merge/Revert 并自带自愈注册能力。
+_Avoid_: 强依赖体积庞大的第三方Hook框架, 提交无校验导致脏日志, 破坏Merge流程
+
+**负责任安全与社区治理 (Responsible Community Governance)**:
+结合 Contributor Covenant 行为准则、GitHub Security Advisories 私密漏洞披露渠道与 Issue 无模板空白提交防御的现代开源治理体系。
+_Avoid_: 在公开讨论区披露安全PoC, 缺乏行为规范导致社区争议, 堆砌无格式无效Issue
+
+
