@@ -3,8 +3,11 @@
 # ==============================================================================
 FROM node:20-alpine AS builder
 
-# 启用 Corepack 激活原生 pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# 安装 Alpine 下原生编译与工具链所需的兼容层
+RUN apk add --no-cache libc6-compat
+
+# 启用 Corepack 激活与工程严格对齐的 pnpm 9 (防止拉取最新 pnpm 10 触发 ERR_PNPM_IGNORED_BUILDS 报错)
+RUN corepack enable && corepack prepare pnpm@9 --activate
 
 WORKDIR /app
 
