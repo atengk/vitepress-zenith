@@ -266,7 +266,7 @@ vitepress-zenith/
    当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，流水线将自动：
    - 提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes；
    - 压缩打包生产静态产物为 `vitepress-zenith-dist-*.zip` 并计算 SHA-256 校验和挂载至 GitHub Release；
-   - 自动构建 `linux/amd64` 与 `linux/arm64` 双架构轻量 Docker 镜像并推送至 **GitHub Container Registry (`ghcr.io`)**。
+   - 自动构建 `linux/amd64` 与 `linux/arm64` 双架构轻量 Docker 镜像，生成五维标准化标签矩阵并推送至 **GitHub Container Registry (`ghcr.io`)**。
 4. **依赖自动化巡检 (`.github/dependabot.yml`)**：
    每月定时巡检 Actions 与依赖库版本并自动提交安全升级 PR。
 

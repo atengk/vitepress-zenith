@@ -110,7 +110,20 @@ bash scripts/release.sh v1.2.0 -y
 - **构建阶段 (`node:20-alpine`)**：安装 `libc6-compat` 兼容层，启用 Corepack 锁定 `pnpm@9.15.4`，利用缓存层安装锁定依赖并执行 `pnpm build` 静态编译；
 - **运行阶段 (`nginx:alpine`)**：从构建阶段仅提取 `docs/.vitepress/dist` 纯静态文件，丢弃所有 Node.js 运行时与源码，镜像最终体积**小于 25MB**！
 
-### 2. 本地构建与启动
+### 2. 官方预构建镜像极速启动 (免构建)
+Zenith 每次正式发版均会在云端自动化构建 `linux/amd64` 与 `linux/arm64` 双架构镜像并推送至 GitHub Container Registry (GHCR)，您可以直接一键拉取运行：
+
+```bash
+# 1. 拉取官方预构建最新稳定镜像
+docker pull ghcr.io/atengk/vitepress-zenith:latest
+
+# 2. 启动容器 (映射宿主机 8080 端口)
+docker run -d --name zenith-docs -p 8080:80 ghcr.io/atengk/vitepress-zenith:latest
+```
+
+### 3. 本地自主构建与启动
+若进行了深度二次开发或需要离线构建：
+
 ```bash
 # 1. 构建本地生产镜像
 docker build -t vitepress-zenith:latest .
@@ -120,7 +133,18 @@ docker run -d --name zenith-docs -p 8080:80 vitepress-zenith:latest
 ```
 访问 `http://localhost:8080` 即可查阅完整文档系统。
 
-### 3. Nginx 生产环境最佳实践 (`deploy/nginx.conf`)
+### 4. 五维版本标签矩阵与预发隔离策略
+为了兼顾不同部署环境对稳定性与自动化的诉求，云端发版流水线输出标准化的五维镜像标签网格：
+
+| 标签格式 | 示例 | 适用环境与推荐场景 |
+| :--- | :--- | :--- |
+| `latest` | `ghcr.io/atengk/vitepress-zenith:latest` | 尝鲜体验与日常演示（**注：Prerelease 预发版本自动禁用此标签，彻底杜绝污染生产**） |
+| `{{version}}` | `ghcr.io/atengk/vitepress-zenith:1.3.1` | **生产环境强烈推荐**，严格锁定固定小版本，保障绝对一致性与可复现性 |
+| `{{major}}.{{minor}}` | `ghcr.io/atengk/vitepress-zenith:1.3` | 次版本跟踪，自动吸收当前 Minor 下的所有 Patch 安全修复 |
+| `{{major}}` | `ghcr.io/atengk/vitepress-zenith:1` | 主版本跟踪，持续获取 1.x 系列所有向前兼容的功能与补丁 |
+| `v{{version}}` | `ghcr.io/atengk/vitepress-zenith:v1.3.1` | Git 原生标签镜像对齐，兼容以 `v` 开头抓取镜像的自动化工具链 |
+
+### 5. Nginx 生产环境最佳实践 (`deploy/nginx.conf`)
 - **Clean URLs 友好回退**：内置 `try_files $uri $uri.html $uri/ /index.html =404;` 规则，完美支持直接输入页面深层路由而不出现 404；
 - **长效强缓存策略**：针对 `/assets/` 静态指纹哈希文件配置 `Cache-Control: public, max-age=31536000, immutable`，极大减少网络传输并提升二次加载速度；
 - **HTML 协商缓存**：针对 `.html` 入口文件配置 `Cache-Control: no-cache, must-revalidate`，确保文档每次改动发布后读者刷新即可获取最新版本；
@@ -136,7 +160,7 @@ Zenith 的 GitHub 自动化流水线遵循职责单一与解耦设计：
 | :--- | :--- | :--- | :--- |
 | **持续集成门禁** | `.github/workflows/ci.yml` | PR (opened/edited/sync) / Push 分支 | 校验 PR 标题符合 Conventional 规范、执行 ShellCheck 脚本安全分析、TypeScript 类型检查与生产静态编译 |
 | **即时持续部署** | `.github/workflows/deploy.yml` | Push 合并至 `main` | 实时将最新文档静态编译并部署至 GitHub Pages，改动即时可见 |
-| **自动化发版与分发**| `.github/workflows/release.yml` | 推送标签 `v*` 或手动网页调度 | 提取增量 `git-cliff --latest` 分类日志、打包静态产物 Zip、挂载 SHA-256 校验和并向 GHCR 推送多架构 Docker 镜像 |
+| **自动化发版与分发**| `.github/workflows/release.yml` | 推送标签 `v*` 或手动网页调度 | 提取增量 `git-cliff --latest` 分类日志、打包静态产物 Zip、挂载 SHA-256 校验和，并基于精确源码检出向 GHCR 推送五维标签多架构 Docker 镜像 |
 | **自动化依赖巡检** | `.github/dependabot.yml` | 每月定时执行 | 自动检测并提交 GitHub Actions 与包管理器依赖升级 PR |
 
 ---
