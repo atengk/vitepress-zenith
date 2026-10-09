@@ -64,4 +64,4 @@ jobs:
     steps:
       - name: 执行 GitHub Pages 部署发布
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
