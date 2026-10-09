@@ -14,28 +14,24 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 10
     commit-message:
       prefix: "ci"
       include: "scope"
     labels:
       - "dependencies"
     groups:
-      # 语义化双轨模型：将所有 Actions 的 Minor 与 Patch 补丁打包为单一 PR，杜绝通知轰炸；
-      # 遇到 Major 重大版本跳跃自动单列独立 PR，便于审查破坏性更新与定位问题。
+      # Actions 全版本智能聚合：将所有 Actions 的版本更新（含 Major/Minor/Patch）打包为单一 PR，杜绝通知轰炸与碎片化
       actions:
         patterns:
           - "*"
-        update-types:
-          - "minor"
-          - "patch"
 
   # 前端依赖自动化巡检 (双轨聚合分组)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "monthly"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 10
     commit-message:
       prefix: "build"
       include: "scope"

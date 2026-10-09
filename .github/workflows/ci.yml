@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出源码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 静态校验工程脚本与 Git 钩子语法与规范 (Bash Syntax & ShellCheck)
         run: |
@@ -74,7 +74,7 @@ jobs:
         uses: pnpm/action-setup@v4
 
       - name: 设置 Node.js 环境 (20.x)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: 'pnpm'
