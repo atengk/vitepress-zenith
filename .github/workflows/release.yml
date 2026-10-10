@@ -140,6 +140,6 @@ jobs:
 # ------------------------------------------------------------------------------
 # 1. 多架构 Docker 镜像构建 (GHCR): 已解耦至独立流水线 .github/workflows/docker.yml
 #    - 打 Tag 发版时，docker.yml 与 release.yml 自动并行执行，极大缩短发版耗时；
-#    - 代码合并至 main 分支时，docker.yml 亦可自动刷新 latest 与 short-sha 镜像。
+#    - 代码合并至 main/master 分支时，docker.yml 亦可自动刷新 latest 与 short-sha 镜像。
 # 2. 生产与边缘部署模版 (Vercel / Cloudflare / S3 / K8s): .github/workflow-templates/deployments/
 # ==============================================================================

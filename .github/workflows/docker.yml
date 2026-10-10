@@ -11,6 +11,7 @@
 #   - 自动小写化仓库名称 (REPO_LC=${GITHUB_REPOSITORY,,})，彻底杜绝 Registry 大小写兼容问题
 #   - 注入 provenance: false & sbom: false 策略，确保产物纯净并杜绝私有 Harbor 幽灵标签
 #   - 采用 GitHub Actions 缓存 (type=gha) 极致加速多阶段构建层复用
+#   - 内置单/多分支拓扑防双跑感知门禁：发版时分支流水线自动让步，消灭镜像竞态与算力浪费
 # ==============================================================================
 
 name: Docker (GHCR 多架构容器镜像构建与发布)
@@ -19,6 +20,7 @@ on:
   push:
     branches:
       - main
+      - master
     tags:
       - 'v*'
   workflow_dispatch:
@@ -48,13 +50,32 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 检查分支提交是否关联发版标签 (防双跑自检)
+        id: check-tag
+        if: github.event_name == 'push' && github.ref_type == 'branch'
+        run: |
+          git fetch --tags --force
+          MATCHED_TAGS=$(git tag --points-at HEAD 'v*' 2>/dev/null || true)
+          if [ -n "$MATCHED_TAGS" ]; then
+            TAGS_STR=$(echo "$MATCHED_TAGS" | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+            echo "检测到当前分支提交已关联语义化版本标签: [$TAGS_STR]"
+            echo "当前构建将由 Tag 流水线统一发布，自动跳过分支构建以避免重复计算与镜像竞态。"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "当前分支提交未关联发版标签，继续执行容器镜像构建。"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: 设置 QEMU 模拟器 (多架构支持)
+        if: steps.check-tag.outputs.skip != 'true'
         uses: docker/setup-qemu-action@v4
 
       - name: 设置 Docker Buildx
+        if: steps.check-tag.outputs.skip != 'true'
         uses: docker/setup-buildx-action@v4
 
       - name: 登录 GitHub Container Registry (ghcr.io)
+        if: steps.check-tag.outputs.skip != 'true'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -63,14 +84,14 @@ jobs:
 
       - name: 提取 Docker 镜像元数据与标签矩阵
         id: meta
+        if: steps.check-tag.outputs.skip != 'true'
         uses: docker/metadata-action@v6
         with:
           images: |
             ghcr.io/${{ env.REPO_LC }}
           flavor: |
-            latest=${{ github.ref == 'refs/heads/main' || (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')) }}
+            latest=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')) }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=sha,format=short,prefix=sha-
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -78,6 +99,7 @@ jobs:
             type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
       - name: 构建并推送多架构镜像 (amd64 / arm64)
+        if: steps.check-tag.outputs.skip != 'true'
         uses: docker/build-push-action@v7
         with:
           context: .
