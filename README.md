@@ -217,15 +217,18 @@ const zenithConfig = {
 ```text
 vitepress-zenith/
 ├── .github/
+│   ├── CODEOWNERS             # 代码属主与 PR 审阅者自动指派配置
 │   ├── ISSUE_TEMPLATE/        # 特化缺陷反馈与需求建议 Issue 模板
 │   ├── PULL_REQUEST_TEMPLATE  # 集成零绝对路径与质量自检清单的 PR 模板
+│   ├── workflow-templates/    # 8 大生产级部署流水线资产库 (Vercel/Cloudflare/S3/Docker 等)
 │   └── workflows/
-│       ├── ci.yml             # 质量门禁 (PR & Push 自动执行类型检查与构建)
-│       ├── deploy.yml         # GitHub Actions 自动化构建与 GitHub Pages 部署
-│       └── release.yml        # 双通道发版、git-cliff 更新日志与 Docker GHCR 推送
+│       ├── ci.yml             # 质量门禁 (PR 标题校验、ShellCheck 与类型构建验证)
+│       ├── deploy.yml         # GitHub Pages 自动化构建、发布与线上冒烟探测
+│       ├── docker.yml         # GHCR 多架构 Docker 镜像自动化构建与五维标签推送
+│       └── release.yml        # 全自动发版、git-cliff 更新日志与制品附件挂载
 ├── docs/                      # 文档与博客源码目录
 │   ├── .vitepress/            # VitePress 核心配置与定制主题
-│   ├── adr/                   # 架构决策记录 (ADR-0001 ~ ADR-0011)
+│   ├── adr/                   # 架构决策记录 (ADR-0001 ~ ADR-0013)
 │   ├── blog/                  # 技术博客文章矩阵（标签筛选与时间线归档）
 │   ├── components/            # 交互短代码组件总览与使用范例
 │   ├── guide/                 # 基础指南与实战手册 (Zen Mode, Twoslash, 容器化等)
@@ -256,19 +259,18 @@ vitepress-zenith/
 
 ## 🚢 自动化 CI/CD 与多维交付体系
 
-项目基于 [atengk/oss-template](https://github.com/atengk/oss-template) 构建了三维立体 GitHub Actions 流水线：
+项目基于 [atengk/oss-template](https://github.com/atengk/oss-template) 构建了四维解耦的 GitHub Actions 流水线矩阵：
 
 1. **持续集成质量门禁 (`.github/workflows/ci.yml`)**：
    在 Pull Request 或向主干推送时，自动化执行 PR 标题规范校验（`action-semantic-pull-request`）、ShellCheck 静态分析、`pnpm typecheck` 与 `pnpm build`，杜绝任何语法与构建损坏。
 2. **文档即时发布 (`.github/workflows/deploy.yml`)**：
-   合并至 `main` 分支后，自动将最新文档构建并发布至 **GitHub Pages**。
-3. **全自动发版与容器镜像分发 (`.github/workflows/release.yml`)**：
-   当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，流水线将自动：
-   - 提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes；
-   - 压缩打包生产静态产物为 `vitepress-zenith-dist-*.zip` 并计算 SHA-256 校验和挂载至 GitHub Release；
-   - 自动构建 `linux/amd64` 与 `linux/arm64` 双架构轻量 Docker 镜像，生成五维标准化标签矩阵并推送至 **GitHub Container Registry (`ghcr.io`)**。
-4. **依赖自动化巡检 (`.github/dependabot.yml`)**：
-   每月定时巡检 Actions 与依赖库版本并自动提交安全升级 PR。
+   合并至 `main` 分支后，自动将最新文档构建并发布至 **GitHub Pages**，并在发布完成后自动执行线上健康冒烟探测 (Smoke Test)。
+3. **多架构容器镜像构建 (`.github/workflows/docker.yml`)**：
+   主干推送自动刷新 `latest` 与 `short-sha` 镜像；发版推送 Tag 自动生成 SemVer 五维标准标签矩阵，并自动推送至 **GitHub Container Registry (`ghcr.io`)**。
+4. **全自动发版与制品挂载 (`.github/workflows/release.yml`)**：
+   当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes，并将静态产物压缩包与 SHA-256 校验和自动挂载至 GitHub Release。
+5. **部署模版资产库 (`.github/workflow-templates/`)**：
+   内置 8 套生产部署模版（Vercel、Cloudflare Pages/Workers、AWS S3、SSH Docker Compose 等），供下游根据实际环境一键选用。
 
 ---
 

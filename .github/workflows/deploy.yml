@@ -23,11 +23,9 @@ on:
       - main
   workflow_dispatch:
 
-# 授予部署到 GitHub Pages 所需的权限
+# 最小权限原则：顶层仅授予代码仓库只读权限
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # 防止并发部署冲突
 concurrency:
@@ -77,6 +75,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write     # 部署至 GitHub Pages 所需的核心写权限
+      id-token: write  # GitHub Pages OIDC 鉴权所需权限
     steps:
       - name: 执行 GitHub Pages 部署发布
         id: deployment
