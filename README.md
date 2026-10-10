@@ -266,9 +266,9 @@ vitepress-zenith/
 2. **文档即时发布 (`.github/workflows/deploy.yml`)**：
    合并至 `main` 分支后，自动将最新文档构建并发布至 **GitHub Pages**，并在发布完成后自动执行线上健康冒烟探测 (Smoke Test)。
 3. **多架构容器镜像构建 (`.github/workflows/docker.yml`)**：
-   主干推送自动刷新 `latest` 与 `short-sha` 镜像；发版推送 Tag 自动生成 SemVer 五维标准标签矩阵，并自动推送至 **GitHub Container Registry (`ghcr.io`)**。
+   主干推送自动刷新 `latest` 与 `short-sha` 镜像；发版推送 Tag 自动生成 SemVer 五维标准标签矩阵，并自动推送至 **GitHub Container Registry (`ghcr.io`)**（内置 Git 拓扑防双跑感知自检，发版时自动跳过分支构建以杜绝算力浪费与标签竞态）。
 4. **全自动发版与制品挂载 (`.github/workflows/release.yml`)**：
-   当本地运行 `pnpm release` 推送附注 Tag（或在网页调度发版）时，提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes，并将静态产物压缩包与 SHA-256 校验和自动挂载至 GitHub Release。
+   当本地运行 `pnpm release` 原子推送附注 Tag 与分支更新（或在网页调度发版）时，提取增量 `git-cliff --latest` 解析生成精美分类 Release Notes，并将静态产物压缩包与 SHA-256 校验和自动挂载至 GitHub Release。
 5. **部署模版资产库 (`.github/workflow-templates/`)**：
    内置 8 套生产部署模版（Vercel、Cloudflare Pages/Workers、AWS S3、SSH Docker Compose 等），供下游根据实际环境一键选用。
 

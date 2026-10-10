@@ -85,9 +85,11 @@ pnpm release -- --dry-run
 pnpm release v1.2.0
 ```
 
-发版脚本会自动联动更新 `package.json` 中的版本号、创建附注 Git Tag 并推送到 GitHub，自动触发云端 Release 流水线与 Docker 容器镜像构建。
+发版脚本会自动联动更新 `package.json` 中的版本号、创建附注 Git Tag 并执行原子合并推送（`git push origin $CURRENT_BRANCH $TARGET_VERSION`），自动触发云端 Release 制品归档与五维 Docker 容器镜像构建（内置防双跑拓扑门禁）。
 
-### 4. 8 大生产部署流水线模版资产
+---
+
+## 📦 8 大生产部署流水线模版资产
 本项目默认使用 GitHub Actions 自动将静态文档站点部署至 GitHub Pages。若你的团队计划将站点部署至其它外部云平台或自建运维基础设施，我们在 [`.github/workflow-templates/`](./.github/workflow-templates/) 中沉淀了 8 套开箱即用的工业级部署模版：
 - **全球边缘 Serverless**：Vercel、Cloudflare Pages、Cloudflare Workers
 - **公有云静态托管与 CDN**：AWS S3 & CloudFront

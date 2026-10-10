@@ -151,3 +151,11 @@ _Avoid_: 依赖动态分支检出导致镜像代码与发布版本脱节, 发版
 **依赖智能聚合编排 (Aggregated Dependency Orchestration)**:
 在自动化依赖巡检中，对向下兼容性高、升级频率频密的 CI 工具链与 Actions 实施全版本（含 Major/Minor/Patch）单一 PR 智能打包聚合，避免碎片化通知轰炸与并发限流截断，同时对业务核心依赖维持保守类型过滤的分层治理机制。
 _Avoid_: 无限制单列几十张独立PR导致合并地狱, 盲目自动合并破坏性业务依赖
+
+**拓扑感知防双跑门禁 (Topological Anti-double-run Gate)**:
+在 CI/CD 容器构建流水线中，通过 Git 原生引用拓扑自检（`git tag --points-at HEAD`）本地毫秒级感知分支提交是否已关联版本 Tag，并在分支构建任务中精准跳过以杜绝与 Tag 流水线重复执行、消除远端镜像标签覆盖竞态的自愈机制。
+_Avoid_: 分支与Tag同时触发导致双重多架构构建浪费算力, 镜像latest标签并发覆盖竞态, 依赖易受限流的外部API查询
+
+**原子发版推送与安全回滚 (Atomic Release Push & Safe Rollback Guard)**:
+在发版交付过程中将分支 Bump 提交与附注版本 Tag 通过单次 Git 协议指令（`git push origin $BRANCH $TAG`）作为一个不可分割的事务原子提交至远端，并在网络或权限中断时自动撤销清理本地临时 Tag 的自愈交付机制。
+_Avoid_: 分步推送导致分支入库但Tag失败的半提交死锁, 网络中断后本地残留脏Tag阻塞后续发版重试

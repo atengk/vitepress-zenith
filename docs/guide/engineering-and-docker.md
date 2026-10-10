@@ -76,7 +76,7 @@ pnpm release v1.2.0 --dry-run
 ```
 
 脚本将依次执行严密的前置自检：
-1. 校验当前是否处于合规主干分支（`main`）；
+1. 校验当前是否处于合规主干分支（`main` 或 `master`）；
 2. 拦截本地未提交的修改或未跟踪文件；
 3. 校验本地分支与远程仓库是否同步，并自动感知超前提交；
 4. 校验目标 Tag 是否已被本地或远端占用。
@@ -95,9 +95,9 @@ bash scripts/release.sh v1.2.0 -y
 脚本将自动执行：
 - 触发 `custom_bump_version` 钩子，联动更新 `package.json` 中的 `"version": "1.2.0"`；
 - 自动创建规范化版本提交 `chore(release): bump version to v1.2.0`；
-- 同步推送本地超前提交至主干分支；
-- 创建附注 Git Tag `v1.2.0` 并一键推送至 GitHub；
-- **回滚防死锁保障**：若网络中断导致标签推送远端失败，脚本将自动清理本地临时 Tag，彻底防止本地脏 Tag 阻塞后续发版；
+- 创建附注 Git Tag `v1.2.0`；
+- **原子合并推送 (Atomic Push)**：通过 `git push origin "$CURRENT_BRANCH" "$TARGET_VERSION"` 一次性将分支提交与附注标签原子推送到远端，彻底杜绝分步推送可能引发的“分支已入库但 Tag 失败”半提交状态；
+- **回滚防死锁保障**：若网络中断或权限问题导致标签推送远端失败，脚本将自动清理本地临时 Tag（`git tag -d`），彻底防止本地脏 Tag 阻塞后续发版重试；
 - 自动唤起 GitHub Actions 云端发版流水线！
 
 ---
@@ -160,10 +160,35 @@ Zenith 的 GitHub 自动化流水线遵循职责单一与解耦设计：
 | :--- | :--- | :--- | :--- |
 | **持续集成门禁** | `.github/workflows/ci.yml` | PR (opened/edited/sync) / Push 分支 | 校验 PR 标题符合 Conventional 规范、执行 ShellCheck 脚本安全分析、TypeScript 类型检查与生产静态编译 |
 | **即时持续部署** | `.github/workflows/deploy.yml` | Push 合并至 `main` | 实时将最新文档静态编译并部署至 GitHub Pages，并在完成后执行线上冒烟探测 (Smoke Test) |
-| **多架构容器构建** | `.github/workflows/docker.yml` | Push `main` / Push `v*` / 手动调度 | 构建 `amd64/arm64` 双架构 Docker 镜像，自动计算 SemVer 与 latest 五维标签推送到 GHCR |
+| **多架构容器构建** | `.github/workflows/docker.yml` | Push `main`/`master` / Push `v*` / 手动调度 | 构建 `amd64/arm64` 双架构 Docker 镜像，内置 Git 原生拓扑防双跑感知自检（`git tag --points-at HEAD`），自动计算 SemVer 与 latest 五维标签推送到 GHCR |
 | **全自动发版与制品**| `.github/workflows/release.yml` | 推送标签 `v*` 或手动网页调度 | 提取增量 `git-cliff --latest` 分类日志、打包静态产物 Zip、挂载 SHA-256 校验和清单至 GitHub Release |
 | **部署模版资产库** | `.github/workflow-templates/` | 按需一键选用 | 沉淀 8 大通用生产部署流水线模版 (Vercel, Cloudflare, AWS S3, SSH Docker Compose 等) |
 | **自动化依赖巡检** | `.github/dependabot.yml` | 每月定时执行 | 对 GitHub Actions 实施全版本智能聚合 PR 巡检，对前端 npm 依赖实施 Minor/Patch 双轨安全巡检 |
+
+### 🛡️ 流水线防双跑拓扑感知门禁 (Topological Anti-double-run Gate)
+
+在常规 CI/CD 实践中，当一次发版通过原子推送（`git push origin main v1.4.2`）将分支提交与附注版本标签同时推送至远端时，若流水线同时配置了分支 Push 与 Tag Push 触发器，默认行为会**同时唤起两套完全并行的流水线**：
+1. **分支触发流**：拉取主干提交，构建并推送 `latest` 与 `sha` 镜像；
+2. **Tag 触发流**：拉取发版 Tag，构建并推送五维 SemVer 镜像与 `latest`。
+
+对于多架构（`linux/amd64` 与 `linux/arm64`）Docker 容器构建而言，QEMU 交叉编译往往需消耗 5~8 分钟的高强度云端算力；双重并发构建不仅导致 Runner 配额翻倍浪费，更可能在 GHCR 远端引发 `latest` 标签覆盖的写入竞态（Race Condition）。
+
+为此，Zenith 在 `.github/workflows/docker.yml` 中设计了**纯原生 Git 拓扑感知自检门禁**：
+
+```bash
+# 检查当前提交是否有关联的版本标签 (v*)
+TAGS=$(git tag --points-at HEAD)
+if echo "$TAGS" | grep -q "^v[0-9]"; then
+  echo "is_release_tag=true" >> "$GITHUB_OUTPUT"
+  echo "检测到当前分支推送关联了版本标签，跳过分支维度的 Docker 构建以防止双重构建"
+else
+  echo "is_release_tag=false" >> "$GITHUB_OUTPUT"
+fi
+```
+
+- **拓扑感知，零外部依赖**：通过 Git 原生命令 `git tag --points-at HEAD` 本地毫秒级判定当前提交是否已被发版 Tag 所指，无需请求 GitHub API，不受网络或 API 配额波动影响；
+- **精准分流，跳过构建**：分支流水线检测到 `is_release_tag=true` 时，立即跳过耗时的容器构建任务，将生产镜像构建与标签计算 100% 委托给 Tag 专用流水线；
+- **全场景安全兜底**：无 Tag 的日常开发主干提交以及手动调度（`workflow_dispatch`）自动豁免，正常执行构建与镜像发布。
 
 ---
 

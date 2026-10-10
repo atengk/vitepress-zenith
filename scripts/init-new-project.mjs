@@ -502,6 +502,9 @@ docker run -d -p 8080:80 --name ${projectName} ${projectName}:latest
   if (!enableCiRelease) {
     safeRemove('.github/workflows/ci.yml')
     safeRemove('.github/workflows/release.yml')
+    safeRemove('.github/workflows/docker.yml')
+    safeRemove('.github/workflow-templates')
+    safeRemove('.github/CODEOWNERS')
     safeRemove('.github/dependabot.yml')
     safeRemove('.github/ISSUE_TEMPLATE')
     safeRemove('.github/PULL_REQUEST_TEMPLATE.md')
@@ -513,23 +516,34 @@ docker run -d -p 8080:80 --name ${projectName} ${projectName}:latest
     safeRemove('scripts/release.sh')
     console.log('✅ 已清理开源 CI/CD 门禁、Git 提交钩子与自动发版工具链')
   } else {
-    // 联动更新 SECURITY.md、config.yml 与 .cliff.toml 中的目标仓库
+    // 联动更新 SECURITY.md、config.yml、.cliff.toml 与 CODEOWNERS 中的目标仓库
     if (githubRepo) {
+      const repoSlug = githubRepo
+        .replace(/^https?:\/\/github\.com\//, '')
+        .replace(/\/$/, '')
+        .replace(/\.git$/, '')
+      const repoParts = repoSlug.split('/')
+
       const secPath = path.resolve(rootDir, 'SECURITY.md')
       if (fs.existsSync(secPath)) {
         let secContent = fs.readFileSync(secPath, 'utf-8')
-        secContent = secContent.replace(/atengk\/vitepress-zenith/g, githubRepo)
+        secContent = secContent.replace(/atengk\/vitepress-zenith/g, repoSlug)
         fs.writeFileSync(secPath, secContent, 'utf-8')
       }
       const issueConfigPath = path.resolve(rootDir, '.github/ISSUE_TEMPLATE/config.yml')
       if (fs.existsSync(issueConfigPath)) {
         let issueConfigContent = fs.readFileSync(issueConfigPath, 'utf-8')
-        issueConfigContent = issueConfigContent.replace(/atengk\/vitepress-zenith/g, githubRepo)
+        issueConfigContent = issueConfigContent.replace(/atengk\/vitepress-zenith/g, repoSlug)
         fs.writeFileSync(issueConfigPath, issueConfigContent, 'utf-8')
+      }
+      const codeownersPath = path.resolve(rootDir, '.github/CODEOWNERS')
+      if (fs.existsSync(codeownersPath) && repoParts[0]) {
+        let codeownersContent = fs.readFileSync(codeownersPath, 'utf-8')
+        codeownersContent = codeownersContent.replace(/@atengk/g, `@${repoParts[0]}`)
+        fs.writeFileSync(codeownersPath, codeownersContent, 'utf-8')
       }
       const cliffPath = path.resolve(rootDir, '.cliff.toml')
       if (fs.existsSync(cliffPath)) {
-        const repoParts = githubRepo.split('/')
         if (repoParts.length === 2) {
           let cliffContent = fs.readFileSync(cliffPath, 'utf-8')
           cliffContent = cliffContent.replace(/owner = "atengk"/, `owner = "${repoParts[0]}"`)
