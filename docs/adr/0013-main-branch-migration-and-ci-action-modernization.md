@@ -22,7 +22,7 @@
    - 全面升级 Docker 容器构建套件：`docker/setup-qemu-action@v4`、`docker/setup-buildx-action@v4`、`docker/login-action@v4`、`docker/metadata-action@v6`、`docker/build-push-action@v7`。
 3. **发版源码精确防漂移与五维标签矩阵**：
    - 在 `github-release` 阶段输出 `raw_version`、`tag_name` 与 `is_prerelease`；
-   - 在 `publish-docker` 任务中检出源码强制指定 `ref: ${{ needs.github-release.outputs.tag_name }}` 并启用全量历史，实现发版制品的严格不可变性（Immutability）；
+   - 在 `publish-docker` 任务中检出源码强制指定 <span v-pre>`ref: ${{ needs.github-release.outputs.tag_name }}`</span> 并启用全量历史，实现发版制品的严格不可变性（Immutability）；
    - 前置注入 `REPO_LC=${GITHUB_REPOSITORY,,}` 环境变量，实现镜像命名全小写自动规一化；
    - 配置五维 Docker 标签矩阵，并在 Prerelease 预发场景下自动禁用 `latest`，防止开发期未稳定镜像污染生产。
 4. **Dependabot 智能聚合编排加固**：

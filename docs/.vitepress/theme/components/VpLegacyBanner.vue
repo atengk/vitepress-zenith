@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useData, useRoute } from 'vitepress'
+import { normalizeThemeLink } from '../utils/link'
 
 export interface VpLegacyBannerProps {
   /**
@@ -102,19 +103,26 @@ const resolvedLatestVersion = computed(() => {
 })
 
 const resolvedLatestLink = computed(() => {
-  if (props.latestLink) return props.latestLink
-  if (typeof frontmatter.value.latestLink === 'string') return frontmatter.value.latestLink
-
-  const path = route.path
-  // 若路由以历史版本前缀打头，尝试平移至最新版本对应等价路径
-  if (/^\/v\d+(?:\.\d+)*\//.test(path)) {
-    const candidatePath = path.replace(/^\/v\d+(?:\.\d+)*\//, '/')
-    if (candidatePath && candidatePath !== '/') {
-      return candidatePath
+  let targetLink = ''
+  if (props.latestLink) {
+    targetLink = props.latestLink
+  } else if (typeof frontmatter.value.latestLink === 'string') {
+    targetLink = frontmatter.value.latestLink
+  } else {
+    const path = route.path
+    // 若路由以历史版本前缀打头，尝试平移至最新版本对应等价路径
+    if (/^\/v\d+(?:\.\d+)*\//.test(path)) {
+      const candidatePath = path.replace(/^\/v\d+(?:\.\d+)*\//, '/')
+      if (candidatePath && candidatePath !== '/') {
+        targetLink = candidatePath
+      }
+    }
+    if (!targetLink) {
+      targetLink = isEnglish.value ? '/en/guide/getting-started' : '/guide/getting-started'
     }
   }
 
-  return isEnglish.value ? '/en/guide/getting-started' : '/guide/getting-started'
+  return normalizeThemeLink(targetLink)
 })
 
 const resolvedTitle = computed(() => {
