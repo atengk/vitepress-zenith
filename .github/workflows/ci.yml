@@ -1,3 +1,19 @@
+# ==============================================================================
+# 工作流：CI (持续集成质量门禁)
+# 适用场景：PR 合并门禁守卫、提交规范校验、Shell 脚本静态自检与全站构建类型检查
+# 触发条件：
+#   - push: 主干分支 (main) 与特性分支 (feat*) 代码推送
+#   - pull_request: 针对主干分支的 PR 创建、编辑、代码同步与重新开启
+#   - workflow_dispatch: 手动调试触发
+# 核心特性：
+#   - Conventional Commits PR 标题语义化规范静态门禁 (action-semantic-pull-request@v6)
+#   - 工程内置自动化脚本 (scripts/*.sh) 与 Git 客户端钩子 (.githooks/*) 语法与 ShellCheck 扫描
+#   - pnpm 依赖确定性冻结还原与严格 TypeScript 类型诊断 (pnpm typecheck)
+#   - 生产级全站静态站点编译与 SSR 渲染完整性校验 (pnpm build)
+# 部署模版资产指引：
+#   - 部署流水线请参阅 deploy.yml 或参考模版库: .github/workflow-templates/deployments/
+# ==============================================================================
+
 name: CI (持续集成质量门禁)
 
 on:
@@ -23,6 +39,9 @@ permissions:
   contents: read
 
 jobs:
+  # ----------------------------------------------------------------------------
+  # Job 1: PR 标题规范校验 (仅在 PR 触发时执行)
+  # ----------------------------------------------------------------------------
   validate-pr-title:
     name: 校验 PR 标题规范
     runs-on: ubuntu-latest
@@ -48,6 +67,9 @@ jobs:
             chore
             revert
 
+  # ----------------------------------------------------------------------------
+  # Job 2: 静态代码分析、脚本语法检测、严格类型检查与全站生产构建
+  # ----------------------------------------------------------------------------
   lint-and-build:
     name: 类型检查、脚本语法与构建验证
     runs-on: ubuntu-latest
@@ -83,7 +105,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: 严格 TypeScript 类型检查
-        run: pnpm typecheck
+        run: pnpm run typecheck
 
       - name: 生产级静态站点编译构建
-        run: pnpm build
+        run: pnpm run build

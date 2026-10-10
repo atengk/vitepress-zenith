@@ -35,7 +35,18 @@ pnpm dev
 <type>(<scope>): <清晰中文简述>
 ```
 
-- **常见类型**：`feat`（新特性）、`fix`（缺陷修复）、`docs`（文档）、`perf`（性能优化）、`refactor`（重构）、`style`（样式微调）、`chore`（构建/杂项）。
+- **语义化类型清单**（与 CI 门禁及 PR 模板严格 1:1 对齐）：
+  - `feat`: 新增业务功能或组件特性
+  - `fix`: 缺陷与漏洞修复
+  - `docs`: 文档变动与注释调整
+  - `style`: 代码格式化（不影响运行逻辑）
+  - `refactor`: 代码重构（非新功能、非修复）
+  - `perf`: 性能与运行效率优化
+  - `test`: 单元测试或端到端测试用例补充
+  - `build`: 构建工具链、打包体系或外部依赖升级变动
+  - `ci`: CI/CD 自动化流水线配置与脚本调整
+  - `chore`: 常规例行维护与脚手架更新
+  - `revert`: 撤销与回滚先前的提交
 - **提交守卫钩子**：项目内置了纯原生 `.githooks/commit-msg` 钩子。首次运行提交脚本或手动配置 `git config core.hooksPath .githooks` 即可自动生效，拦截非合规提交并智能放行 Merge / Revert。
 - **提交助手**：你可以直接在终端运行交互式向导，或在脚本/AI 中通过参数化命令快速提交：
   ```bash
@@ -75,6 +86,14 @@ pnpm release v1.2.0
 ```
 
 发版脚本会自动联动更新 `package.json` 中的版本号、创建附注 Git Tag 并推送到 GitHub，自动触发云端 Release 流水线与 Docker 容器镜像构建。
+
+### 4. 8 大生产部署流水线模版资产
+本项目默认使用 GitHub Actions 自动将静态文档站点部署至 GitHub Pages。若你的团队计划将站点部署至其它外部云平台或自建运维基础设施，我们在 [`.github/workflow-templates/`](./.github/workflow-templates/) 中沉淀了 8 套开箱即用的工业级部署模版：
+- **全球边缘 Serverless**：Vercel、Cloudflare Pages、Cloudflare Workers
+- **公有云静态托管与 CDN**：AWS S3 & CloudFront
+- **容器化与自建基础设施**：云主机 SSH Docker Compose 滚动更新、Kubernetes (kubectl)、通用 Webhook 触发器
+
+详细配置指引与所需 Secret 清单请参阅 [流水线模版库文档 (.github/workflow-templates/README.md)](./.github/workflow-templates/README.md)。
 
 ---
 

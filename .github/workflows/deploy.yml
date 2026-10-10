@@ -1,4 +1,21 @@
-name: 部署 VitePress Zenith 至 GitHub Pages
+# ==============================================================================
+# 工作流：Deploy - GitHub Pages (官方静态文档站点自动化部署)
+# 适用场景：VitePress Zenith 官方技术文档与博客零服务器托管
+# 触发条件：
+#   - push: 主干分支 (main) 代码提交与合并自动触发
+#   - workflow_dispatch: 网页控制台手动调度触发
+# 核心特性：
+#   - 双 Job 解耦：独立构建静态产物与安全沙箱部署
+#   - Node.js 24 现代化官方 Actions 套件 (checkout@v7, setup-node@v6, upload-pages@v5)
+#   - 声明 pages: write 与 id-token: write 原生安全权限
+#   - 部署完成后将线上页面访问地址绑定至 GitHub Environment
+#   - 内置生产环境自动化健康检查与冒烟测试 (Smoke Test)
+# 部署模版资产指引：
+#   - 若需将站点部署至 Vercel、Cloudflare Pages、AWS S3 或云主机 Docker Compose，
+#     请直接选用模版资产库: .github/workflow-templates/deployments/
+# ==============================================================================
+
+name: Deploy - GitHub Pages
 
 on:
   push:
@@ -64,3 +81,17 @@ jobs:
       - name: 执行 GitHub Pages 部署发布
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: 生产环境健康检查与冒烟测试 (Smoke Test)
+        run: |
+          DEPLOYED_URL="${{ steps.deployment.outputs.page_url }}"
+          HEALTH_URL="${{ vars.APP_HEALTH_CHECK_URL || '' }}"
+          TARGET_URL="${HEALTH_URL:-$DEPLOYED_URL}"
+
+          if [ -z "$TARGET_URL" ]; then
+            echo "::warning::未获取到 GitHub Pages 访问 URL，跳过冒烟测试。"
+          else
+            echo "正在对 GitHub Pages 访问地址执行健康冒烟探测: $TARGET_URL ..."
+            curl --fail --retry 5 --retry-delay 5 --max-time 10 "$TARGET_URL"
+            echo "✅ GitHub Pages 发布就绪，冒烟探测通过！"
+          fi

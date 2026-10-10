@@ -174,3 +174,11 @@ jobs:
           sbom: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+# ==============================================================================
+# 💡 生产上线与边缘托管部署模版指引 (Deployment Templates)
+# ------------------------------------------------------------------------------
+# 本流水线聚焦于核心的 GitHub Release 发版、静态分发包挂载与 GHCR 多架构 Docker 镜像推送。
+# 若需将站点自动部署至外部基础设施（Vercel / Cloudflare Pages / AWS S3 / 自建主机 Docker Compose 等），
+# 可直接选用模版资产库中开箱即用的完整专属流水线: .github/workflow-templates/deployments/
+# ==============================================================================
